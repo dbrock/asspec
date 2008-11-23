@@ -56,18 +56,21 @@ package org.asspec.ui
           if (expectedSize >= actualSize)
             trace("Ran " + actualSize + " tests.");
           else if (expectedSize < actualSize)
-            trace("Ran " + actualSize + " tests (" + (actualSize - expectedSize) + " new).");
+            trace("Ran " + actualSize + " tests "
+                  + "(" + (actualSize - expectedSize) + " new).");
 
           if (actualSize >= expectedSize)
             trace("OK at " + new Date().hours + ":" + new Date().minutes + ":" + new Date().seconds + ".");
           else
-            trace("Expected " + expectedSize + ", so " + (expectedSize - actualSize) + " missing!");
+            trace("Expected " + expectedSize + ", "
+                  + "so " + (expectedSize - actualSize) + " missing!");
 
           exit(0);
         }
       else
         {
-          trace("Ran " + result.numTests + " tests, but " + result.numFailures + " failed!")
+          trace("Ran " + result.numTests + " tests, "
+                + "but " + result.numFailures + " failed!")
           trace(formatPattern(result.pattern));
 
           for each (var failure : TestFailure in result.failures)
