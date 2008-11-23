@@ -93,7 +93,7 @@ package org.asspec.ui
 
     private static function exit(status : uint) : void
     {
-      const timer : Timer = new Timer(100);
+      const timer : Timer = new Timer(100, 1);
 
       timer.addEventListener(TimerEvent.TIMER,
         function () : void { exitNow(status) });
