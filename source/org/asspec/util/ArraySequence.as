@@ -2,6 +2,7 @@ package org.asspec.util
 {
   import flash.utils.Proxy;
   import flash.utils.flash_proxy;
+  import flash.utils.getQualifiedClassName;
 
   public class ArraySequence extends Proxy implements MutableSequence
   {
@@ -27,7 +28,7 @@ package org.asspec.util
       var i : uint = 0;
 
       for each (var element : Object in other)
-        if (element !== content[i++])
+        if (!Comparisons.equal(element, content[i++]))
           return false;
 
       return true;
@@ -141,7 +142,7 @@ package org.asspec.util
     // Special-purpose catamorphisms
     // ----------------------------------------------------
     public function join(delimiter : String) : String
-    { return content.join(delimiter); }
+    { return map(Reflection.inspect).toArray().join(delimiter); }
 
     public function any(predicate : Function) : Boolean
     {
@@ -174,7 +175,11 @@ package org.asspec.util
 
     protected function ensureElementHasNullableType
       (element : Object, type : Class) : void
-    { type(element); }
+    {
+      if (element != null && !(element is type))
+        throw new TypeError("elements must be of type "
+          + getQualifiedClassName(type));
+    }
 
     public function ensureType(type : Class) : Sequence
     {
@@ -204,7 +209,7 @@ package org.asspec.util
     { return content.concat(); }
 
     public function toString() : String
-    { return "[" + join(", ") + "]"; }
+    { return Reflection.inspect(content); }
 
     // ----------------------------------------------------
     // Mutation

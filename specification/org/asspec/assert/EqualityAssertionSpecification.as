@@ -13,95 +13,140 @@ package org.asspec.assert
       requirement("asserting that null equals null should pass", function () : void {
         shouldPass(function () : void { Assert.equal(null, null); }); });
 
+      requirement("null should be same as null", function () : void {
+        shouldBeSame(null, null); });
+      requirement("null should not be same as object", function () : void {
+        shouldNotBeSame(null, {}); });
+      requirement("number should be same as itself", function () : void {
+        shouldBeSame(1, 1); });
+      requirement("string should be same as itself", function () : void {
+        shouldBeSame("foo", "foo"); });
+      requirement("empty arrays should not be same", function () : void {
+        shouldNotBeSame([], []); });
+      requirement("equal values should not be same", function () : void {
+        shouldNotBeSame(new Value(1), new Value(1)); });
+      requirement("value should be same as itself", function () : void {
+        const value : Object = new Value(1);
+        shouldBeSame(value, value);
+      });
+
+      function shouldBeSame(expected : Object, actual : Object) : void
+      {
+        shouldPass(function () : void { Assert.same(expected, actual); });
+        shouldFail(function () : void { Assert.notSame(expected, actual); });
+      }
+
+      function shouldNotBeSame(expected : Object, actual : Object) : void
+      {
+        shouldPass(function () : void { Assert.notSame(expected, actual); });
+        shouldFail(function () : void { Assert.same(expected, actual); });
+      }
+
       (function () : void {
         const expected : String = "foo";
         const actual : String = "bar";
 
         requirement("asserting that equal strings are equal should pass", function () : void {
-          shouldPass(function () : void { Assert.equal(expected, expected); }); });
+          shouldBeEqual(expected, expected); });
         requirement("asserting that different strings are equal should fail", function () : void {
-          shouldFail(function () : void { Assert.equal(expected, actual); }); });
+          shouldNotBeEqual(expected, actual); });
 
         const error : AssertionError
           = getError(function () : void { Assert.equal(actual, expected); });
 
         requirement("equality assertion message should include expected value", function () : void {
-          assert(Text.contains(error.message, expected)); });
+          shouldContain(expected, error.message); });
         requirement("equality assertion message should include actual value", function () : void {
-          assert(Text.contains(error.message, actual)); });
+          shouldContain(actual, error.message); });
       })();
 
-      requirement("asserting that different strings are not equal should pass", function () : void {
-        shouldPass(function () : void { Assert.notEqual("foo", "bar"); }); });
-      requirement("asserting that equal strings are not equal should fail", function () : void {
-        shouldFail(function () : void { Assert.notEqual("foo", "foo"); }); });
+      function shouldContain(expected : String, actual : String) : void
+      { assert(Text.contains(actual, expected), "was »" + actual + "«"); }
 
-      requirement("asserting that a number equals a string should fail", function () : void {
-        shouldFail(function () : void { Assert.equal(1, "1"); }); });
-      requirement("asserting that an array equals a string should fail", function () : void {
-        shouldFail(function () : void { Assert.equal([], ""); }); });
+      function shouldBeEqual(expected : Object, actual : Object) : void
+      {
+        shouldPass(function () : void { Assert.equal(expected, actual); });
+        shouldFail(function () : void { Assert.notEqual(expected, actual); });
+      }
 
-      requirement("asserting that a number does not equal a string should pass", function () : void {
-        shouldPass(function () : void { Assert.notEqual(1, "1"); }); });
-      requirement("asserting that an array does not equal a string should pass", function () : void {
-        shouldPass(function () : void { Assert.notEqual([], ""); }); });
+      function shouldNotBeEqual(expected : Object, actual : Object) : void
+      {
+        shouldPass(function () : void { Assert.notEqual(expected, actual); });
+        shouldFail(function () : void { Assert.equal(expected, actual); });
+      }
 
-      (function () : void {
+      requirement("string should equal itself", function () : void {
+        shouldBeEqual("foo", "foo"); });
+      requirement("string should not equal other string", function () : void {
+        shouldNotBeEqual("foo", "bar"); });
+
+      requirement("number should not equal string", function () : void {
+        shouldNotBeEqual(1, "1"); });
+      requirement("array should not equal string", function () : void {
+        shouldNotBeEqual([], ""); });
+
+      requirement("equal values should be equal", function () : void {
+        shouldBeEqual(new Value(1), new Value(1));});
+      requirement("value should not equal other value", function () : void {
+        shouldNotBeEqual(new Value(1), new Value(2)); });
+
+      requirement("entity should not equal other entity", function () : void {
+        shouldNotBeEqual(new Entity, new Entity); });
+      requirement("entity should equal itself", function () : void {
         const entity : Entity = new Entity;
+        shouldBeEqual(entity, entity);
+      });
 
-        requirement("asserting equality of same entity should pass", function () : void {
-          shouldPass(function () : void { Assert.equal(entity, entity); }); });
-        requirement("asserting equality of different entities should fail", function () : void {
-          shouldFail(function () : void { Assert.equal(new Entity, new Entity); }); });
-
-        requirement("asserting non-equality of same entity should fail", function () : void {
-          shouldFail(function () : void { Assert.notEqual(entity, entity); }); });
-        requirement("asserting non-equality of different entities should pass", function () : void {
-          shouldPass(function () : void { Assert.notEqual(new Entity, new Entity); }); });
-      })();
-
-      requirement("asserting equality of equal values should pass", function () : void {
-        shouldPass(function () : void { Assert.equal(new Value(1), new Value(1)); }); });
-      requirement("asserting equality of different values should fail", function () : void {
-        shouldFail(function () : void { Assert.equal(new Value(1), new Value(2)); }); });
+      requirement("empty arrays should be equal", function () : void {
+        shouldBeEqual([], []); });
+      requirement("equal arrays should be equal", function () : void {
+        shouldBeEqual([new Value(1)], [new Value(1)]); });
+      requirement("non-equal arrays should not be equal", function () : void {
+        shouldNotBeEqual([new Value(1)], [new Value(2)]); });
 
       (function () : void {
         const expected : Object = new CaseInsensitiveString("foo");
         const equal : Object = new CaseInsensitiveString("FOO");
-        const different : Object = new CaseInsensitiveString("bar");
-
-        requirement("asserting non-equality of different values should pass", function () : void {
-          shouldPass(function () : void { Assert.notEqual(expected, different); }); });
-        requirement("asserting non-equality of equal values should fail", function () : void {
-          shouldFail(function () : void { Assert.notEqual(expected, equal); }); });
-
         const error : AssertionError
           = getError(function () : void { Assert.notEqual(expected, equal); });
 
         requirement("non-equality message should include expected value", function () : void {
-          assert(Text.contains(error.message, expected.value),
-            "was »" + error.message + "«"); });
+          shouldContain(expected.value, error.message); });
         requirement("non-equality message should include actual value", function () : void {
-          assert(Text.contains(error.message, equal.value),
-            "was »" + error.message + "«"); });
+          shouldContain(equal.value, error.message); });
       })();
 
       requirement("asserting a value equals either nothing should not work", function () : void {
         shouldThrow(function () : void { Assert.equalsEither([], "foo"); }, ArgumentError); });
-      requirement("asserting a value equals either itself should pass", function () : void {
-        shouldPass(function () : void { Assert.equalsEither(["foo"], "foo"); }); });
-      requirement("asserting a value equals either an equal value should pass", function () : void {
-        shouldPass(function () : void { Assert.equalsEither([new Value(0)], new Value(0)); }); });
-      requirement("asserting a value equals either another value should fail", function () : void {
-        shouldFail(function () : void { Assert.equalsEither(["bar"], "foo"); }); });
-      requirement("asserting a number equals either itself stringified should fail", function () : void {
-        shouldFail(function () : void { Assert.equalsEither(["0"], 0); }); });
-      requirement("asserting a value equals either itself or another value should pass", function () : void {
-        shouldPass(function () : void { Assert.equalsEither(["foo", "bar"], "foo"); }); });
-      requirement("asserting a value equals either another value or itself should pass", function () : void {
-        shouldPass(function () : void { Assert.equalsEither(["bar", "foo"], "foo"); }); });
-      requirement("asserting a value equals either something or something else should fail", function () : void {
-        shouldFail(function () : void { Assert.equalsEither(["bar", "baz"], "foo"); }); });
+      requirement("asserting a value equals neither nothing should not work", function () : void {
+        shouldThrow(function () : void { Assert.equalsNeither([], "foo"); }, ArgumentError); });
+
+      function shouldEqualEither(expected : Array, actual : Object) : void
+      {
+        shouldPass(function () : void { Assert.equalsEither(expected, actual); });
+        shouldFail(function () : void { Assert.equalsNeither(expected, actual); });
+      }
+
+      function shouldEqualNeither(expected : Array, actual : Object) : void
+      {
+        shouldPass(function () : void { Assert.equalsNeither(expected, actual); });
+        shouldFail(function () : void { Assert.equalsEither(expected, actual); });
+      }
+
+      requirement("string should equal either itself", function () : void {
+        shouldEqualEither(["foo"], "foo"); });
+      requirement("string should equal neither another string", function () : void {
+        shouldEqualNeither(["foo"], "bar"); });
+      requirement("value should equal either an equal value", function () : void {
+        shouldEqualEither([new Value(0)], new Value(0)); });
+      requirement("number should equal neither a string", function () : void {
+        shouldEqualNeither(["0"], 0); });
+      requirement("string should equal either itself or another string", function () : void {
+        shouldEqualEither(["foo", "bar"], "foo"); });
+      requirement("string should equal either another string or itself", function () : void {
+        shouldEqualEither(["bar", "foo"], "foo") });
+      requirement("string should equal neither another string nor yet another string", function () : void {
+        shouldEqualNeither(["bar", "baz"], "foo"); });
 
       (function () : void {
         const expected1 : String = "foo";
@@ -112,15 +157,33 @@ package org.asspec.assert
           = getError(function () : void { Assert.equalsEither([expected1, expected2], actual); });
 
         requirement("either-equality message should include first expected value", function () : void {
-          assert(Text.contains(error.message, expected1),
-            "was »" + error.message + "«"); });
+          shouldContain(expected1, error.message); });
         requirement("either-equality message should include second expected value", function () : void {
-          assert(Text.contains(error.message, expected2),
-            "was »" + error.message + "«"); });
+          shouldContain(expected2, error.message); });
         requirement("either-equality message should include actual value", function () : void {
-          assert(Text.contains(error.message, actual),
-            "was »" + error.message + "«"); });
+          shouldContain(actual, error.message); });
       })();
+
+      (function () : void {
+        const expected1 : Object = new CaseInsensitiveString("foo");
+        const expected2 : Object = new CaseInsensitiveString("bar");
+        const actual : Object = new CaseInsensitiveString("FOO");
+        const error : AssertionError
+          = getError(function () : void { Assert.equalsNeither([expected1, expected2], actual); });
+
+        requirement("neither-equality message should include first expected value", function () : void {
+          shouldContain(expected1, error.message); });
+        requirement("neither-equality message should include second expected value", function () : void {
+          shouldContain(expected2, error.message); });
+        requirement("neither-equality message should include actual value", function () : void {
+          shouldContain(actual, error.message); });
+        requirement("neither-equality message should include first expected value again", function () : void {
+          shouldContainMultiple(expected1, error.message); });
+      })();
+
+      function shouldContainMultiple(expected : String, actual: String) : void
+      { assert(actual.indexOf(expected) != actual.lastIndexOf(expected),
+          "was »" + actual + "«"); }
     }
   }
 }

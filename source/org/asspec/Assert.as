@@ -1,5 +1,6 @@
 package org.asspec
 {
+  import org.asspec.util.Comparisons;
   import org.asspec.util.EqualityComparable;
   import org.asspec.util.Reflection;
 
@@ -17,6 +18,28 @@ package org.asspec
     public static function notNull(actual : Object) : void
     { that(actual != null); }
 
+    public static function same(expected : Object, actual : Object) : void
+    {
+      if (expected !== actual)
+        throw getIdentityAssertionError(expected, actual);
+    }
+
+    private static function getIdentityAssertionError
+      (expected : Object, actual : Object) : Error
+    { return new AssertionError("expected the instance "
+        + "»" + Reflection.inspect(expected) + "« "
+        + "but was »" + Reflection.inspect(actual) + "«"); }
+
+    public static function notSame(expected : Object, actual : Object) : void
+    {
+      if (expected === actual)
+        throw getNonIdentityAssertionError(expected);
+    }
+
+    private static function getNonIdentityAssertionError(expected : Object) : Error
+    { return new AssertionError("expected another instance than "
+        + "»" + Reflection.inspect(expected) + "«"); }
+
     public static function equal
       (expected : Object, actual : Object) : void
     {
@@ -24,19 +47,14 @@ package org.asspec
         throw getEqualityAssertionError(expected, actual);
     }
 
+    private static function areEqual(expected : Object, actual : Object) : Boolean
+    { return Comparisons.equal(expected, actual); }
+
     public static function getEqualityAssertionError
       (expected : Object, actual : Object, prefix : String = "") : Error
-    { return new AssertionError(prefix +
-        "expected »" + Reflection.inspect(expected) + "« " +
-        "but was »" + Reflection.inspect(actual) + "«"); }
-
-    private static function areEqual(expected : Object, actual : Object) : Boolean
-    {
-      if (expected is EqualityComparable)
-        return EqualityComparable(expected).equals(actual);
-      else
-        return expected === actual;
-    }
+    { return new AssertionError(prefix
+        + "expected »" + Reflection.inspect(expected) + "« "
+        + "but was »" + Reflection.inspect(actual) + "«"); }
 
     public static function notEqual
       (expected : Object, actual : Object) : void
@@ -47,9 +65,9 @@ package org.asspec
 
     private static function getNonEqualityAssertionError
       (expected : Object, actual : Object) : Error
-    { return new AssertionError(
-        "expected something not equal to »" + Reflection.inspect(expected) + "« " +
-        "but was »" + Reflection.inspect(actual) + "«"); }
+    { return new AssertionError("expected something not equal to "
+        + "»" + Reflection.inspect(expected) + "« "
+        + "but was »" + Reflection.inspect(actual) + "«"); }
 
     public static function equalsEither(expected : Array, actual : Object) : void
     {
@@ -75,9 +93,37 @@ package org.asspec
       for each (var element : Object in expected)
         parts.push("»" + Reflection.inspect(element) + "«");
 
-      return new AssertionError(
-        "expected either " + parts.join(" or ") + " " +
-        "but was »" + Reflection.inspect(actual) + "«");
+      return new AssertionError("expected "
+        + "either " + parts.join(" or ") + " "
+        + "but was »" + Reflection.inspect(actual) + "«");
+    }
+
+    public static function equalsNeither(expected : Array, actual : Object) : void
+    {
+      if (expected.length == 0)
+        throw new ArgumentError("no expected values");
+      else if (expected.length == 1)
+        notEqual(expected[0], actual);
+      else
+        {
+          for each (var element : Object in expected)
+            if (areEqual(element, actual))
+              throw getEqualsNeitherAssertionError(expected, element, actual);
+        }
+    }
+
+    private static function getEqualsNeitherAssertionError
+      (expected : Array, equalExpected : Object, actual : Object) : Error
+    {
+      const parts : Array = [];
+
+      for each (var element : Object in expected)
+        parts.push("»" + Reflection.inspect(element) + "«");
+
+      return new AssertionError("expected "
+        + "neither " + parts.join(" or ") + " "
+        + "but was »" + Reflection.inspect(actual) + "«, "
+        + "which is equal to »" + equalExpected + "«");
     }
 
     public static function throwsError(thunk : Function) : void
@@ -95,8 +141,8 @@ package org.asspec
       try
         { thunk(); }
       catch (error : Error)
-        { fail("threw " + Reflection.getLocalClassName(error) + " " +
-            "with message »" + error.message + "«"); }
+        { fail("threw " + Reflection.getLocalClassName(error) + " "
+            + "with message »" + error.message + "«"); }
     }
   }
 }
