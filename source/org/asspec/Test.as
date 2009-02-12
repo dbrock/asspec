@@ -1,7 +1,5 @@
 package org.asspec
 {
   public interface Test
-  {
-    function run(listener : TestListener) : void;
-  }
+  { function run(listener : TestListener) : void; }
 }

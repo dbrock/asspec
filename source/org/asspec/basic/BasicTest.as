@@ -2,9 +2,13 @@ package org.asspec.basic
 {
   import org.asspec.NamedTest;
   import org.asspec.TestListener;
+  import org.asspec.util.UnimplementedMethodError;
 
   public class BasicTest implements NamedTest
   {
+    protected function execute() : void
+    { throw new UnimplementedMethodError; }
+
     private var _name : String;
 
     public function BasicTest(name : String = null)
@@ -26,8 +30,5 @@ package org.asspec.basic
       catch (error : Error)
         { listener.testFailed(this, error); }
     }
-
-    protected function execute() : void
-    {}
   }
 }

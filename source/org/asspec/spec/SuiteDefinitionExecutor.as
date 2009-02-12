@@ -10,22 +10,27 @@ package org.asspec.spec
   public class SuiteDefinitionExecutor implements SpecificationExecutor
   {
     private var suite : Suite;
-    private var specification : Specification;
+    private var factory : SpecificationFactory;
 
     public function SuiteDefinitionExecutor
-      (suite : Suite, specification : Specification)
+      (suite : Suite, factory : SpecificationFactory)
     {
       this.suite = suite;
-      this.specification = specification;
+      this.factory = factory;
     }
 
     public function executeRequirement
       (name : String, implementation : Function) : void
     {
-      const test : NamedTest = new Requirement(name, specification);
-      ensureNameUnused(test.name);
-      suite.add(test);
+      const requirement : Requirement = newRequirement(name);
+
+      ensureNameUnused(requirement.name);
+
+      suite.add(requirement);
     }
+
+    private function newRequirement(name : String) : Requirement
+    { return new Requirement(name, factory.newSpecification()); }
 
     private function ensureNameUnused(name : String) : void
     {

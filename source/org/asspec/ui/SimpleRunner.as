@@ -2,6 +2,7 @@ package org.asspec.ui
 {
   import flash.display.Sprite;
   import flash.events.TimerEvent;
+  import flash.external.ExternalInterface;
   import flash.system.System;
   import flash.utils.Timer;
 
@@ -19,11 +20,16 @@ package org.asspec.ui
     {
       var result : String = "";
 
-      for each (var testResult : Boolean in pattern)
-        if (testResult == true)
-          result += ".";
-        else
-          result += "F";
+      for (var i : uint = 0; i < pattern.length; ++i)
+        {
+          if (i >= 80 && i % 80 == 0)
+            result += "\n";
+
+          if (pattern[i] == true)
+            result += ".";
+          else
+            result += "F";
+        }
 
       return result;
     }
@@ -53,7 +59,7 @@ package org.asspec.ui
             trace("Ran " + actualSize + " tests (" + (actualSize - expectedSize) + " new).");
 
           if (actualSize >= expectedSize)
-            trace("OK.");
+            trace("OK at " + new Date().hours + ":" + new Date().minutes + ":" + new Date().seconds + ".");
           else
             trace("Expected " + expectedSize + ", so " + (expectedSize - actualSize) + " missing!");
 
@@ -87,10 +93,26 @@ package org.asspec.ui
 
     private static function exit(status : uint) : void
     {
-      const timer : Timer = new Timer(0);
+      const timer : Timer = new Timer(100);
+
       timer.addEventListener(TimerEvent.TIMER,
-        function () : void { System.exit(status); });
+        function () : void { exitNow(status) });
+
       timer.start();
+    }
+
+    private static function exitNow(status : uint) : void
+    {
+      try
+        { System.exit(status); }
+      catch (error : Error)
+        {
+          if (ExternalInterface.available)
+            try
+              { ExternalInterface.call("window.close"); }
+            catch (error : Error)
+              {}
+        }
     }
   }
 }

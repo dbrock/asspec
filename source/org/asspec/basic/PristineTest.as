@@ -1,12 +1,13 @@
 package org.asspec.basic
 {
+  import org.asspec.Test;
   import org.asspec.TestListener;
 
-  public class PristineTest extends AnonymousTest
+  public class PristineTest implements Test
   {
     protected var listener : TestListener;
 
-    override public function run(listener : TestListener) : void
+    public function run(listener : TestListener) : void
     {
       this.listener = listener;
       execute();

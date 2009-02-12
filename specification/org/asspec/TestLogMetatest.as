@@ -1,25 +1,22 @@
 package org.asspec
 {
-  import org.asspec.basic.PristineTest;
+  import org.asspec.basic.NamedPristineTest;
+  import org.asspec.util.UnimplementedMethodError;
 
-  public class TestLogTest extends PristineTest
+  public class TestLogMetatest extends NamedPristineTest
   {
-    protected var test : Test;
+    protected var actualLog : String;
 
-    protected function createTest() : void {}
-    protected function get expectedLog() : String { return null; }
-
-    private var actualLog : String;
+    protected function runTest() : void
+    { throw new UnimplementedMethodError; }
+    protected function get expectedLog() : String
+    { throw new UnimplementedMethodError; }
 
     override protected function execute() : void
     {
-      createTest();
       runTest();
       verifyLog();
     }
-
-    private function runTest() : void
-    { actualLog = TestLogger.run(test); }
 
     private function verifyLog() : void
     {

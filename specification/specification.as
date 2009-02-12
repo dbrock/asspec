@@ -1,4 +1,5 @@
-package {
+package
+{
   import org.asspec.CompleteSuite;
   import org.asspec.ui.SimpleRunner;
 

@@ -12,7 +12,7 @@ package org.asspec.lang
     public static function forClass(realClass : Class) : NativeClass
     { return new RealNativeClass(realClass); }
 
-    public function instantiate() : Object
+    public function getNewInstance() : Object
     { return new realClass; }
 
     public function forEachMethod(callback : Function) : void

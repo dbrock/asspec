@@ -16,11 +16,11 @@ package org.asspec.basic
 }
 
 import org.asspec.Test;
-import org.asspec.TestLogTest;
 import org.asspec.basic.Suite;
 import org.asspec.basic.PristineTest;
+import org.asspec.SimpleTestLogMetatest;
 
-class Empty_suite_should_do_nothing extends TestLogTest
+class Empty_suite_should_do_nothing extends SimpleTestLogMetatest
 {
   override public function get name() : String
   { return "empty suite should do nothing (SuiteSpecification)"; }
@@ -32,7 +32,7 @@ class Empty_suite_should_do_nothing extends TestLogTest
   { return ""; }
 }
 
-class Should_run_tests_in_order extends TestLogTest
+class Should_run_tests_in_order extends SimpleTestLogMetatest
 {
   override public function get name() : String
   { return "suite should run tests in order (SuiteSpecification)"; }

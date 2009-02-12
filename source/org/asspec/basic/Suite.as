@@ -2,11 +2,12 @@ package org.asspec.basic
 {
   import org.asspec.Test;
   import org.asspec.TestListener;
+  import org.asspec.spec.SpecificationSuite;
   import org.asspec.util.Sequence;
   import org.asspec.util.TypedArraySequence;
   import org.asspec.util.TypedMutableSequence;
 
-  public class Suite extends AnonymousTest
+  public class Suite implements Test
   {
     private var initialized : Boolean = false;
     private var _tests : TypedMutableSequence
@@ -14,6 +15,9 @@ package org.asspec.basic
 
     public function add(test : Test) : void
     { $tests.add(test); }
+
+    protected function addSpecification(class_ : Class) : void
+    { add(SpecificationSuite.forClass(class_)); }
 
     private function get $tests() : TypedMutableSequence
     {
@@ -34,7 +38,7 @@ package org.asspec.basic
     protected function populate() : void
     {}
 
-    override public function run(listener : TestListener) : void
+    public function run(listener : TestListener) : void
     {
       for each (var test : Test in tests)
         test.run(listener);

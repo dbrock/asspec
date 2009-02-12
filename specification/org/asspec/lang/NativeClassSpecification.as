@@ -35,7 +35,7 @@ package org.asspec.lang
       requirement("unbound method should have owning class", function () : void {
         Assert.notNull(counterClass.getMethod("count").owningClass); });
       requirement("should instantiate correctly", function () : void {
-        Assert.that(counterClass.instantiate() is Counter); });
+        Assert.that(counterClass.getNewInstance() is Counter); });
       requirement("should invoke native method", function () : void {
         const counter : Counter = new Counter;
 

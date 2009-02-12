@@ -2,13 +2,14 @@ package org.asspec.spec
 {
   import org.asspec.basic.Suite;
 
-  public class SpecificationSpecification extends Suite
+  public class SpecificationMetaspecification extends Suite
   {
     override protected function populate() : void
     {
       add(new Should_run_requirements);
       add(new Should_run_setup_before_each_requirement);
       add(new Should_run_context_around_each_requirement);
+      add(new Should_create_fresh_instance_for_each_requirement);
       add(new Should_detect_name_conflicts);
       add(new Should_explain_name_conflicts);
     }
@@ -16,22 +17,26 @@ package org.asspec.spec
 }
 
 import org.asspec.TestLogger;
-import org.asspec.LoggingTest;
 import org.asspec.NullTestListener;
 import org.asspec.Test;
-import org.asspec.TestLogTest;
 import org.asspec.basic.PristineTest;
 import org.asspec.spec.Specification;
 import org.asspec.Assert;
 import org.asspec.util.Text;
+import org.asspec.spec.SpecificationSuite;
+import org.asspec.SimpleTestLogMetatest;
+import org.asspec.TestLogMetatest;
+import org.asspec.util.UnimplementedMethodError;
+import org.asspec.NamedTest;
+import org.asspec.basic.NamedPristineTest;
 
-class Should_run_requirements extends TestLogTest
+class Should_run_requirements extends SimpleTestLogMetatest
 {
   override public function get name() : String
-  { return "should run requirements (SpecificationSpecification)"; }
+  { return "should run requirements (SpecificationMetaspecification)"; }
 
   override protected function createTest() : void
-  { test = new SimpleSpecification; }
+  { test = SpecificationSuite.forClass(SimpleSpecification); }
 
   override protected function get expectedLog() : String
   { return "[A (SimpleSpecification) passed]"
@@ -49,26 +54,50 @@ class SimpleSpecification extends Specification
   }
 }
 
-class Should_run_setup_before_each_requirement extends TestLogTest
+class SpecificationLogMetatest extends TestLogMetatest
 {
+  private var test : Test;
+
   override public function get name() : String
-  { return "should run setup before each requirement (SpecificationSpecification)"; }
+  { throw new UnimplementedMethodError; }
 
-  override protected function createTest() : void
-  { test = new SetupLoggingSpecification; }
+  protected function get specificationClass() : Class
+  { throw new UnimplementedMethodError; }
 
-  override protected function get expectedLog() : String
-  { return "**A*B*C"; }
+  private function createTest() : void
+  { test = SpecificationSuite.forClass(specificationClass); }
+
+  override protected function runTest() : void
+  {
+    createTest();
+
+    LoggingSpecification.log = "";
+
+    test.run(new NullTestListener);
+
+    actualLog = LoggingSpecification.log;
+  }
 }
 
 class LoggingSpecification extends Specification
-  implements LoggingTest
 {
-  private var _log : String = "";
-  public function get log() : String { return _log; }
+  public static var log : String;
 
   protected function note(message : String) : void
-  { _log += message; }
+  { log += message; }
+}
+
+class Should_run_setup_before_each_requirement
+  extends SpecificationLogMetatest
+{
+  override public function get name() : String
+  { return "should run setup before each requirement (SpecificationMetaspecification)"; }
+
+  override protected function get specificationClass() : Class
+  { return SetupLoggingSpecification; }
+
+  override protected function get expectedLog() : String
+  { return "**A*B*C"; }
 }
 
 class SetupLoggingSpecification extends LoggingSpecification
@@ -82,13 +111,14 @@ class SetupLoggingSpecification extends LoggingSpecification
   }
 }
 
-class Should_run_context_around_each_requirement extends TestLogTest
+class Should_run_context_around_each_requirement
+  extends SpecificationLogMetatest
 {
   override public function get name() : String
-  { return "should run context around each requirement (SpecificationSpecification)"; }
+  { return "should run context around each requirement (SpecificationMetaspecification)"; }
 
-  override protected function createTest() : void
-  { test = new ContextLoggingSpecification; }
+  override protected function get specificationClass() : Class
+  { return ContextLoggingSpecification; }
 
   override protected function get expectedLog() : String
   { return "[][A][B][C]"; }
@@ -106,14 +136,38 @@ class ContextLoggingSpecification extends LoggingSpecification
   }
 }
 
-class Should_detect_name_conflicts extends PristineTest
+class Should_create_fresh_instance_for_each_requirement
+  extends SpecificationLogMetatest
 {
   override public function get name() : String
-  { return "should detect name conflicts (SpecificationSpecification)"; }
+  { return "should create fresh instance for each requirement (SpecificationMetaspecification)"; }
+
+  override protected function get specificationClass() : Class
+  { return StatefulSpecification; }
+
+  override protected function get expectedLog() : String
+  { return "[A:0][B:0]"; }
+}
+
+class StatefulSpecification extends LoggingSpecification
+{
+  private var i : uint = 0;
 
   override protected function execute() : void
   {
-    const test : Test = new NameConflictSpecification;
+    requirement("A", function () : void { note("[A:" + i++ + "]"); });
+    requirement("B", function () : void { note("[B:" + i++ + "]"); });
+  }
+}
+
+class Should_detect_name_conflicts extends NamedPristineTest
+{
+  override public function get name() : String
+  { return "should detect name conflicts (SpecificationMetaspecification)"; }
+
+  override protected function execute() : void
+  {
+    const test : Test = SpecificationSuite.forClass(NameConflictSpecification);
 
     try
       { test.run(new NullTestListener); }
@@ -138,14 +192,14 @@ class NameConflictSpecification extends Specification
   }
 }
 
-class Should_explain_name_conflicts extends PristineTest
+class Should_explain_name_conflicts extends NamedPristineTest
 {
   override public function get name() : String
-  { return "should explain name conflicts (SpecificationSpecification)"; }
+  { return "should explain name conflicts (SpecificationMetaspecification)"; }
 
   override protected function execute() : void
   {
-    const test : Test = new NameConflictSpecification;
+    const test : Test = SpecificationSuite.forClass(NameConflictSpecification);
 
     try
       { test.run(new NullTestListener); }

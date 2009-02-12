@@ -17,9 +17,13 @@ package org.asspec.lang
     public function get owningClass() : NativeClass
     { return _owningClass; }
 
+    public function bind(target : Object) : Function
+    { return target[name]; }
+
     public function invoke(target : Object) : Object
     {
       target[name]();
+
       return null;
     }
   }

@@ -11,7 +11,10 @@ package org.asspec.simple
     { this.method = method; }
 
     override protected function execute() : void
-    { method.invoke(method.owningClass.instantiate()); }
+    { $$$beginTest$$$(); }
+
+    private function $$$beginTest$$$() : void
+    { method.bind(method.owningClass.getNewInstance())(); }
 
     override public function get name() : String
     { return method.name; }

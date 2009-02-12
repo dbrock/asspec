@@ -6,7 +6,8 @@ package org.asspec.basic
   {
     private var implementation : Function;
 
-    public function CustomTest(implementation : Function, name : String = null)
+    public function CustomTest
+      (implementation : Function, name : String = null)
     {
       super(name);
       this.implementation = implementation;
