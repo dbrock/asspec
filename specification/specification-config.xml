@@ -1,0 +1,21 @@
+<flex-config>
+  <compiler>
+    <debug>true</debug>
+    <fonts>
+      <!-- Required in order to compile using the open source SDK. -->
+      <advanced-anti-aliasing>false</advanced-anti-aliasing>
+    </fonts>
+    <source-path>
+      <path-element>/home/daniel/src/asspec/source</path-element>
+      <path-element>/home/daniel/src/asspec/specification</path-element>
+    </source-path>
+    <keep-as3-metadata>
+      <!-- The following are required by the Flex framework.  -->
+      <name>Bindable</name>
+      <name>Managed</name>
+      <name>ChangeEvent</name>
+      <name>NonCommittingChangeEvent</name>
+      <name>Transient</name>
+    </keep-as3-metadata>
+  </compiler>
+</flex-config>
