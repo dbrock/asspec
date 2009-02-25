@@ -6,9 +6,6 @@ package org.asspec.util.inspection
   {
     private var object : Object;
 
-    public static function inspect(object : Object) : String
-    { return new Inspector(object).representation; }
-
     public function Inspector(object : Object)
     { this.object = object; }
 
@@ -25,5 +22,8 @@ package org.asspec.util.inspection
       else
         return object.toString();
     }
+
+    public static function inspect(object : Object) : String
+    { return new Inspector(object).representation; }
   }
 }

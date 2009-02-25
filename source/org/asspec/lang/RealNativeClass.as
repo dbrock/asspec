@@ -2,6 +2,8 @@ package org.asspec.lang
 {
   import flash.utils.describeType;
 
+  import org.asspec.util.Reflection;
+
   public class RealNativeClass implements NativeClass
   {
     private var realClass : Class;
@@ -9,8 +11,8 @@ package org.asspec.lang
     public function RealNativeClass(realClass : Class)
     { this.realClass = realClass; }
 
-    public static function forClass(realClass : Class) : NativeClass
-    { return new RealNativeClass(realClass); }
+    public function get name() : String
+    { return Reflection.getLocalClassName(realClass); }
 
     public function getNewInstance() : Object
     { return new realClass; }
@@ -51,5 +53,8 @@ package org.asspec.lang
 
       return null;
     }
+
+    public static function forClass(realClass : Class) : NativeClass
+    { return new RealNativeClass(realClass); }
   }
 }

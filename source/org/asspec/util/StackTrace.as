@@ -19,7 +19,7 @@ package org.asspec.util
 
     public static function fromError(error : Error) : StackTrace
     {
-      const rawLines : Sequence = Text.lines(error.getStackTrace());
+      const rawLines : Sequence = Text.of(error.getStackTrace()).lines;
 
       const errorMessage : String = rawLines.first;
       const lines : Sequence = rawLines.rest.map(StackTraceLine.parse);

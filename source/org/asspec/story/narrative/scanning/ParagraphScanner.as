@@ -13,7 +13,7 @@ package org.asspec.story.narrative.scanning
       = new TypedArraySequence(Line);
 
     public function ParagraphScanner(input : String)
-    { getParagraph(Text.lines(input)); }
+    { getParagraph(Text.of(input).lines); }
 
     public function get paragraph() : Paragraph
     { return new Paragraph(lines); }

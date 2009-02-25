@@ -3,7 +3,6 @@ package org.asspec.story.narrative.scanning
   import org.asspec.util.ArraySequence;
   import org.asspec.util.It;
   import org.asspec.util.Sequence;
-  import org.asspec.util.Text;
 
   public class Paragraph
   {

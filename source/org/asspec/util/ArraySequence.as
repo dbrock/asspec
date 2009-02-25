@@ -4,6 +4,8 @@ package org.asspec.util
   import flash.utils.flash_proxy;
   import flash.utils.getQualifiedClassName;
 
+  import org.asspec.equality.equal;
+
   public class ArraySequence extends Proxy implements MutableSequence
   {
     private var content : Array;
@@ -18,7 +20,7 @@ package org.asspec.util
     // Comparison
     // ----------------------------------------------------
 
-    public function equals(other : Object) : Boolean
+    public function equals(other : EqualityComparable) : Boolean
     { return other is Sequence
         && Sequence(other).length == length
         && elementsEqual(Sequence(other)); }
@@ -28,7 +30,7 @@ package org.asspec.util
       var i : uint = 0;
 
       for each (var element : Object in other)
-        if (!Comparisons.equal(element, content[i++]))
+        if (!equal(element, content[i++]))
           return false;
 
       return true;
@@ -142,7 +144,7 @@ package org.asspec.util
     // Special-purpose catamorphisms
     // ----------------------------------------------------
     public function join(delimiter : String) : String
-    { return map(Reflection.inspect).toArray().join(delimiter); }
+    { return map(inspect).toArray().join(delimiter); }
 
     public function any(predicate : Function) : Boolean
     {
@@ -209,7 +211,7 @@ package org.asspec.util
     { return content.concat(); }
 
     public function toString() : String
-    { return Reflection.inspect(content); }
+    { return inspect(content); }
 
     // ----------------------------------------------------
     // Mutation

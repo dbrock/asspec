@@ -5,12 +5,13 @@ package org.asspec.ui
   import flash.external.ExternalInterface;
   import flash.system.System;
   import flash.utils.Timer;
+  import flash.utils.getTimer;
 
   import org.asspec.AssertionError;
   import org.asspec.SizedTest;
   import org.asspec.Test;
-  import org.asspec.TestFailure;
-  import org.asspec.TestResult;
+  import org.asspec.basic.TestFailure;
+  import org.asspec.basic.TestResult;
   import org.asspec.util.StackTrace;
   import org.asspec.util.StackTraceLine;
 
@@ -42,9 +43,16 @@ package org.asspec.ui
         return result.numTests;
     }
 
+    private var t0 : int;
+
+    private function get elapsedTime() : String
+    { return Math.round((getTimer() - t0) / 1000 * 100) / 100 + " seconds"; }
+
     public function SimpleRunner(test : Test)
     {
       const result : TestResult = new TestResult;
+
+      t0 = getTimer();
 
       test.run(result);
 
@@ -60,17 +68,16 @@ package org.asspec.ui
                   + "(" + (actualSize - expectedSize) + " new).");
 
           if (actualSize >= expectedSize)
-            trace("OK at " + new Date().hours + ":" + new Date().minutes + ":" + new Date().seconds + ".");
+            trace("OK (took " + elapsedTime + ").");
           else
-            trace("Expected " + expectedSize + ", "
-                  + "so " + (expectedSize - actualSize) + " missing!");
-
-          exit(0);
+            trace("Expected " + expectedSize + ", so missing "
+                  + (expectedSize - actualSize) + " tests!");
         }
       else
         {
           trace("Ran " + result.numTests + " tests, "
                 + "but " + result.numFailures + " failed!")
+
           trace(formatPattern(result.pattern));
 
           for each (var failure : TestFailure in result.failures)
@@ -83,9 +90,9 @@ package org.asspec.ui
               else if (failure.error != null)
                 trace(getStackTrace(failure.error));
             }
-
-          exit(1);
         }
+
+      exit(result.numFailures == 0 ? 0 : 1);
     }
 
     private static function getStackTrace(error : Error) : StackTrace

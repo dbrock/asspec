@@ -2,11 +2,18 @@ package org.asspec.util
 {
   public class Text
   {
-    public static function lines(string : String) : Sequence
-    { return new ArraySequence(string.split("\n")); }
+    private var content : String;
 
-    public static function contains
-      (haystack : String, needle : String) : Boolean
-    { return haystack.indexOf(needle) != -1; }
+    public function Text(string : String)
+    { this.content = string; }
+
+    public function get lines() : Sequence
+    { return new ArraySequence(content.split("\n")); }
+
+    public function contains(substring : String) : Boolean
+    { return content.indexOf(substring) != -1; }
+
+    public static function of(content : String) : Text
+    { return new Text(content); }
   }
 }

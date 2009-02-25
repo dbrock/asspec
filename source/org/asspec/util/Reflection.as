@@ -11,8 +11,5 @@ package org.asspec.util
 
     public static function getLocalClassName(object : Object) : String
     { return getLocalName(getQualifiedClassName(object)); }
-
-    public static function inspect(object : Object) : String
-    { return Inspector.inspect(object); }
   }
 }

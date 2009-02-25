@@ -5,7 +5,8 @@ package org.asspec.util
     public var fileName : String;
     public var lineNumber : uint;
 
-    public function FileStackTraceLine(methodName : String, fileName : String, lineNumber : uint)
+    public function FileStackTraceLine
+      (methodName : String, fileName : String, lineNumber : uint)
     {
       super(methodName);
 
