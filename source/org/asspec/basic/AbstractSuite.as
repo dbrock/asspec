@@ -8,7 +8,7 @@ package org.asspec.basic
   import org.asspec.util.TypedArraySequence;
   import org.asspec.util.TypedMutableSequence;
 
-  public class Suite implements Test
+  public class AbstractSuite implements Test
   {
     private var initialized : Boolean = false;
     private var _tests : TypedMutableSequence

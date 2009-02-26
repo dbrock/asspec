@@ -1,8 +1,8 @@
 package org.asspec.equality
 {
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
 
-  public class EqualityMetasuite extends Suite
+  public class EqualityMetasuite extends AbstractSuite
   {
     override protected function populate() : void
     { addSpecification(EqualityMetaspecification); }

@@ -1,11 +1,11 @@
 package org.asspec.story.scenario.test
 {
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
   import org.asspec.story.scenario.Scenario;
   import org.asspec.story.scenario.interpretation.Interpreter;
   import org.asspec.util.Sequence;
 
-  public class ScenarioSuite extends Suite
+  public class ScenarioSuite extends AbstractSuite
   {
     private var interpreterFactory : InterpreterFactory;
     private var scenarios : Sequence;

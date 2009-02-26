@@ -1,8 +1,8 @@
 package org.asspec.specification
 {
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
 
-  public class SpecificationMetaspecification extends Suite
+  public class SpecificationMetaspecification extends AbstractSuite
   {
     override protected function populate() : void
     {

@@ -1,12 +1,11 @@
 package org.asspec.classic
 {
-  import org.asspec.Test;
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
   import org.asspec.lang.NativeClass;
   import org.asspec.lang.RealNativeClass;
   import org.asspec.lang.UnboundMethod;
 
-  public class ClassSuite extends Suite
+  public class ClassSuite extends AbstractSuite
   {
     private var suiteClass : NativeClass;
 

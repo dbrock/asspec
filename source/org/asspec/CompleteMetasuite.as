@@ -1,6 +1,6 @@
 package org.asspec
 {
-  import org.asspec.basic.SuiteMetaspecification;
+  import org.asspec.basic.AbstractSuiteMetaspecification;
 
   public class CompleteMetasuite implements SizedTest
   {
@@ -10,7 +10,7 @@ package org.asspec
     {
       // Verify the suite specification first, since suites
       // are used to implement the rest of the specifications.
-      new SuiteMetaspecification().run(listener);
+      new AbstractSuiteMetaspecification().run(listener);
       new MainMetasuite().run(listener);
     }
   }

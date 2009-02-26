@@ -2,12 +2,11 @@ package org.asspec.basic
 {
   import org.asspec.TestListener;
 
-  public class BasicMetasuite extends Suite
+  public class BasicMetasuite extends AbstractSuite
   {
     override protected function populate() : void
     {
-      add(new PassingTestMetaspecification);
-      add(new FailingTestMetaspecification);
+      add(new BasicTestMetaspecification);
     }
   }
 }

@@ -16,5 +16,9 @@ package org.asspec.specification
 
     public function get implementation() : Function
     { return _implementation; }
+
+    public static function of
+      (name : String, implementation : Function) : Requirement
+    { return new Requirement(name, implementation); }
   }
 }

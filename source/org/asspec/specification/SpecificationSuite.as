@@ -1,8 +1,8 @@
 package org.asspec.specification
 {
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
 
-  public class SpecificationSuite extends Suite
+  public class SpecificationSuite extends AbstractSuite
   {
     private var provider : SpecificationProvider;
 

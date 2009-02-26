@@ -3,7 +3,7 @@ package org.asspec.basic
   import org.asspec.Test;
   import org.asspec.TestListener;
 
-  public class SuiteMetaspecification implements Test
+  public class AbstractSuiteMetaspecification implements Test
   {
     public function get name() : String { return null; }
 
@@ -16,9 +16,9 @@ package org.asspec.basic
 }
 
 import org.asspec.Test;
+import org.asspec.basic.AbstractSuite;
 import org.asspec.basic.ManualTest;
 import org.asspec.basic.SimpleTestLogMetatest;
-import org.asspec.basic.Suite;
 
 class Empty_suite_should_do_nothing extends SimpleTestLogMetatest
 {
@@ -26,7 +26,7 @@ class Empty_suite_should_do_nothing extends SimpleTestLogMetatest
   { return "empty suite should do nothing (SuiteSpecification)"; }
 
   override protected function createTest() : void
-  { test = new Suite; }
+  { test = new AbstractSuite; }
 
   override protected function get expectedLog() : String
   { return ""; }
@@ -44,7 +44,7 @@ class Should_run_tests_in_order extends SimpleTestLogMetatest
   { return "[A passed][B failed]"; }
 }
 
-class ExampleSuite extends Suite
+class ExampleSuite extends AbstractSuite
 {
   override protected function populate() : void
   {

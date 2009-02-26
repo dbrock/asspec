@@ -1,8 +1,8 @@
 package org.asspec.lang
 {
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
 
-  public class LanguageMetasuite extends Suite
+  public class LanguageMetasuite extends AbstractSuite
   {
     override protected function populate() : void
     { addSpecification(NativeClassMetaspecification); }

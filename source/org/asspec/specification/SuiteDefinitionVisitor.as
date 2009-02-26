@@ -1,18 +1,18 @@
 package org.asspec.specification
 {
   import org.asspec.NamedTest;
-  import org.asspec.basic.Suite;
+  import org.asspec.basic.AbstractSuite;
   import org.asspec.fail;
   import org.asspec.util.It;
   import org.asspec.util.Sequence;
 
   public class SuiteDefinitionVisitor implements SpecificationVisitor
   {
-    private var suite : Suite;
+    private var suite : AbstractSuite;
     private var factory : SpecificationProvider;
 
     public function SuiteDefinitionVisitor
-      (suite : Suite, factory : SpecificationProvider)
+      (suite : AbstractSuite, factory : SpecificationProvider)
     {
       this.suite = suite;
       this.factory = factory;

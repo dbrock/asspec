@@ -1,12 +1,13 @@
 package org.asspec.basic
 {
-  public class FailingTestMetaspecification extends Suite
+  public class BasicTestMetaspecification extends AbstractSuite
   {
     override protected function populate() : void
     {
-      add(new Should_return_normally);
-      add(new Should_fail);
-      add(new Should_give_error_to_listener);
+      add(new Empty_test_should_pass);
+      add(new Throwing_test_should_return_normally);
+      add(new Throwing_test_should_fail);
+      add(new Throwing_test_should_give_error_to_listener);
     }
   }
 }
@@ -16,10 +17,43 @@ import org.asspec.TestListener;
 import org.asspec.basic.BasicTest;
 import org.asspec.basic.NullTestListener;
 
-class Should_return_normally implements Test
+class Empty_test_should_pass implements Test, TestListener
+{
+  private var succeeded : Boolean = false;
+
+  public function get name() : String
+  { return "empty test should pass (BasicTestMetaspecification)"; }
+
+  public function run(listener : TestListener) : void
+  {
+    new EmptyTest().run(this);
+
+    if (succeeded)
+      listener.testPassed(this);
+    else
+      listener.testFailed(this, null);
+  }
+
+  public function testPassed(test : Test) : void
+  { succeeded = true; }
+
+  public function testFailed(test : Test, error : Error) : void
+  {}
+}
+
+class EmptyTest extends BasicTest
+{
+  override protected function execute() : void
+  {}
+}
+
+class Throwing_test_should_return_normally implements Test
 {
   public function get name() : String
-  { return "throwing test should return normally (FailingTestSpecification)"; }
+  {
+    return "throwing test should return normally "
+      + "(BasicTestMetaspecification)";
+  }
 
   public function run(listener : TestListener) : void
   {
@@ -48,12 +82,12 @@ class ThrowingTest extends BasicTest
 class ExampleError extends Error
 {}
 
-class Should_fail implements Test, TestListener
+class Throwing_test_should_fail implements Test, TestListener
 {
   private var failed : Boolean = false;
 
   public function get name() : String
-  { return "throwing test should fail (FailingTestSpecification)"; }
+  { return "throwing test should fail (BasicTestMetaspecification)"; }
 
   public function run(listener : TestListener) : void
   {
@@ -72,12 +106,16 @@ class Should_fail implements Test, TestListener
   { failed = true; }
 }
 
-class Should_give_error_to_listener implements Test, TestListener
+class Throwing_test_should_give_error_to_listener
+  implements Test, TestListener
 {
   private var actualError : Error;
 
   public function get name() : String
-  { return "throwing test should give error to listener (FailingTestSpecification)"; }
+  {
+    return "throwing test should give error to listener "
+      + "(BasicTestMetaspecification)";
+  }
 
   public function run(listener : TestListener) : void
   {
