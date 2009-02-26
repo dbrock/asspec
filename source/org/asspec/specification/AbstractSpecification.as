@@ -35,10 +35,5 @@ package org.asspec.specification
     private function visitRequirement
       (name : String, implementation : Function) : void
     { visitor.visitRequirement(new Requirement(name, implementation)); }
-
-    // ----------------------------------------------------
-
-    protected function $(subject : Object) : AssertionSubject
-    { return AssertionSubject.of(subject); }
   }
 }
