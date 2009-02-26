@@ -6,7 +6,6 @@ package org.asspec.basic
   {
     override protected function populate() : void
     {
-      add(new SuiteMetaspecification);
       add(new PassingTestMetaspecification);
       add(new FailingTestMetaspecification);
     }
