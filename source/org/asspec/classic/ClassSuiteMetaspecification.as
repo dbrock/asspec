@@ -11,25 +11,25 @@ package org.asspec.classic
     override protected function execute() : void
     {
       requirement("a test that returns normally should pass", function () : void {
-        assertLog("[a passed]", Good); });
+        specify(logFor(Good)).should.equal("[a (Good) passed]"); });
 
       requirement("a test that throws an exception should fail", function () : void {
-        assertLog("[a failed]", Bad); });
+        specify(logFor(Bad)).should.equal("[a (Bad) failed]"); });
 
       requirement("tests should be alphabetically ordered", function () : void {
-        assertLog("[a passed][b failed][c passed][d failed][e passed]", ABCDE); });
+        const expected : String = "[a (ABCDE) passed][b (ABCDE) failed]"
+          + "[c (ABCDE) passed][d (ABCDE) failed][e (ABCDE) passed]";
+        specify(logFor(ABCDE)).should.equal(expected); });
 
       requirement("privates and statics should not be run as tests", function () : void {
-        assertLog("[a passed]", Junk); });
+        specify(logFor(Junk)).should.equal("[a (Junk) passed]"); });
 
       requirement("each test should get a fresh class instance", function () : void {
-        assertLog("[a passed][b passed]", Mutable); });
+        specify(logFor(Mutable))
+          .should.equal("[a (Mutable) passed][b (Mutable) passed]"); });
     }
 
-    private static function assertLog(expected : String, specClass : Class) : void
-    { specify(runClass(specClass)).should.equal(expected); }
-
-    private static function runClass(specClass : Class) : String
+    private static function logFor(specClass : Class) : String
     { return TestLogger.run(createTest(specClass)); }
 
     private static function createTest(specClass : Class) : Test
