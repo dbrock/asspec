@@ -8,8 +8,9 @@ package org.asspec.util
   {
     override protected function populate() : void
     {
-      addSuite(SequenceMetasuite);
+      addSpecification(CurryMetaspecification);
       addSpecification(InspectionMetaspecification);
+      addSuite(SequenceMetasuite);
     }
   }
 }

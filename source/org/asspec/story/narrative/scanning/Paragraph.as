@@ -1,6 +1,7 @@
 package org.asspec.story.narrative.scanning
 {
-  import org.asspec.util.It;
+  import org.asspec.equality.Equality;
+  import org.asspec.util.curry;
   import org.asspec.util.sequences.Sequence;
 
   public class Paragraph
@@ -24,6 +25,6 @@ package org.asspec.story.narrative.scanning
     { return lines.filter(Line.isVerificationLine); }
 
     public function linesBefore(line : Line) : Sequence
-    { return lines.takeUntil(It.equals(line)); }
+    { return lines.takeUntil(curry(Equality.equals, line)); }
   }
 }
