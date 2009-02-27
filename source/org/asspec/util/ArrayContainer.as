@@ -4,7 +4,7 @@ package org.asspec.util
   import flash.utils.flash_proxy;
   import flash.utils.getQualifiedClassName;
 
-  import org.asspec.equality.equal;
+  import org.asspec.equality.Equality;
 
   public class ArrayContainer extends Proxy implements SequenceContainer
   {
@@ -29,7 +29,7 @@ package org.asspec.util
       var i : uint = 0;
 
       for each (var element : Object in other)
-        if (!equal(element, content[i++]))
+        if (!Equality.equals(element, content[i++]))
           return false;
 
       return true;

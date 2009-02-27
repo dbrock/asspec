@@ -27,6 +27,9 @@ package org.asspec.equality
       requirement("entity should not equal other entity", function () : void {
         specify(equal(new Entity, new Entity)).should.not.hold; });
     }
+
+    private function equal(a : Object, b : Object) : Boolean
+    { return Equality.equals(a, b); }
   }
 }
 

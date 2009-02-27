@@ -1,7 +1,7 @@
 package org.asspec.assertion
 {
   import org.asspec.AssertionError;
-  import org.asspec.equality.EqualitySubject;
+  import org.asspec.equality.Equality;
   import org.asspec.specify;
   import org.asspec.util.Reflection;
   import org.asspec.util.inspection.Inspector;
@@ -41,7 +41,7 @@ package org.asspec.assertion
 
     public function equal(expected : Object) : void
     {
-      if (org.asspec.equality.equal(actual, expected))
+      if (Equality.equals(actual, expected))
         throw getNonEqualityAssertionError(expected);
     }
 
@@ -64,7 +64,7 @@ package org.asspec.assertion
       else
         {
           for each (var element : Object in expected)
-            if (org.asspec.equality.equal(actual, element))
+            if (Equality.equals(actual, element))
               throw getEqualsNeitherAssertionError(expected, element);
         }
     }
