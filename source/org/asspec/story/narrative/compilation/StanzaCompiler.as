@@ -10,9 +10,9 @@ package org.asspec.story.narrative.compilation
   import org.asspec.story.scenario.actions.Action;
   import org.asspec.story.scenario.actions.CompositeAction;
   import org.asspec.story.scenario.actions.StepAction;
-  import org.asspec.util.Sequence;
-  import org.asspec.util.TypedArraySequence;
-  import org.asspec.util.TypedMutableSequence;
+  import org.asspec.util.Sequencable;
+  import org.asspec.util.TypedArrayContainer;
+  import org.asspec.util.TypedSequenceContainer;
 
   public class StanzaCompiler
   {
@@ -21,17 +21,17 @@ package org.asspec.story.narrative.compilation
 
     // Result accumulators.
     private var context : Action;
-    private var stimulationSteps : TypedMutableSequence
-      = new TypedArraySequence(Step);
+    private var stimulationSteps : TypedSequenceContainer
+      = new TypedArrayContainer(Step);
 
     // Output.
-    public var scenarios : TypedMutableSequence
-      = new TypedArraySequence(Scenario);
+    public var scenarios : TypedSequenceContainer
+      = new TypedArrayContainer(Scenario);
 
-    public static function compile(text : String) : Sequence
+    public static function compile(text : String) : Sequencable
     { return getScenarios(ParagraphParser.parse(text)); }
 
-    public static function getScenarios(stanza : Stanza) : Sequence
+    public static function getScenarios(stanza : Stanza) : Sequencable
     { return new StanzaCompiler(stanza).scenarios; }
 
     public function StanzaCompiler(stanza : Stanza)
@@ -50,13 +50,13 @@ package org.asspec.story.narrative.compilation
     private function compileContext() : void
     { context = createCompositeAction(stanza.context); }
 
-    private function createCompositeAction(steps : Sequence) : Action
+    private function createCompositeAction(steps : Sequencable) : Action
     { return new CompositeAction(steps.map(createStepAction)); }
 
     private function createStepAction(step : Step) : Action
     { return new StepAction(step); }
 
-    private function compileStatements(statements : Sequence) : void
+    private function compileStatements(statements : Sequencable) : void
     { statements.forEach(compileStatement); }
 
     private function compileStatement(statement : Statement) : void

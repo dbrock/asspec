@@ -10,8 +10,11 @@ package org.asspec.story.narrative.parsing
 
     public function Stanza(context : Sequence, statements : Sequence)
     {
-      this.context = context.ensureType(Step);
-      this.statements = statements.ensureType(Statement);
+      context.ensureType(Step);
+      statements.ensureType(Statement);
+
+      this.context = context;
+      this.statements = statements;
     }
   }
 }

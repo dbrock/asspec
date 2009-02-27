@@ -6,7 +6,8 @@ package org.asspec.util
   {
     override protected function populate() : void
     {
-      addSpecification(ArraySequenceMetaspecification);
+      addSpecification(ArrayContainerMetaspecification);
+      addSpecification(SequenceMetaspecification);
       addSpecification(InspectionMetaspecification);
     }
   }

@@ -7,8 +7,8 @@ package org.asspec.util
     public function Text(string : String)
     { this.content = string; }
 
-    public function get lines() : Sequence
-    { return new ArraySequence(content.split("\n")); }
+    public function get lines() : Sequencable
+    { return new ArrayContainer(content.split("\n")); }
 
     public function contains(substring : String) : Boolean
     { return content.indexOf(substring) != -1; }

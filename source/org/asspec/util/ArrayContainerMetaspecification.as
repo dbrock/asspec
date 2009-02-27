@@ -4,10 +4,10 @@ package org.asspec.util
   import org.asspec.specification.AbstractSpecification;
   import org.asspec.specify;
 
-  public class ArraySequenceMetaspecification extends AbstractSpecification
+  public class ArrayContainerMetaspecification extends AbstractSpecification
   {
-    private function seq(... content : Array) : ArraySequence
-    { return new ArraySequence(content); }
+    private function seq(... content : Array) : Sequencable
+    { return new ArrayContainer(content); }
 
     override protected function execute() : void
     {
@@ -60,7 +60,7 @@ package org.asspec.util
       requirement("cons with singleton should be pair", function () : void {
         specify(seq("foo").cons("bar")).should.equal(seq("bar", "foo")); });
       requirement("cons should not modify original sequence", function () : void {
-        const foo : ArraySequence = seq("foo");
+        const foo : Sequencable = seq("foo");
         foo.cons("bar");
         specify(foo).should.equal(seq("foo")); });
 
@@ -194,25 +194,25 @@ package org.asspec.util
         specify(function () : void { seq(123).ensureType(String); })
           .should.throw_error; });
 
-      requirement("‘toArray’ on empty sequence should return empty array", function () : void {
-        specify(seq().toArray()).should.equal([]) });
-      requirement("‘toArray’ on singleton should return singleton array", function () : void {
-        specify(seq(1).toArray()).should.equal([1]) });
-      requirement("‘toArray’ should return fresh array instance", function () : void {
+      requirement("‘getArrayCopy’ on empty sequence should return empty array", function () : void {
+        specify(seq().getArrayCopy()).should.equal([]) });
+      requirement("‘getArrayCopy’ on singleton should return singleton array", function () : void {
+        specify(seq(1).getArrayCopy()).should.equal([1]) });
+      requirement("‘getArrayCopy’ should return fresh array instance", function () : void {
         const original : Array = [];
-        specify(seq(original).toArray())
+        specify(seq(original).getArrayCopy())
           .should.not.be_the_same_object_as(original); });
 
       requirement("‘toString’ should inspect contents", function () : void {
         specify(seq({ a: 1 })).should.look_like("[{ a: 1 }]"); });
 
       requirement("adding an element to an empty sequence should produce a singleton", function () : void {
-        const foo : ArraySequence = seq();
+        const foo : ArrayContainer = new ArrayContainer;
         foo.add(1);
         specify(foo).should.equal(seq(1)); });
 
-      requirement("adding an element to a singleton produce a pair", function () : void {
-        const foo : ArraySequence = seq(1);
+      requirement("adding an element to a singleton should produce a pair", function () : void {
+        const foo : ArrayContainer = new ArrayContainer([1]);
         foo.add(2);
         specify(foo).should.equal(seq(1, 2)); });
 

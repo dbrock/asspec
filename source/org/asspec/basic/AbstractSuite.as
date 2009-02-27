@@ -1,30 +1,33 @@
 package org.asspec.basic
 {
+  import org.asspec.Suite;
   import org.asspec.Test;
   import org.asspec.TestListener;
   import org.asspec.classic.ClassSuite;
   import org.asspec.specification.SpecificationSuiteFactory;
-  import org.asspec.util.Sequence;
-  import org.asspec.util.TypedArraySequence;
-  import org.asspec.util.TypedMutableSequence;
+  import org.asspec.util.Sequencable;
+  import org.asspec.util.TypedArrayContainer;
+  import org.asspec.util.TypedSequenceContainer;
 
-  public class AbstractSuite implements Test
+  public class AbstractSuite implements Suite
   {
     private var initialized : Boolean = false;
-    private var _tests : TypedMutableSequence
-      = new TypedArraySequence(Test);
+    private var _tests : TypedSequenceContainer
+      = new TypedArrayContainer(Test);
 
     public function add(test : Test) : void
     { $tests.add(test); }
 
     protected function addSpecification(class_ : Class) : void
     { add(SpecificationSuiteFactory.getSuiteForClass(class_)); }
+
     protected function addClassical(class_ : Class) : void
     { add(ClassSuite.forClass(class_)); }
+
     protected function addSuite(class_ : Class) : void
     { add(new class_); }
 
-    private function get $tests() : TypedMutableSequence
+    private function get $tests() : TypedSequenceContainer
     {
       ensureInitialized();
 
@@ -49,7 +52,7 @@ package org.asspec.basic
         test.run(listener);
     }
 
-    public function get tests() : Sequence
+    public function get tests() : Sequencable
     { return $tests; }
   }
 }

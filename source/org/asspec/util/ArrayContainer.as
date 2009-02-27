@@ -6,14 +6,11 @@ package org.asspec.util
 
   import org.asspec.equality.equal;
 
-  public class ArraySequence extends Proxy implements MutableSequence
+  public class ArrayContainer extends Proxy implements SequenceContainer
   {
     private var content : Array;
 
-    protected function similarSequence(content : Array) : ArraySequence
-    { return new ArraySequence(content); }
-
-    public function ArraySequence(content : Array = null)
+    public function ArrayContainer(content : Array = null)
     { this.content = content || []; }
 
     // ----------------------------------------------------
@@ -21,11 +18,13 @@ package org.asspec.util
     // ----------------------------------------------------
 
     public function equals(other : EqualityComparable) : Boolean
-    { return other is Sequence
-        && Sequence(other).length == length
-        && elementsEqual(Sequence(other)); }
+    {
+      return other is Sequencable
+        && Sequencable(other).length == length
+        && elementsEqual(Sequencable(other));
+    }
 
-    private function elementsEqual(other : Sequence) : Boolean
+    private function elementsEqual(other : Sequencable) : Boolean
     {
       var i : uint = 0;
 
@@ -52,7 +51,7 @@ package org.asspec.util
     { return content[0]; }
 
     public function get rest() : Sequence
-    { return similarSequence(content.slice(1)); }
+    { return new Sequence(content.slice(1)); }
 
     public function get last() : *
     { return empty ? null : content[content.length - 1]; }
@@ -62,11 +61,11 @@ package org.asspec.util
     // ----------------------------------------------------
     public function cons(element : Object) : Sequence
     {
-      const content : Array = toArray();
+      const content : Array = getArrayCopy();
 
       content.unshift(element);
 
-      return similarSequence(content);
+      return new Sequence(content);
     }
 
     // ----------------------------------------------------
@@ -79,7 +78,7 @@ package org.asspec.util
       for each (var element : Object in content)
         result.push(transform(element));
 
-      return new ArraySequence(result);
+      return new Sequence(result);
     }
 
     // ----------------------------------------------------
@@ -102,7 +101,7 @@ package org.asspec.util
         if (predicate(element))
           result.push(element);
 
-      return similarSequence(result);
+      return new Sequence(result);
     }
 
     public function takeWhile(predicate : Function) : Sequence
@@ -115,7 +114,7 @@ package org.asspec.util
         else
           break;
 
-      return similarSequence(result);
+      return new Sequence(result);
     }
 
     public function dropWhile(predicate : Function) : Sequence
@@ -126,7 +125,7 @@ package org.asspec.util
         if (!predicate(content[i]))
           break;
 
-      return similarSequence(content.slice(i));
+      return new Sequence(content.slice(i));
     }
 
     public function takeUntil(predicate : Function) : Sequence
@@ -137,14 +136,16 @@ package org.asspec.util
 
     // Generic.
     private static function invert(predicate : Function) : Function
-    { return function (... arguments : Array) : Boolean
-             { return !predicate.apply(this, arguments); }; }
+    {
+      return function (... arguments : Array) : Boolean
+        { return !predicate.apply(this, arguments); }
+    }
 
     // ----------------------------------------------------
     // Special-purpose catamorphisms
     // ----------------------------------------------------
     public function join(delimiter : String) : String
-    { return map(inspect).toArray().join(delimiter); }
+    { return map(inspect).getArrayCopy().join(delimiter); }
 
     public function any(predicate : Function) : Boolean
     {
@@ -167,12 +168,10 @@ package org.asspec.util
     // ----------------------------------------------------
     // Type checking
     // ----------------------------------------------------
-    public function ensureNullableType(type : Class) : Sequence
+    public function ensureNullableType(type : Class) : void
     {
       for each (var element : Object in this)
         ensureElementHasNullableType(element, type);
-
-      return this;
     }
 
     protected function ensureElementHasNullableType
@@ -183,12 +182,10 @@ package org.asspec.util
           + getQualifiedClassName(type));
     }
 
-    public function ensureType(type : Class) : Sequence
+    public function ensureType(type : Class) : void
     {
       for each (var element : Object in this)
         ensureElementHasType(element, type);
-
-      return this;
     }
 
     protected function ensureElementHasType
@@ -207,7 +204,10 @@ package org.asspec.util
     // ----------------------------------------------------
     // Conversion
     // ----------------------------------------------------
-    public function toArray() : Array
+    public function get sequence() : Sequence
+    { return new Sequence(getArrayCopy()); }
+
+    public function getArrayCopy() : Array
     { return content.concat(); }
 
     public function toString() : String

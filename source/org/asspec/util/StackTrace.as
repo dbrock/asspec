@@ -3,9 +3,9 @@ package org.asspec.util
   public class StackTrace
   {
     private var errorMessage : String;
-    private var lines : Sequence;
+    private var lines : Sequencable;
 
-    public function StackTrace(errorMessage : String, lines : Sequence)
+    public function StackTrace(errorMessage : String, lines : Sequencable)
     {
       this.errorMessage = errorMessage;
       this.lines = lines;
@@ -19,10 +19,10 @@ package org.asspec.util
 
     public static function fromError(error : Error) : StackTrace
     {
-      const rawLines : Sequence = Text.of(error.getStackTrace()).lines;
+      const rawLines : Sequencable = Text.of(error.getStackTrace()).lines;
 
       const errorMessage : String = rawLines.first;
-      const lines : Sequence = rawLines.rest.map(StackTraceLine.parse);
+      const lines : Sequencable = rawLines.rest.map(StackTraceLine.parse);
 
       return new StackTrace(errorMessage, lines);
     }

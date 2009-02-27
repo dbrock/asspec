@@ -8,6 +8,10 @@ package org.asspec.story.narrative.parsing
     public var steps : Sequence;
 
     public function Verification(steps : Sequence)
-    { this.steps = steps.ensureType(Step); }
+    {
+      steps.ensureType(Step);
+
+      this.steps = steps;
+    }
   }
 }

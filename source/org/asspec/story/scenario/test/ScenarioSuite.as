@@ -3,15 +3,15 @@ package org.asspec.story.scenario.test
   import org.asspec.basic.AbstractSuite;
   import org.asspec.story.scenario.Scenario;
   import org.asspec.story.scenario.interpretation.Interpreter;
-  import org.asspec.util.Sequence;
+  import org.asspec.util.Sequencable;
 
   public class ScenarioSuite extends AbstractSuite
   {
     private var interpreterFactory : InterpreterFactory;
-    private var scenarios : Sequence;
+    private var scenarios : Sequencable;
 
     public function ScenarioSuite
-      (interpreter : InterpreterFactory, scenarios : Sequence)
+      (interpreter : InterpreterFactory, scenarios : Sequencable)
     {
       this.interpreterFactory = interpreter;
       this.scenarios = scenarios;

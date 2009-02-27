@@ -11,8 +11,11 @@ package org.asspec.story.narrative.parsing
     public function Qualification
       (qualifiers : Sequence, statements : Sequence)
     {
-      this.qualifiers = qualifiers.ensureType(Step);
-      this.statements = statements.ensureType(Statement);
+      qualifiers.ensureType(Step);
+      statements.ensureType(Statement);
+
+      this.qualifiers = qualifiers;
+      this.statements = statements;
     }
   }
 }

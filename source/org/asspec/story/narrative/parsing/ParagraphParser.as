@@ -4,9 +4,10 @@ package org.asspec.story.narrative.parsing
   import org.asspec.story.narrative.scanning.Paragraph;
   import org.asspec.story.narrative.scanning.ParagraphScanner;
   import org.asspec.story.scenario.Step;
+  import org.asspec.util.Sequencable;
   import org.asspec.util.Sequence;
-  import org.asspec.util.TypedArraySequence;
-  import org.asspec.util.TypedMutableSequence;
+  import org.asspec.util.TypedArrayContainer;
+  import org.asspec.util.TypedSequenceContainer;
 
   public class ParagraphParser
   {
@@ -38,19 +39,19 @@ package org.asspec.story.narrative.parsing
       if (!currentLine.isContextLine)
         throw new Error("first line must be context line");
 
-      const result : TypedMutableSequence
-        = new TypedArraySequence(Step);
+      const result : TypedSequenceContainer
+        = new TypedArrayContainer(Step);
 
       while (currentLine.isContextLine)
         parseConjoinedSteps().forEach(result.add);
 
-      return result;
+      return result.sequence;
     }
 
     private function parseConjoinedSteps() : Sequence
     {
       const first : Step = takeLine().step;
-      const rest : Sequence = parseConjunctionTail();
+      const rest : Sequencable = parseConjunctionTail();
 
       return rest.cons(first);
     }
@@ -64,7 +65,7 @@ package org.asspec.story.narrative.parsing
       return result;
     }
 
-    private function parseConjunctionTail() : Sequence
+    private function parseConjunctionTail() : Sequencable
     { return takeWhile(Line.isConjunctionLine).map(Line.step); }
 
     private function takeWhile(predicate : Function) : Sequence
@@ -78,13 +79,13 @@ package org.asspec.story.narrative.parsing
 
     private function parseStatements() : Sequence
     {
-      const statements : TypedMutableSequence
-        = new TypedArraySequence(Statement);
+      const statements : TypedSequenceContainer
+        = new TypedArrayContainer(Statement);
 
       while (hasMoreInput)
         statements.add(parseStatement());
 
-      return statements;
+      return statements.sequence;
     }
 
     private function get hasMoreInput() : Boolean

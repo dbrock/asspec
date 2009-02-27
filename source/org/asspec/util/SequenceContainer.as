@@ -1,5 +1,5 @@
 package org.asspec.util
 {
-  public interface MutableSequence extends Sequence
+  public interface SequenceContainer extends Sequencable
   { function add(element : Object) : void; }
 }
