@@ -1,4 +1,4 @@
-package org.asspec.util
+package org.asspec.util.inspection
 {
   import org.asspec.specification.AbstractSpecification;
   import org.asspec.specify;
@@ -70,12 +70,18 @@ package org.asspec.util
         assertLiteralInspection(entries[name][0], entries[name][1], name);
     }
 
-    private function wrap(element : Object) : Array
-    { return element is Array ? element as Array : [element]; }
-
     private function assertLiteralInspection
       (actual : Object, expected : Object, description : String) : void
-    { requirement("inspecting " + description + " should give its literal", function () : void {
-        specify(inspect(actual)).should.equal_either_element_of(wrap(expected)); }); }
+    {
+      const name : String
+        = "inspecting " + description + " should give its literal";
+
+      requirement(name, function () : void {
+        specify(Inspection.inspect(actual))
+          .should.equal_either_element_of(wrap(expected)); });
+    }
+
+    private function wrap(element : Object) : Array
+    { return element is Array ? element as Array : [element]; }
   }
 }

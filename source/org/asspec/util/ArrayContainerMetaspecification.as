@@ -3,6 +3,7 @@ package org.asspec.util
   import org.asspec.fail;
   import org.asspec.specification.AbstractSpecification;
   import org.asspec.specify;
+  import org.asspec.util.inspection.Inspection;
 
   public class ArrayContainerMetaspecification extends AbstractSpecification
   {
@@ -69,9 +70,9 @@ package org.asspec.util
       requirement("map on empty sequence should not invoke mapper", function () : void {
         seq().map(fail); });
       requirement("map on singleton should map element", function () : void {
-        specify(seq(1).map(inspect)).should.equal(seq("1")); });
+        specify(seq(1).map(Inspection.inspect)).should.equal(seq("1")); });
       requirement("map on pair should map elements", function () : void {
-        specify(seq(1, 2).map(inspect)).should.equal(seq("1", "2")); });
+        specify(seq(1, 2).map(Inspection.inspect)).should.equal(seq("1", "2")); });
 
       requirement("‘forEach’ on empty sequence should not invoke callback", function () : void {
         seq().forEach(fail); });

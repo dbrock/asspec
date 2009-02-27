@@ -4,7 +4,7 @@ package org.asspec.assertion
   import org.asspec.equality.EqualitySubject;
   import org.asspec.specify;
   import org.asspec.util.Reflection;
-  import org.asspec.util.inspection.Inspector;
+  import org.asspec.util.inspection.Inspection;
 
   public class PositiveAssertionContext implements AssertionContext
   {
@@ -32,7 +32,7 @@ package org.asspec.assertion
     { throw new AssertionError(message); }
 
     private function inspect(object : Object) : String
-    { return "»" + org.asspec.util.inspect(object) + "«"; }
+    { return "»" + Inspection.inspect(object) + "«"; }
 
     private function get actualSubject() : EqualitySubject
     { return EqualitySubject.of(actual); }
@@ -75,7 +75,7 @@ package org.asspec.assertion
     }
 
     public function look_like(expected : String) : void
-    { specify(Inspector.inspect(actual)).should.equal(expected); }
+    { specify(Inspection.inspect(actual)).should.equal(expected); }
 
     // ------------------------------------------------------------
 

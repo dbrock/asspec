@@ -5,6 +5,7 @@ package org.asspec.util
   import flash.utils.getQualifiedClassName;
 
   import org.asspec.equality.Equality;
+  import org.asspec.util.inspection.Inspection;
 
   public class ArrayContainer extends Proxy implements SequenceContainer
   {
@@ -145,7 +146,7 @@ package org.asspec.util
     // Special-purpose catamorphisms
     // ----------------------------------------------------
     public function join(delimiter : String) : String
-    { return map(inspect).getArrayCopy().join(delimiter); }
+    { return map(Inspection.inspect).getArrayCopy().join(delimiter); }
 
     public function any(predicate : Function) : Boolean
     {
@@ -211,7 +212,7 @@ package org.asspec.util
     { return content.concat(); }
 
     public function toString() : String
-    { return inspect(content); }
+    { return Inspection.inspect(content); }
 
     // ----------------------------------------------------
     // Mutation

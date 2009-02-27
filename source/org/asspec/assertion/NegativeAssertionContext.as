@@ -3,8 +3,7 @@ package org.asspec.assertion
   import org.asspec.AssertionError;
   import org.asspec.equality.Equality;
   import org.asspec.specify;
-  import org.asspec.util.Reflection;
-  import org.asspec.util.inspection.Inspector;
+  import org.asspec.util.inspection.Inspection;
 
   public class NegativeAssertionContext implements AssertionContext
   {
@@ -37,7 +36,7 @@ package org.asspec.assertion
     }
 
     private static function inspect(object : Object) : String
-    { return "»" + org.asspec.util.inspect(object) + "«"; }
+    { return "»" + Inspection.inspect(object) + "«"; }
 
     public function equal(expected : Object) : void
     {
@@ -84,7 +83,7 @@ package org.asspec.assertion
     }
 
     public function look_like(expected : String) : void
-    { specify(Inspector.inspect(actual)).should.not.equal(expected); }
+    { specify(Inspection.inspect(actual)).should.not.equal(expected); }
 
     public function get return_normally() : Object
     { return not.throw_error; }

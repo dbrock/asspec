@@ -15,7 +15,7 @@ package org.asspec.util.inspection
       const parts : Array = [];
 
       for each (var element : Object in array)
-        parts.push(Inspector.inspect(element));
+        parts.push(Inspection.inspect(element));
 
       return parts.join(", ");
     }

@@ -2,7 +2,7 @@ package org.asspec.util
 {
   import flash.utils.getQualifiedClassName;
 
-  import org.asspec.util.inspection.Inspector;
+  import org.asspec.util.inspection.Inspection;
 
   public class Reflection
   {

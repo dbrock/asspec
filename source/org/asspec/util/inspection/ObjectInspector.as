@@ -34,14 +34,14 @@ package org.asspec.util.inspection
     }
 
     private function getPropertyLiteral(name : String, value : Object) : String
-    { return getNameLiteral(name) + ": " + Inspector.inspect(value); }
+    { return getNameLiteral(name) + ": " + Inspection.inspect(value); }
 
     private function getNameLiteral(string : String) : String
     {
       if (string.match(/^[a-zA-Z0-9$_]+$/))
         return string;
       else
-        return Inspector.inspect(string);
+        return Inspection.inspect(string);
     }
   }
 }

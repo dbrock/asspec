@@ -2,14 +2,9 @@ package org.asspec.util.inspection
 {
   import flash.utils.getQualifiedClassName;
 
-  public class Inspector
+  public class Inspection
   {
-    private var object : Object;
-
-    public function Inspector(object : Object)
-    { this.object = object; }
-
-    public function get representation() : String
+    public static function inspect(object : Object) : String
     {
       if (object == null)
         return "null";
@@ -22,8 +17,5 @@ package org.asspec.util.inspection
       else
         return object.toString();
     }
-
-    public static function inspect(object : Object) : String
-    { return new Inspector(object).representation; }
   }
 }
