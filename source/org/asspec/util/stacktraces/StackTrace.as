@@ -1,5 +1,6 @@
-package org.asspec.util
+package org.asspec.util.stacktraces
 {
+  import org.asspec.util.Text;
   import org.asspec.util.sequences.Sequence;
 
   public class StackTrace

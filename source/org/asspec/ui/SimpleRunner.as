@@ -12,8 +12,8 @@ package org.asspec.ui
   import org.asspec.Test;
   import org.asspec.basic.TestFailure;
   import org.asspec.basic.TestResult;
-  import org.asspec.util.StackTrace;
-  import org.asspec.util.StackTraceLine;
+  import org.asspec.util.stacktraces.StackTrace;
+  import org.asspec.util.stacktraces.StackTraceLine;
 
   public class SimpleRunner extends Sprite
   {

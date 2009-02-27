@@ -1,4 +1,4 @@
-package org.asspec.util
+package org.asspec.util.stacktraces
 {
   public class FileStackTraceLine extends StackTraceLine
   {
