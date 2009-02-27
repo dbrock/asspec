@@ -1,7 +1,9 @@
-package org.asspec.util
+package org.asspec.util.sequences
 {
   import flash.utils.Proxy;
   import flash.utils.flash_proxy;
+
+  import org.asspec.util.EqualityComparable;
 
   public class Sequence extends Proxy implements Sequencable
   {

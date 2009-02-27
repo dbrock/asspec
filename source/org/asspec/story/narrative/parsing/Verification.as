@@ -1,7 +1,7 @@
 package org.asspec.story.narrative.parsing
 {
   import org.asspec.story.scenario.Step;
-  import org.asspec.util.Sequence;
+  import org.asspec.util.sequences.Sequence;
 
   public class Verification implements Statement
   {

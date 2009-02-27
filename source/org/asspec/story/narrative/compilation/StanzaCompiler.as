@@ -10,9 +10,9 @@ package org.asspec.story.narrative.compilation
   import org.asspec.story.scenario.actions.Action;
   import org.asspec.story.scenario.actions.CompositeAction;
   import org.asspec.story.scenario.actions.StepAction;
-  import org.asspec.util.Sequencable;
-  import org.asspec.util.TypedArrayContainer;
-  import org.asspec.util.TypedSequenceContainer;
+  import org.asspec.util.sequences.Sequence;
+  import org.asspec.util.sequences.TypedArrayContainer;
+  import org.asspec.util.sequences.TypedSequenceContainer;
 
   public class StanzaCompiler
   {
@@ -27,12 +27,6 @@ package org.asspec.story.narrative.compilation
     // Output.
     public var scenarios : TypedSequenceContainer
       = new TypedArrayContainer(Scenario);
-
-    public static function compile(text : String) : Sequencable
-    { return getScenarios(ParagraphParser.parse(text)); }
-
-    public static function getScenarios(stanza : Stanza) : Sequencable
-    { return new StanzaCompiler(stanza).scenarios; }
 
     public function StanzaCompiler(stanza : Stanza)
     {
@@ -50,13 +44,13 @@ package org.asspec.story.narrative.compilation
     private function compileContext() : void
     { context = createCompositeAction(stanza.context); }
 
-    private function createCompositeAction(steps : Sequencable) : Action
+    private function createCompositeAction(steps : Sequence) : Action
     { return new CompositeAction(steps.map(createStepAction)); }
 
     private function createStepAction(step : Step) : Action
     { return new StepAction(step); }
 
-    private function compileStatements(statements : Sequencable) : void
+    private function compileStatements(statements : Sequence) : void
     { statements.forEach(compileStatement); }
 
     private function compileStatement(statement : Statement) : void
@@ -79,7 +73,7 @@ package org.asspec.story.narrative.compilation
     { return new Scenario(context, stimulation, verification); }
 
     private function get stimulation() : Action
-    { return createCompositeAction(stimulationSteps); }
+    { return createCompositeAction(stimulationSteps.sequence); }
 
     private function compileQualification(qualification : Qualification) : void
     {
@@ -87,5 +81,13 @@ package org.asspec.story.narrative.compilation
 
       compileStatements(qualification.statements);
     }
+
+    // ----------------------------------------------------
+
+    public static function compile(text : String) : Sequence
+    { return getScenarios(ParagraphParser.parse(text)); }
+
+    public static function getScenarios(stanza : Stanza) : Sequence
+    { return new StanzaCompiler(stanza).scenarios.sequence; }
   }
 }

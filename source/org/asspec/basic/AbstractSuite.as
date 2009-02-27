@@ -5,18 +5,18 @@ package org.asspec.basic
   import org.asspec.TestListener;
   import org.asspec.classic.ClassSuite;
   import org.asspec.specification.SpecificationSuiteFactory;
-  import org.asspec.util.Sequencable;
-  import org.asspec.util.TypedArrayContainer;
-  import org.asspec.util.TypedSequenceContainer;
+  import org.asspec.util.sequences.Sequence;
+  import org.asspec.util.sequences.TypedArrayContainer;
+  import org.asspec.util.sequences.TypedSequenceContainer;
 
   public class AbstractSuite implements Suite
   {
     private var initialized : Boolean = false;
-    private var _tests : TypedSequenceContainer
+    private var testContainer : TypedSequenceContainer
       = new TypedArrayContainer(Test);
 
     public function add(test : Test) : void
-    { $tests.add(test); }
+    { testContainer.add(test); }
 
     protected function addSpecification(class_ : Class) : void
     { add(SpecificationSuiteFactory.getSuiteForClass(class_)); }
@@ -27,11 +27,11 @@ package org.asspec.basic
     protected function addSuite(class_ : Class) : void
     { add(new class_); }
 
-    private function get $tests() : TypedSequenceContainer
+    public function get tests() : Sequence
     {
       ensureInitialized();
 
-      return _tests;
+      return testContainer.sequence;
     }
 
     private function ensureInitialized() : void
@@ -51,8 +51,5 @@ package org.asspec.basic
       for each (var test : Test in tests)
         test.run(listener);
     }
-
-    public function get tests() : Sequencable
-    { return $tests; }
   }
 }

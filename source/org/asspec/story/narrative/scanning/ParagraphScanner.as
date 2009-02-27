@@ -1,15 +1,16 @@
 package org.asspec.story.narrative.scanning
 {
-  import org.asspec.util.Sequencable;
   import org.asspec.util.Text;
-  import org.asspec.util.TypedArrayContainer;
+  import org.asspec.util.sequences.Sequencable;
+  import org.asspec.util.sequences.TypedArrayContainer;
+  import org.asspec.util.sequences.TypedSequenceContainer;
 
   public class ParagraphScanner
   {
     public static function getParagraph(input : String) : Paragraph
     { return new ParagraphScanner(input).paragraph; }
 
-    private const lines : TypedArrayContainer
+    private const lines : TypedSequenceContainer
       = new TypedArrayContainer(Line);
 
     public function ParagraphScanner(input : String)

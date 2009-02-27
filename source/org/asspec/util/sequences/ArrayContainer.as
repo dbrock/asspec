@@ -1,10 +1,11 @@
-package org.asspec.util
+package org.asspec.util.sequences
 {
   import flash.utils.Proxy;
   import flash.utils.flash_proxy;
   import flash.utils.getQualifiedClassName;
 
   import org.asspec.equality.Equality;
+  import org.asspec.util.EqualityComparable;
   import org.asspec.util.inspection.Inspection;
 
   public class ArrayContainer extends Proxy implements SequenceContainer

@@ -1,4 +1,4 @@
-package org.asspec.util
+package org.asspec.util.sequences
 {
   import org.asspec.fail;
   import org.asspec.specification.AbstractSpecification;

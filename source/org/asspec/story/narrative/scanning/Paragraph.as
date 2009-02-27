@@ -1,14 +1,18 @@
 package org.asspec.story.narrative.scanning
 {
   import org.asspec.util.It;
-  import org.asspec.util.Sequence;
+  import org.asspec.util.sequences.Sequence;
 
   public class Paragraph
   {
     public var lines : Sequence;
 
     public function Paragraph(lines : Sequence)
-    { this.lines = lines; }
+    {
+      lines.ensureType(Line);
+
+      this.lines = lines;
+    }
 
     public function get contextLines() : Sequence
     { return lines.filter(Line.isContextLine); }

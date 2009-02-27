@@ -4,10 +4,9 @@ package org.asspec.story.narrative.parsing
   import org.asspec.story.narrative.scanning.Paragraph;
   import org.asspec.story.narrative.scanning.ParagraphScanner;
   import org.asspec.story.scenario.Step;
-  import org.asspec.util.Sequencable;
-  import org.asspec.util.Sequence;
-  import org.asspec.util.TypedArrayContainer;
-  import org.asspec.util.TypedSequenceContainer;
+  import org.asspec.util.sequences.Sequence;
+  import org.asspec.util.sequences.TypedArrayContainer;
+  import org.asspec.util.sequences.TypedSequenceContainer;
 
   public class ParagraphParser
   {
@@ -51,7 +50,7 @@ package org.asspec.story.narrative.parsing
     private function parseConjoinedSteps() : Sequence
     {
       const first : Step = takeLine().step;
-      const rest : Sequencable = parseConjunctionTail();
+      const rest : Sequence = parseConjunctionTail();
 
       return rest.cons(first);
     }
@@ -65,7 +64,7 @@ package org.asspec.story.narrative.parsing
       return result;
     }
 
-    private function parseConjunctionTail() : Sequencable
+    private function parseConjunctionTail() : Sequence
     { return takeWhile(Line.isConjunctionLine).map(Line.step); }
 
     private function takeWhile(predicate : Function) : Sequence

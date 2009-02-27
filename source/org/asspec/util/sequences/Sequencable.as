@@ -1,5 +1,7 @@
-package org.asspec.util
+package org.asspec.util.sequences
 {
+  import org.asspec.util.EqualityComparable;
+
   public interface Sequencable extends EqualityComparable
   {
     // Inspection

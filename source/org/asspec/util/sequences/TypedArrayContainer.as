@@ -1,4 +1,4 @@
-package org.asspec.util
+package org.asspec.util.sequences
 {
   public class TypedArrayContainer extends ArrayContainer
     implements TypedSequenceContainer

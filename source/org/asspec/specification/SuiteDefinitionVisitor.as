@@ -4,7 +4,7 @@ package org.asspec.specification
   import org.asspec.basic.AbstractSuite;
   import org.asspec.fail;
   import org.asspec.util.It;
-  import org.asspec.util.Sequencable;
+  import org.asspec.util.sequences.Sequence;
 
   public class SuiteDefinitionVisitor implements SpecificationVisitor
   {
@@ -40,7 +40,7 @@ package org.asspec.specification
     private function nameUsed(name : String) : Boolean
     { return testNames.any(It.equals(name)); }
 
-    private function get testNames() : Sequencable
+    private function get testNames() : Sequence
     { return suite.tests.map(testName); }
 
     private static function testName(test : NamedTest) : String
