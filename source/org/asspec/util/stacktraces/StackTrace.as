@@ -10,7 +10,7 @@ package org.asspec.util.stacktraces
 
     public function StackTrace(errorMessage : String, lines : Sequence)
     {
-      lines.ensureType(String);
+      lines.ensureType(StackTraceLine);
 
       this.errorMessage = errorMessage;
       this.lines = lines;
