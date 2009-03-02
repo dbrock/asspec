@@ -1,4 +1,4 @@
-package org.asspec.util.stacktraces
+package org.asspec.ui.stacktraces
 {
   public class StackTraceLine
   {

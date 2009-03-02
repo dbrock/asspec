@@ -1,4 +1,4 @@
-package org.asspec.util.stacktraces
+package org.asspec.ui.stacktraces
 {
   import org.asspec.util.Text;
   import org.asspec.util.sequences.Sequence;
