@@ -103,5 +103,25 @@ package org.asspec.assertion
 
       return null;
     }
+
+    public function throw_error_of_type(type : Class) : void
+    {
+      const expectedTypeName : String
+        = Reflection.getLocalClassName(type);
+
+      try
+        { (actual as Function)(); }
+      catch (error : Error)
+        {
+          if (error is type)
+            return;
+          else
+            fail("expected " + expectedTypeName + " "
+                 + "but threw " + Reflection.getLocalClassName(error) + " "
+                 + "with message »" + error.message + "«");
+        }
+
+      fail("did not throw anything");
+    }
   }
 }
