@@ -52,30 +52,56 @@ package org.asspec.util.sequences
         specify(seq(null, value(0)).contains(value(0))).should.hold; });
 
       requirement("attempt to retrieve index of non-existing value should throw", function () : void {
-        specify(function () : void { seq().getIndexOf(null); }).should.throw_error; });
+        specify(function () : void { seq().getIndexOf(null); })
+          .should.throw_error_of_type(ArgumentError); });
       requirement("index of null in [null] should be 0", function () : void {
         specify(seq(null).getIndexOf(null)).should.equal(0); });
       requirement("index of Value(0) in [null, Value(0)] should be 1", function () : void {
         specify(seq(null, value(0)).getIndexOf(value(0))).should.equal(1); });
 
-      requirement("first of empty sequence should be null", function () : void {
-        specify(seq().first).should.equal(null); });
-      requirement("first of singleton sequence should be the element", function () : void {
-        specify(seq("foo").first).should.equal("foo"); });
+      it("should not allow taking the first of empty sequence", function () : void {
+        specify(function () : void { seq().first; })
+          .should.throw_error_of_type(ArgumentError); });
+      it("should allow taking the first of non-empty sequence", function () : void {
+        specify(function () : void { seq(null).first; })
+          .should.not.throw_error; });
 
-      requirement("rest of empty sequence should be empty sequence", function () : void {
-        specify(seq().rest).should.equal(seq()); });
-      requirement("rest of singleton sequence should be empty sequence", function () : void {
-        specify(seq("foo").rest).should.equal(seq()); });
-      requirement("rest of two-element sequence should be singleton sequence", function () : void {
-        specify(seq("foo", "bar").rest).should.equal(seq("bar")); });
+      it("should return the correct first element", function () : void {
+        specify(seq(1, 2, 3).first).should.equal(1); });
+
+      it("should not allow taking the rest of empty sequence", function () : void {
+        specify(function () : void { seq().rest; })
+          .should.throw_error_of_type(ArgumentError); });
+      it("should allow taking the rest of non-empty sequence", function () : void {
+        specify(function () : void { seq(null).rest; })
+          .should.not.throw_error; });
+
+      requirement("rest of [1] should be empty sequence", function () : void {
+        specify(seq(1).rest).should.equal(seq()); });
+      requirement("rest of [1, 2] should be [2]", function () : void {
+        specify(seq(1, 2).rest).should.equal(seq(2)); });
+      requirement("rest of [1, 2, 3] should be [2, 3]", function () : void {
+        specify(seq(1, 2, 3).rest).should.equal(seq(2, 3)); });
+
+      it("should not allow taking the last of empty sequence", function () : void {
+        specify(function () : void { seq().last; })
+          .should.throw_error_of_type(ArgumentError); });
+      it("should allow taking the last of non-empty sequence", function () : void {
+        specify(function () : void { seq(null).last; })
+          .should.not.throw_error; });
+
+      requirement("last of [1, 2, 3] should be 3", function () : void {
+        specify(seq(1, 2, 3).last).should.equal(3); });
 
       it("should not allow getting a high non-existing element", function () : void {
-        specify(function () : void { seq().get(0); }).should.throw_error; });
+        specify(function () : void { seq().get(0); })
+          .should.throw_error_of_type(ArgumentError); });
       it("should not allow getting a low non-existing element", function () : void {
-        specify(function () : void { seq().get(-1); }).should.throw_error; });
+        specify(function () : void { seq().get(-1); })
+          .should.throw_error_of_type(ArgumentError); });
       it("should allow getting an existing element", function () : void {
-        specify(function () : void { seq("a").get(0); }).should.not.throw_error; });
+        specify(function () : void { seq("a").get(0); })
+          .should.not.throw_error; });
 
       requirement("getting value 0 should return the first value", function () : void {
         specify(seq("a", "b").get(0)).should.equal("a"); });
@@ -248,11 +274,14 @@ package org.asspec.util.sequences
         specify(foo).should.equal(seq(1, 2)); });
 
       it("should not allow setting high non-existing element", function () : void {
-        specify(function () : void { seq().set(0, null); }).should.throw_error; });
+        specify(function () : void { seq().set(0, null); })
+          .should.throw_error_of_type(ArgumentError); });
       it("should not allow setting low non-existing element", function () : void {
-        specify(function () : void { seq().set(-1, null); }).should.throw_error; });
+        specify(function () : void { seq().set(-1, null); })
+          .should.throw_error_of_type(ArgumentError); });
       it("should allow setting existing element", function () : void {
-        specify(function () : void { seq(null).set(0, null); }).should.not.throw_error; });
+        specify(function () : void { seq(null).set(0, null); })
+          .should.not.throw_error; });
 
       requirement("setting element 0 should change its value", function () : void {
         const foo : SequenceContainer = seq(1, 2, 3);
@@ -272,11 +301,14 @@ package org.asspec.util.sequences
         specify(foo).should.equal(seq(1, "x", 3)); });
 
       it("should not allow removing element at high non-existing index", function () : void {
-        specify(function () : void { seq().removeAt(0); }).should.throw_error; });
+        specify(function () : void { seq().removeAt(0); })
+          .should.throw_error_of_type(ArgumentError); });
       it("should not allow removing element at low non-existing index", function () : void {
-        specify(function () : void { seq().removeAt(-1); }).should.throw_error; });
+        specify(function () : void { seq().removeAt(-1); })
+          .should.throw_error_of_type(ArgumentError); });
       it("should allow removing element at existing index", function () : void {
-        specify(function () : void { seq(null).removeAt(0); }).should.not.throw_error; });
+        specify(function () : void { seq(null).removeAt(0); })
+          .should.not.throw_error; });
 
       requirement("removing element 0 should remove the first element", function () : void {
         const foo : SequenceContainer = seq(1, 2, 3);

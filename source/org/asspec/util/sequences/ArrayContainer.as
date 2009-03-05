@@ -63,21 +63,37 @@ package org.asspec.util.sequences
     // Destruction
     // ----------------------------------------------------
     public function get first() : *
-    { return content[0]; }
+    { return get(0); }
 
     public function get rest() : Sequence
-    { return new Sequence(content.slice(1)); }
+    {
+      if (empty)
+        throw new ArgumentError;
+      else
+        return new Sequence(content.slice(1));
+    }
 
     public function get last() : *
-    { return empty ? null : content[content.length - 1]; }
+    { return get(-1); }
 
     public function get(index : int) : *
     {
-      if (index < 0)
-        return get(index + length);
-      else if (index < length)
-        return content[index];
+      if (index >= 0)
+        return $get(index);
       else
+        return $get(index + length);
+    }
+
+    private function $get(index : int) : Object
+    {
+      validateIndex(index);
+
+      return content[index];
+    }
+
+    private function validateIndex(index : int) : void
+    {
+      if (index < 0 || index >= length)
         throw new ArgumentError;
     }
 
@@ -246,22 +262,30 @@ package org.asspec.util.sequences
 
     public function set(index : int, value : Object) : void
     {
-      if (index < 0)
-        set(index + length, value);
-      else if (index < length)
-        content[index] = value;
+      if (index >= 0)
+        $set(index, value);
       else
-        throw new ArgumentError;
+        $set(index + length, value);
+    }
+
+    private function $set(index : int, value : Object) : void
+    {
+      validateIndex(index);
+      content[index] = value;
     }
 
     public function removeAt(index : int) : void
     {
-      if (index < 0)
-        removeAt(index + length);
-      else if (index < length)
-        content.splice(index, 1);
+      if (index >= 0)
+        $removeAt(index);
       else
-        throw new ArgumentError;
+        $removeAt(index + length);
+    }
+
+    private function $removeAt(index : int) : void
+    {
+      validateIndex(index);
+      content.splice(index, 1);
     }
 
     // ----------------------------------------------------
