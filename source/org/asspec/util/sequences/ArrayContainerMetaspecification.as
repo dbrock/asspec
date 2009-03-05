@@ -425,6 +425,11 @@ package org.asspec.util.sequences
         const slot2 : SequenceContainerSlot = seq123.getAdditionalSlot();
         slot1.value = 4;
         specify(slot2.hasValue).should.not.hold; });
+      requirement("looping through the slots of [1, 2, 3] should work correctly", function () : void {
+        for each (var slot : SequenceContainerSlot in seq123.slots)
+          slot.value *= 10;
+
+        specify(seq123).should.equal(seq(10, 20, 30)); });
 
       requirement("looping through an empty sequence should not do anything", function () : void {
         for each (var element : Object in seq())

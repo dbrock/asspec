@@ -315,6 +315,9 @@ package org.asspec.util.sequences
     public function getAdditionalSlot() : SequenceContainerSlot
     { return new AdditionalArrayContainerSlot(this); }
 
+    public function get slots() : Foreachable
+    { return new SlotEnumerator(this); }
+
     // ----------------------------------------------------
     // Enumeration
     // ----------------------------------------------------

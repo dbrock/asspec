@@ -7,5 +7,6 @@ package org.asspec.util.sequences
     function removeAt(index : int) : void;
     function getSlotAt(index : int) : SequenceContainerSlot;
     function getAdditionalSlot() : SequenceContainerSlot;
+    function get slots() : Foreachable;
   }
 }
