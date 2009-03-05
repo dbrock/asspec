@@ -28,9 +28,9 @@ package org.asspec.util.sequences
       requirement("a number sequence should not equal a string sequence", function () : void {
         specify(seq(1)).should.not.equal(seq("1")); });
       requirement("sequences of equal values should be equal", function () : void {
-        specify(seq(new Value(1))).should.equal(seq(new Value(1))); });
+        specify(seq(value(1))).should.equal(seq(value(1))); });
       requirement("sequences of different values should not be equal", function () : void {
-        specify(seq(new Value(1))).should.not.equal(seq(new Value(2))); });
+        specify(seq(value(1))).should.not.equal(seq(value(2))); });
 
       requirement("empty sequence should be empty", function () : void {
         specify(seq().empty).should.hold; });
@@ -49,14 +49,14 @@ package org.asspec.util.sequences
       requirement("sequence with null should contain it", function () : void {
         specify(seq(null).contains(null)).should.hold; });
       requirement("sequence with Value(0) should contain it", function () : void {
-        specify(seq(null, new Value(0)).contains(new Value(0))).should.hold; });
+        specify(seq(null, value(0)).contains(value(0))).should.hold; });
 
       requirement("attempt to retrieve index of non-existing value should throw", function () : void {
         specify(function () : void { seq().getIndexOf(null); }).should.throw_error; });
       requirement("index of null in [null] should be 0", function () : void {
         specify(seq(null).getIndexOf(null)).should.equal(0); });
       requirement("index of Value(0) in [null, Value(0)] should be 1", function () : void {
-        specify(seq(null, new Value(0)).getIndexOf(new Value(0))).should.equal(1); });
+        specify(seq(null, value(0)).getIndexOf(value(0))).should.equal(1); });
 
       requirement("first of empty sequence should be null", function () : void {
         specify(seq().first).should.equal(null); });
@@ -301,6 +301,9 @@ package org.asspec.util.sequences
 }
 
 import org.asspec.util.EqualityComparable;
+
+function value(value : int) : Value
+{ return new Value(value); }
 
 class Value implements EqualityComparable
 {
