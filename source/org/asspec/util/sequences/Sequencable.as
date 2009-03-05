@@ -7,6 +7,7 @@ package org.asspec.util.sequences
     // Inspection
     function get empty() : Boolean;
     function get length() : uint;
+    function hasIndex(index : int) : Boolean;
     function contains(element : Object) : Boolean;
     function getIndexOf(element : Object) : uint;
 

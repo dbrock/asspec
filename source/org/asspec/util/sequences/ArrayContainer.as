@@ -48,6 +48,17 @@ package org.asspec.util.sequences
     public function get length() : uint
     { return content.length; }
 
+    public function hasIndex(index : int) : Boolean
+    {
+      if (index < 0)
+        return $hasIndex(index + length);
+      else
+        return $hasIndex(index);
+    }
+
+    private function $hasIndex(index : int) : Boolean
+    { return index >= 0 && index < length; }
+
     public function contains(element : Object) : Boolean
     { return any(curry(Equality.equals, element)); }
 
@@ -297,6 +308,12 @@ package org.asspec.util.sequences
       validateIndex(index);
       content.splice(index, 1);
     }
+
+    public function getSlotAt(index : int) : SequenceContainerSlot
+    { return new ArrayContainerSlot(this, index); }
+
+    public function getAdditionalSlot() : SequenceContainerSlot
+    { return new AdditionalArrayContainerSlot(this); }
 
     // ----------------------------------------------------
     // Enumeration

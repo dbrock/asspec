@@ -22,6 +22,9 @@ package org.asspec.util.sequences
     public function get length() : uint
     { return content.length; }
 
+    public function hasIndex(index : int) : Boolean
+    { return content.hasIndex(index); }
+
     public function contains(element : Object) : Boolean
     { return content.contains(element); }
 

@@ -10,6 +10,8 @@ package org.asspec.util.sequences
     private function seq(... content : Array) : SequenceContainer
     { return new ArrayContainer(content); }
 
+    private const seq123 : SequenceContainer = seq(1, 2, 3);
+
     override protected function execute() : void
     {
       requirement("an empty sequence should stringify correctly", function () : void {
@@ -43,6 +45,19 @@ package org.asspec.util.sequences
         specify(seq(1).length).should.equal(1); });
       requirement("pair sequence should have length two", function () : void {
         specify(seq(1, 2).length).should.equal(2); });
+
+      requirement("empty sequence should not have index 0", function () : void {
+        specify(seq().hasIndex(0)).should.not.hold; });
+      requirement("empty sequence should not have index -1", function () : void {
+        specify(seq().hasIndex(-1)).should.not.hold; });
+      requirement("singleton sequence should have index 0", function () : void {
+        specify(seq(1).hasIndex(0)).should.hold; });
+      requirement("singleton sequence should have index -1", function () : void {
+        specify(seq(1).hasIndex(-1)).should.hold; });
+      requirement("singleton sequence should not have index 1", function () : void {
+        specify(seq(1).hasIndex(1)).should.not.hold; });
+      requirement("singleton sequence should not have index -2", function () : void {
+        specify(seq(1).hasIndex(-2)).should.not.hold; });
 
       requirement("empty sequence should not contain null", function () : void {
         specify(seq().contains(null)).should.not.hold; });
@@ -118,9 +133,8 @@ package org.asspec.util.sequences
       requirement("cons with singleton should be pair", function () : void {
         specify(seq("foo").cons("bar")).should.equal(seq("bar", "foo")); });
       requirement("cons should not modify original sequence", function () : void {
-        const foo : Sequencable = seq("foo");
-        foo.cons("bar");
-        specify(foo).should.equal(seq("foo")); });
+        seq123.cons(0);
+        specify(seq123).should.equal(seq(1, 2, 3)); });
 
       requirement("map on empty sequence should be empty sequence", function () : void {
         specify(seq().map(identity)).should.equal(seq()); });
@@ -284,21 +298,17 @@ package org.asspec.util.sequences
           .should.not.throw_error; });
 
       requirement("setting element 0 should change its value", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.set(0, "x");
-        specify(foo).should.equal(seq("x", 2, 3)); });
+        seq123.set(0, "x");
+        specify(seq123).should.equal(seq("x", 2, 3)); });
       requirement("setting element 1 should change its value", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.set(1, "x");
-        specify(foo).should.equal(seq(1, "x", 3)); });
+        seq123.set(1, "x");
+        specify(seq123).should.equal(seq(1, "x", 3)); });
       requirement("setting element -1 should change its value", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.set(-1, "x");
-        specify(foo).should.equal(seq(1, 2, "x")); });
+        seq123.set(-1, "x");
+        specify(seq123).should.equal(seq(1, 2, "x")); });
       requirement("setting element -2 should change its value", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.set(-2, "x");
-        specify(foo).should.equal(seq(1, "x", 3)); });
+        seq123.set(-2, "x");
+        specify(seq123).should.equal(seq(1, "x", 3)); });
 
       it("should not allow removing element at high non-existing index", function () : void {
         specify(function () : void { seq().removeAt(0); })
@@ -311,21 +321,110 @@ package org.asspec.util.sequences
           .should.not.throw_error; });
 
       requirement("removing element 0 should remove the first element", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.removeAt(0);
-        specify(foo).should.equal(seq(2, 3)); });
+        seq123.removeAt(0);
+        specify(seq123).should.equal(seq(2, 3)); });
       requirement("removing element 1 should remove the second element", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.removeAt(1);
-        specify(foo).should.equal(seq(1, 3)); });
+        seq123.removeAt(1);
+        specify(seq123).should.equal(seq(1, 3)); });
       requirement("removing element -1 should remove the last element", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.removeAt(-1);
-        specify(foo).should.equal(seq(1, 2)); });
+        seq123.removeAt(-1);
+        specify(seq123).should.equal(seq(1, 2)); });
       requirement("removing element -2 should remove the second-to-last element", function () : void {
-        const foo : SequenceContainer = seq(1, 2, 3);
-        foo.removeAt(-2);
-        specify(foo).should.equal(seq(1, 3)); });
+        seq123.removeAt(-2);
+        specify(seq123).should.equal(seq(1, 3)); });
+
+      requirement("empty sequence should not have value for first slot", function () : void {
+        specify(seq().getSlotAt(0).hasValue).should.not.hold; })
+      requirement("singleton sequence should have value for first slot", function () : void {
+        specify(seq(null).getSlotAt(0).hasValue).should.hold; })
+
+      it("should not allow first slot of empty sequence to return value", function () : void {
+        specify(function () : void { seq().getSlotAt(0).value; })
+          .should.throw_error_of_type(ArgumentError); });
+      it("should allow first slot of singleton sequence to return value", function () : void {
+        specify(function () : void { seq(null).getSlotAt(0).value; })
+          .should.not.throw_error; });
+
+      it("should return correct value through slot 0", function () : void {
+        specify(seq(1, 2, 3).getSlotAt(0).value).should.equal(1); });
+      it("should return correct value through slot 1", function () : void {
+        specify(seq(1, 2, 3).getSlotAt(1).value).should.equal(2); });
+      it("should return correct value through slot -1", function () : void {
+        specify(seq(1, 2, 3).getSlotAt(-1).value).should.equal(3); });
+
+      it("should set value through slot 0 correctly", function () : void {
+        seq123.getSlotAt(0).value = "x";
+        specify(seq123).should.equal(seq("x", 2, 3)); });
+      it("should set value through slot 1 correctly", function () : void {
+        seq123.getSlotAt(1).value = "x";
+        specify(seq123).should.equal(seq(1, "x", 3)); });
+      it("should set value through slot -1 correctly", function () : void {
+        seq123.getSlotAt(-1).value = "x";
+        specify(seq123).should.equal(seq(1, 2, "x")); });
+
+      requirement("slot -1 should always refer to the last slot", function () : void {
+        const lastSlot : SequenceContainerSlot = seq123.getSlotAt(-1);
+        seq123.add(4);
+        specify(lastSlot.value).should.equal(4); });
+
+      it("should remove slot 0 correctly", function () : void {
+        seq123.getSlotAt(0).remove();
+        specify(seq123).should.equal(seq(2, 3)); });
+      it("should remove slot 1 correctly", function () : void {
+        seq123.getSlotAt(1).remove();
+        specify(seq123).should.equal(seq(1, 3)); });
+      it("should remove slot -1 correctly", function () : void {
+        seq123.getSlotAt(-1).remove();
+        specify(seq123).should.equal(seq(1, 2)); });
+
+      requirement("additional slot should not have value", function () : void {
+        specify(seq123.getAdditionalSlot().hasValue).should.not.hold; });
+      requirement("additional slot with value should have value", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        specify(slot.hasValue).should.hold; });
+      requirement("additional slot should remember its value", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        specify(slot.value).should.equal(4); });
+      requirement("setting value of additional slot should add value", function () : void {
+        seq123.getAdditionalSlot().value = 4;
+        specify(seq123).should.equal(seq(1, 2, 3, 4)); });
+      requirement("removing additional slot without value should not be allowed", function () : void {
+        specify(function () : void { seq123.getAdditionalSlot().remove(); })
+          .should.throw_error_of_type(ArgumentError); });
+      requirement("removing additional slot with value should be allowed", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        specify(function () : void { slot.remove(); })
+          .should.not.throw_error; });
+      requirement("removing additional slot should remove the value", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        slot.remove();
+        specify(seq123).should.equal(seq(1, 2, 3)); });
+      requirement("removed additional slot at the end should not have value", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        slot.remove();
+        specify(slot.hasValue).should.not.hold; });
+      requirement("removed additional slot in the middle should have value", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        seq123.add(5);
+        slot.remove();
+        specify(slot.hasValue).should.hold; });
+      requirement("removed additional slot in the middle should have the right value", function () : void {
+        const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot.value = 4;
+        seq123.add(5);
+        slot.remove();
+        specify(slot.value).should.equal(5); });
+      requirement("additional slots should be independent", function () : void {
+        const slot1 : SequenceContainerSlot = seq123.getAdditionalSlot();
+        const slot2 : SequenceContainerSlot = seq123.getAdditionalSlot();
+        slot1.value = 4;
+        specify(slot2.hasValue).should.not.hold; });
 
       requirement("looping through an empty sequence should not do anything", function () : void {
         for each (var element : Object in seq())
