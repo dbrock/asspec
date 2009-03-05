@@ -22,6 +22,12 @@ package org.asspec.util.sequences
     public function get length() : uint
     { return content.length; }
 
+    public function contains(element : Object) : Boolean
+    { return content.contains(element); }
+
+    public function getIndexOf(element : Object) : uint
+    { return content.getIndexOf(element); }
+
     // Destruction
     public function get first() : *
     { return content.first; }
@@ -31,6 +37,9 @@ package org.asspec.util.sequences
 
     public function get last() : *
     { return content.last; }
+
+    public function get(index : int) : *
+    { return content.get(index); }
 
     // Construction
     public function cons(element : Object) : Sequence

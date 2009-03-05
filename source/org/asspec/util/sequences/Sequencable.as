@@ -7,11 +7,14 @@ package org.asspec.util.sequences
     // Inspection
     function get empty() : Boolean;
     function get length() : uint;
+    function contains(element : Object) : Boolean;
+    function getIndexOf(element : Object) : uint;
 
     // Destruction
     function get first() : *;
     function get rest() : Sequence;
     function get last() : *;
+    function get(index : int) : *;
 
     // Construction
     function cons(element : Object) : Sequence;

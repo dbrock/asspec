@@ -6,6 +6,7 @@ package org.asspec.util.sequences
 
   import org.asspec.equality.Equality;
   import org.asspec.util.EqualityComparable;
+  import org.asspec.util.curry;
   import org.asspec.util.inspection.Inspection;
 
   public class ArrayContainer extends Proxy implements SequenceContainer
@@ -46,6 +47,18 @@ package org.asspec.util.sequences
     public function get length() : uint
     { return content.length; }
 
+    public function contains(element : Object) : Boolean
+    { return any(curry(Equality.equals, element)); }
+
+    public function getIndexOf(element : Object) : uint
+    {
+      for (var i : uint = 0; i < length; ++i)
+        if (Equality.equals(get(i), element))
+          return i;
+
+      throw new ArgumentError;
+    }
+
     // ----------------------------------------------------
     // Destruction
     // ----------------------------------------------------
@@ -57,6 +70,16 @@ package org.asspec.util.sequences
 
     public function get last() : *
     { return empty ? null : content[content.length - 1]; }
+
+    public function get(index : int) : *
+    {
+      if (index < 0)
+        return get(index + length);
+      else if (index < length)
+        return content[index];
+      else
+        throw new ArgumentError;
+    }
 
     // ----------------------------------------------------
     // Construction
@@ -220,6 +243,16 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     public function add(element : Object) : void
     { content.push(element); }
+
+    public function set(index : int, value : Object) : void
+    {
+      if (index < 0)
+        set(index + length, value);
+      else if (index < length)
+        content[index] = value;
+      else
+        throw new ArgumentError;
+    }
 
     // ----------------------------------------------------
     // Enumeration

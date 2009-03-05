@@ -7,7 +7,7 @@ package org.asspec.util.sequences
 
   public class ArrayContainerMetaspecification extends AbstractSpecification
   {
-    private function seq(... content : Array) : Sequencable
+    private function seq(... content : Array) : SequenceContainer
     { return new ArrayContainer(content); }
 
     override protected function execute() : void
@@ -44,6 +44,20 @@ package org.asspec.util.sequences
       requirement("pair sequence should have length two", function () : void {
         specify(seq(1, 2).length).should.equal(2); });
 
+      requirement("empty sequence should not contain null", function () : void {
+        specify(seq().contains(null)).should.not.hold; });
+      requirement("sequence with null should contain it", function () : void {
+        specify(seq(null).contains(null)).should.hold; });
+      requirement("sequence with Value(0) should contain it", function () : void {
+        specify(seq(null, new Value(0)).contains(new Value(0))).should.hold; });
+
+      requirement("attempt to retrieve index of non-existing value should throw", function () : void {
+        specify(function () : void { seq().getIndexOf(null); }).should.throw_error; });
+      requirement("index of null in [null] should be 0", function () : void {
+        specify(seq(null).getIndexOf(null)).should.equal(0); });
+      requirement("index of Value(0) in [null, Value(0)] should be 1", function () : void {
+        specify(seq(null, new Value(0)).getIndexOf(new Value(0))).should.equal(1); });
+
       requirement("first of empty sequence should be null", function () : void {
         specify(seq().first).should.equal(null); });
       requirement("first of singleton sequence should be the element", function () : void {
@@ -55,6 +69,23 @@ package org.asspec.util.sequences
         specify(seq("foo").rest).should.equal(seq()); });
       requirement("rest of two-element sequence should be singleton sequence", function () : void {
         specify(seq("foo", "bar").rest).should.equal(seq("bar")); });
+
+      requirement("getting a high non-existing element should throw", function () : void {
+        specify(function () : void { seq().get(0); }).should.throw_error; });
+      requirement("getting a low non-existing element should throw", function () : void {
+        specify(function () : void { seq().get(-1); }).should.throw_error; });
+      requirement("getting an existing element should not throw", function () : void {
+        specify(function () : void { seq("a").get(0); }).should.not.throw_error; });
+
+      requirement("getting value 0 should return the first value", function () : void {
+        specify(seq("a", "b").get(0)).should.equal("a"); });
+      requirement("getting value 1 should return the second value", function () : void {
+        specify(seq("a", "b").get(1)).should.equal("b"); });
+
+      requirement("getting value -1 should return the last value", function () : void {
+        specify(seq("a", "b").get(-1)).should.equal("b"); });
+      requirement("getting value -2 should return the second-to-last value", function () : void {
+        specify(seq("a", "b").get(-2)).should.equal("a"); });
 
       requirement("cons with empty sequence should be singleton", function () : void {
         specify(seq().cons("foo")).should.equal(seq("foo")); });
@@ -208,14 +239,41 @@ package org.asspec.util.sequences
         specify(seq({ a: 1 })).should.look_like("[{ a: 1 }]"); });
 
       requirement("adding an element to an empty sequence should produce a singleton", function () : void {
-        const foo : ArrayContainer = new ArrayContainer;
+        const foo : SequenceContainer = seq();
         foo.add(1);
         specify(foo).should.equal(seq(1)); });
 
       requirement("adding an element to a singleton should produce a pair", function () : void {
-        const foo : ArrayContainer = new ArrayContainer([1]);
+        const foo : SequenceContainer = seq(1);
         foo.add(2);
         specify(foo).should.equal(seq(1, 2)); });
+
+      requirement("should not allow setting high non-existing element", function () : void {
+        specify(function () : void { seq().set(0, null); }).should.throw_error; });
+      requirement("should not allow setting low non-existing element", function () : void {
+        specify(function () : void { seq().set(-1, null); }).should.throw_error; });
+      requirement("should allow setting existing element", function () : void {
+        specify(function () : void { seq(null).set(0, null); }).should.not.throw_error; });
+
+      requirement("setting element 0 should change its value", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.set(0, "x");
+        specify(foo).should.equal(seq("x", 2, 3)); });
+
+      requirement("setting element 1 should change its value", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.set(1, "x");
+        specify(foo).should.equal(seq(1, "x", 3)); });
+
+      requirement("setting element -1 should change its value", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.set(-1, "x");
+        specify(foo).should.equal(seq(1, 2, "x")); });
+
+      requirement("setting element -2 should change its value", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.set(-2, "x");
+        specify(foo).should.equal(seq(1, "x", 3)); });
 
       requirement("looping through an empty sequence should not do anything", function () : void {
         for each (var element : Object in seq())
