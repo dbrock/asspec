@@ -99,7 +99,7 @@ package org.asspec.ui
     { return StackTrace.fromError(error).cutoffBefore(isCutoffLine); }
 
     private static function isCutoffLine(line : StackTraceLine) : Boolean
-    { return line.methodName.match(/\$\$\$beginTest\$\$\$/) != null; }
+    { return line.methodName.match(/\$\$begin_asspec_test\$\$/) != null; }
 
     private static function exit(status : uint) : void
     {
