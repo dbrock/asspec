@@ -41,6 +41,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Inspection
     // ----------------------------------------------------
+
     public function get empty() : Boolean
     { return length == 0; }
 
@@ -62,6 +63,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Destruction
     // ----------------------------------------------------
+
     public function get first() : *
     { return get(0); }
 
@@ -100,6 +102,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Construction
     // ----------------------------------------------------
+
     public function cons(element : Object) : Sequence
     {
       const content : Array = getArrayCopy();
@@ -112,6 +115,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Transformation
     // ----------------------------------------------------
+
     public function map(transform : Function) : Sequence
     {
       const result : Array = [];
@@ -125,6 +129,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Iteration
     // ----------------------------------------------------
+
     public function forEach(callback : Function) : void
     {
       for each (var element : Object in content)
@@ -134,6 +139,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Selection
     // ----------------------------------------------------
+
     public function filter(predicate : Function) : Sequence
     {
       const result : Array = [];
@@ -185,6 +191,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Special-purpose catamorphisms
     // ----------------------------------------------------
+
     public function join(delimiter : String) : String
     { return map(Inspection.inspect).getArrayCopy().join(delimiter); }
 
@@ -209,6 +216,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Type checking
     // ----------------------------------------------------
+
     public function ensureNullableType(type : Class) : void
     {
       for each (var element : Object in this)
@@ -245,6 +253,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Conversion
     // ----------------------------------------------------
+
     public function get sequence() : Sequence
     { return new Sequence(getArrayCopy()); }
 
@@ -257,6 +266,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Mutation
     // ----------------------------------------------------
+
     public function add(element : Object) : void
     { content.push(element); }
 
@@ -291,6 +301,7 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Enumeration
     // ----------------------------------------------------
+
     override flash_proxy function nextNameIndex(index : int) : int
     { return index == content.length ? 0 : index + 1; }
 
