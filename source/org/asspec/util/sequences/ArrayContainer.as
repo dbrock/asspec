@@ -254,6 +254,16 @@ package org.asspec.util.sequences
         throw new ArgumentError;
     }
 
+    public function removeAt(index : int) : void
+    {
+      if (index < 0)
+        removeAt(index + length);
+      else if (index < length)
+        content.splice(index, 1);
+      else
+        throw new ArgumentError;
+    }
+
     // ----------------------------------------------------
     // Enumeration
     // ----------------------------------------------------

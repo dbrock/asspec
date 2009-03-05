@@ -70,11 +70,11 @@ package org.asspec.util.sequences
       requirement("rest of two-element sequence should be singleton sequence", function () : void {
         specify(seq("foo", "bar").rest).should.equal(seq("bar")); });
 
-      requirement("getting a high non-existing element should throw", function () : void {
+      it("should not allow getting a high non-existing element", function () : void {
         specify(function () : void { seq().get(0); }).should.throw_error; });
-      requirement("getting a low non-existing element should throw", function () : void {
+      it("should not allow getting a low non-existing element", function () : void {
         specify(function () : void { seq().get(-1); }).should.throw_error; });
-      requirement("getting an existing element should not throw", function () : void {
+      it("should allow getting an existing element", function () : void {
         specify(function () : void { seq("a").get(0); }).should.not.throw_error; });
 
       requirement("getting value 0 should return the first value", function () : void {
@@ -242,38 +242,58 @@ package org.asspec.util.sequences
         const foo : SequenceContainer = seq();
         foo.add(1);
         specify(foo).should.equal(seq(1)); });
-
       requirement("adding an element to a singleton should produce a pair", function () : void {
         const foo : SequenceContainer = seq(1);
         foo.add(2);
         specify(foo).should.equal(seq(1, 2)); });
 
-      requirement("should not allow setting high non-existing element", function () : void {
+      it("should not allow setting high non-existing element", function () : void {
         specify(function () : void { seq().set(0, null); }).should.throw_error; });
-      requirement("should not allow setting low non-existing element", function () : void {
+      it("should not allow setting low non-existing element", function () : void {
         specify(function () : void { seq().set(-1, null); }).should.throw_error; });
-      requirement("should allow setting existing element", function () : void {
+      it("should allow setting existing element", function () : void {
         specify(function () : void { seq(null).set(0, null); }).should.not.throw_error; });
 
       requirement("setting element 0 should change its value", function () : void {
         const foo : SequenceContainer = seq(1, 2, 3);
         foo.set(0, "x");
         specify(foo).should.equal(seq("x", 2, 3)); });
-
       requirement("setting element 1 should change its value", function () : void {
         const foo : SequenceContainer = seq(1, 2, 3);
         foo.set(1, "x");
         specify(foo).should.equal(seq(1, "x", 3)); });
-
       requirement("setting element -1 should change its value", function () : void {
         const foo : SequenceContainer = seq(1, 2, 3);
         foo.set(-1, "x");
         specify(foo).should.equal(seq(1, 2, "x")); });
-
       requirement("setting element -2 should change its value", function () : void {
         const foo : SequenceContainer = seq(1, 2, 3);
         foo.set(-2, "x");
         specify(foo).should.equal(seq(1, "x", 3)); });
+
+      it("should not allow removing element at high non-existing index", function () : void {
+        specify(function () : void { seq().removeAt(0); }).should.throw_error; });
+      it("should not allow removing element at low non-existing index", function () : void {
+        specify(function () : void { seq().removeAt(-1); }).should.throw_error; });
+      it("should allow removing element at existing index", function () : void {
+        specify(function () : void { seq(null).removeAt(0); }).should.not.throw_error; });
+
+      requirement("removing element 0 should remove the first element", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.removeAt(0);
+        specify(foo).should.equal(seq(2, 3)); });
+      requirement("removing element 1 should remove the second element", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.removeAt(1);
+        specify(foo).should.equal(seq(1, 3)); });
+      requirement("removing element -1 should remove the last element", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.removeAt(-1);
+        specify(foo).should.equal(seq(1, 2)); });
+      requirement("removing element -2 should remove the second-to-last element", function () : void {
+        const foo : SequenceContainer = seq(1, 2, 3);
+        foo.removeAt(-2);
+        specify(foo).should.equal(seq(1, 3)); });
 
       requirement("looping through an empty sequence should not do anything", function () : void {
         for each (var element : Object in seq())
