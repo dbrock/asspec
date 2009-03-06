@@ -1,13 +1,18 @@
 package org.asspec.util.mappings
 {
+  import flash.utils.Proxy;
+  import flash.utils.flash_proxy;
+
   import org.asspec.equality.Equality;
+  import org.asspec.util.foreach.Foreachable;
   import org.asspec.util.sequences.ArrayContainer;
   import org.asspec.util.sequences.SequenceContainer;
   import org.asspec.util.sequences.SequenceContainerSlot;
 
-  public class ArrayMappingContainer implements MappingContainer
+  public class ArrayMappingContainer extends Proxy
+    implements MappingContainer
   {
-    private const pairs : SequenceContainer = new ArrayContainer;
+    internal const pairContainer : SequenceContainer = new ArrayContainer;
 
     public function has(key : Object) : Boolean
     { return getSlotFor(key).hasValue; }
@@ -23,11 +28,23 @@ package org.asspec.util.mappings
 
     private function getSlotFor(key : Object) : SequenceContainerSlot
     {
-      for each (var slot : SequenceContainerSlot in pairs.slots)
+      for each (var slot : SequenceContainerSlot in pairContainer.slots)
         if (Equality.equals(Pair(slot.value).key, key))
           return slot;
 
-      return pairs.getAdditionalSlot();
+      return pairContainer.getAdditionalSlot();
     }
+
+    public function get keys() : Foreachable
+    { return new KeyEnumerator(this); }
+
+    public function get values() : Foreachable
+    { return new ValueEnumerator(this); }
+
+    public function get pairs() : Foreachable
+    { return new PairEnumerator(this); }
+
+    override flash_proxy function nextNameIndex(index : int) : int
+    { throw new Error("Please use .keys, .values, or .pairs to iterate."); }
   }
 }
