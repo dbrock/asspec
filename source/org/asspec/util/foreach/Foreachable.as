@@ -1,4 +1,4 @@
-package org.asspec.util.sequences
+package org.asspec.util.foreach
 {
   public interface Foreachable
   {}

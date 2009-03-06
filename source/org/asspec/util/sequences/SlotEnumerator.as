@@ -1,19 +1,21 @@
 package org.asspec.util.sequences
 {
-  import flash.utils.Proxy;
-  import flash.utils.flash_proxy;
+  import org.asspec.util.foreach.AbstractForeachable;
+  import org.asspec.util.foreach.foreach_support;
 
-  public class SlotEnumerator extends Proxy implements Foreachable
+  use namespace foreach_support;
+
+  public class SlotEnumerator extends AbstractForeachable
   {
     private var container : SequenceContainer;
 
     public function SlotEnumerator(container : SequenceContainer)
     { this.container = container; }
 
-    override flash_proxy function nextNameIndex(index : int) : int
-    { return index == container.length ? 0 : index + 1; }
+    override foreach_support function get length() : uint
+    { return container.length; }
 
-    override flash_proxy function nextValue(index : int) : *
-    { return container.getSlotAt(index - 1); }
+    override foreach_support function getElementAt(index : uint) : Object
+    { return container.getSlotAt(index); }
   }
 }

@@ -1,5 +1,7 @@
 package org.asspec.util.sequences
 {
+  import org.asspec.util.foreach.Foreachable;
+
   public interface SequenceContainer extends Sequencable
   {
     function add(element : Object) : void;

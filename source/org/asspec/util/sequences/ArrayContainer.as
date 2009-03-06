@@ -1,15 +1,19 @@
 package org.asspec.util.sequences
 {
-  import flash.utils.Proxy;
-  import flash.utils.flash_proxy;
   import flash.utils.getQualifiedClassName;
 
   import org.asspec.equality.Equality;
   import org.asspec.util.EqualityComparable;
   import org.asspec.util.curry;
+  import org.asspec.util.foreach.AbstractForeachable;
+  import org.asspec.util.foreach.Foreachable;
+  import org.asspec.util.foreach.foreach_support;
   import org.asspec.util.inspection.Inspection;
 
-  public class ArrayContainer extends Proxy implements SequenceContainer
+  use namespace foreach_support;
+
+  public class ArrayContainer extends AbstractForeachable
+    implements SequenceContainer
   {
     private var content : Array;
 
@@ -322,10 +326,10 @@ package org.asspec.util.sequences
     // Enumeration
     // ----------------------------------------------------
 
-    override flash_proxy function nextNameIndex(index : int) : int
-    { return index == content.length ? 0 : index + 1; }
+    override foreach_support function get length() : uint
+    { return length; }
 
-    override flash_proxy function nextValue(index : int) : *
-    { return content[index - 1]; }
+    override foreach_support function getElementAt(index : uint) : Object
+    { return content[index]; }
   }
 }
