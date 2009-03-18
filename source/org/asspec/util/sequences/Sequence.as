@@ -99,6 +99,12 @@ package org.asspec.util.sequences
     public function toString() : String
     { return content.toString(); }
 
+    public static function fromArray(array : Array) : Sequence
+    { return new Sequence(array.concat()); }
+
+    public static function of(... elements : Array) : Sequence
+    { return new Sequence(elements); }
+
     // ----------------------------------------------------
     // Enumeration
     // ----------------------------------------------------
