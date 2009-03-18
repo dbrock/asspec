@@ -2,7 +2,7 @@ package org.asspec.util.mappings
 {
   import org.asspec.specification.AbstractSpecification;
   import org.asspec.specify;
-  import org.asspec.util.sequences.ArrayContainer;
+  import org.asspec.util.sequences.ArraySequenceContainer;
   import org.asspec.util.sequences.SequenceContainer;
 
   public class ArrayMappingContainerMetaspecification
@@ -78,7 +78,7 @@ package org.asspec.util.mappings
             ; }).should.not.throw_error; });
 
       it("should enumerate keys by ‘for each .. in container.keys’", function () : void {
-        const result : SequenceContainer = new ArrayContainer;
+        const result : SequenceContainer = new ArraySequenceContainer;
 
         for each (var key : Object in container.keys)
           result.add(key);
@@ -88,7 +88,7 @@ package org.asspec.util.mappings
         specify(result.contains(value(0))).should.hold; });
 
       it("should enumerate values by ‘for each .. in container.values’", function () : void {
-        const result : SequenceContainer = new ArrayContainer;
+        const result : SequenceContainer = new ArraySequenceContainer;
 
         for each (var value_ : Object in container.values)
           result.add(value_);
@@ -98,7 +98,7 @@ package org.asspec.util.mappings
         specify(result.contains(value(1))).should.hold; });
 
       it("should enumerate pairs by ‘for each .. in container.pairs’", function () : void {
-        const result : SequenceContainer = new ArrayContainer;
+        const result : SequenceContainer = new ArraySequenceContainer;
 
         for each (var pair : Object in container.pairs)
           result.add(pair);

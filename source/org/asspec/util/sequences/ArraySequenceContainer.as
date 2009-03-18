@@ -12,12 +12,12 @@ package org.asspec.util.sequences
 
   use namespace foreach_support;
 
-  public class ArrayContainer extends AbstractForeachable
+  public class ArraySequenceContainer extends AbstractForeachable
     implements SequenceContainer
   {
     private var content : Array;
 
-    public function ArrayContainer(content : Array = null)
+    public function ArraySequenceContainer(content : Array = null)
     { this.content = content || []; }
 
     // ----------------------------------------------------
@@ -314,10 +314,10 @@ package org.asspec.util.sequences
     }
 
     public function getSlotAt(index : int) : SequenceContainerSlot
-    { return new ArrayContainerSlot(this, index); }
+    { return new ArraySequenceContainerSlot(this, index); }
 
     public function getAdditionalSlot() : SequenceContainerSlot
-    { return new AdditionalArrayContainerSlot(this); }
+    { return new AdditionalArraySequenceContainerSlot(this); }
 
     public function get slots() : Foreachable
     { return new SlotEnumerator(this); }

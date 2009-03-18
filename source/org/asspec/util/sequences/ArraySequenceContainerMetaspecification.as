@@ -5,10 +5,10 @@ package org.asspec.util.sequences
   import org.asspec.specify;
   import org.asspec.util.inspection.Inspection;
 
-  public class ArrayContainerMetaspecification extends AbstractSpecification
+  public class ArraySequenceContainerMetaspecification extends AbstractSpecification
   {
     private function seq(... content : Array) : SequenceContainer
-    { return new ArrayContainer(content); }
+    { return new ArraySequenceContainer(content); }
 
     private const seq123 : SequenceContainer = seq(1, 2, 3);
 

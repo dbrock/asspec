@@ -1,13 +1,14 @@
 package org.asspec.util.sequences
 {
-  public class AdditionalArrayContainerSlot implements SequenceContainerSlot
+  public class AdditionalArraySequenceContainerSlot
+    implements SequenceContainerSlot
   {
-    private var container : ArrayContainer;
+    private var container : ArraySequenceContainer;
     private var realized : Boolean = false;
     private var index : int;
 
-    public function AdditionalArrayContainerSlot
-      (container : ArrayContainer)
+    public function AdditionalArraySequenceContainerSlot
+      (container : ArraySequenceContainer)
     { this.container = container; }
 
     public function get hasValue() : Boolean

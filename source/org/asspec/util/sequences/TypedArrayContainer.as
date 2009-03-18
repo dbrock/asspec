@@ -1,6 +1,6 @@
 package org.asspec.util.sequences
 {
-  public class TypedArrayContainer extends ArrayContainer
+  public class TypedArrayContainer extends ArraySequenceContainer
     implements TypedSequenceContainer
   {
     private var type : Class;

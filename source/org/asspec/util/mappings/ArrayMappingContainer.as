@@ -5,14 +5,15 @@ package org.asspec.util.mappings
 
   import org.asspec.equality.Equality;
   import org.asspec.util.foreach.Foreachable;
-  import org.asspec.util.sequences.ArrayContainer;
+  import org.asspec.util.sequences.ArraySequenceContainer;
   import org.asspec.util.sequences.SequenceContainer;
   import org.asspec.util.sequences.SequenceContainerSlot;
 
   public class ArrayMappingContainer extends Proxy
     implements MappingContainer
   {
-    internal const pairContainer : SequenceContainer = new ArrayContainer;
+    internal const pairContainer : SequenceContainer
+      = new ArraySequenceContainer;
 
     public function has(key : Object) : Boolean
     { return getSlotFor(key).hasValue; }

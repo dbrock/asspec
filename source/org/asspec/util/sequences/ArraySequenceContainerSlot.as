@@ -1,12 +1,12 @@
 package org.asspec.util.sequences
 {
-  public class ArrayContainerSlot implements SequenceContainerSlot
+  public class ArraySequenceContainerSlot implements SequenceContainerSlot
   {
-    private var container : ArrayContainer;
+    private var container : ArraySequenceContainer;
     private var index : int;
 
-    public function ArrayContainerSlot
-      (container : ArrayContainer, index : int)
+    public function ArraySequenceContainerSlot
+      (container : ArraySequenceContainer, index : int)
     {
       this.container = container;
       this.index = index;

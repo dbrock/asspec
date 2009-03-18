@@ -7,10 +7,10 @@ package org.asspec.util.sequences
 
   public class Sequence extends Proxy implements Sequencable
   {
-    private var content : ArrayContainer;
+    private var content : ArraySequenceContainer;
 
     public function Sequence(content : Array)
-    { this.content = new ArrayContainer(content); }
+    { this.content = new ArraySequenceContainer(content); }
 
     public function equals(other : EqualityComparable) : Boolean
     { return content.equals(other); }
