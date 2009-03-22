@@ -10,52 +10,39 @@ package org.asspec.lang
       const emptyClass : NativeClass
         = RealNativeClass.forClass(Empty);
 
-      requirement("empty class should have zero methods",
-        function () : void
-        { Assert.equal(0, emptyClass.numMethods); });
+      requirement("an empty class should have zero methods", function () : void {
+        Assert.equal(0, emptyClass.numMethods); });
 
       const abcdeClass : NativeClass
         = RealNativeClass.forClass(ABCDE);
 
-      requirement("methods should be alphabetically ordered",
-        function () : void
-        {
-          const methodNames : Array = [];
+      requirement("methods should be alphabetically ordered", function () : void {
+        const methodNames : Array = [];
 
-          for each (var method : UnboundMethod in abcdeClass.methods)
-            methodNames.push(method.name);
+        for each (var method : UnboundMethod in abcdeClass.methods)
+          methodNames.push(method.name);
 
-          Assert.equal("a b c d e", methodNames.join(" "));
-        });
+        Assert.equal("a b c d e", methodNames.join(" "));
+      });
 
       const counterClass : NativeClass
         = RealNativeClass.forClass(Counter);
 
-      requirement("counter class should have one method",
-        function () : void
-        { Assert.equal(1, counterClass.numMethods); });
+      requirement("counter class should have one method", function () : void {
+        Assert.equal(1, counterClass.numMethods); });
+      requirement("counter class should have method »count«", function () : void {
+        Assert.that(counterClass.hasMethod("count")); });
+      requirement("unbound method should have owning class", function () : void {
+        Assert.notNull(counterClass.getMethod("count").owningClass); });
+      requirement("should instantiate correctly", function () : void {
+        Assert.that(counterClass.instantiate() is Counter); });
+      requirement("should invoke native method", function () : void {
+        const counter : Counter = new Counter;
 
-      requirement("counter class should have method »count«",
-        function () : void
-        { Assert.that(counterClass.hasMethod("count")); });
+        counterClass.getMethod("count").invoke(counter);
 
-      requirement("unbound method should have owning class",
-        function () : void
-        { Assert.notNull(counterClass.getMethod("count").owningClass); });
-
-      requirement("should instantiate correctly",
-        function () : void
-        { Assert.that(counterClass.instantiate() is Counter); });
-
-      requirement("should invoke native method",
-        function () : void
-        {
-          const counter : Counter = new Counter;
-
-          counterClass.getMethod("count").invoke(counter);
-
-          Assert.equal(1, counter.numInvocations);
-        });
+        Assert.equal(1, counter.numInvocations);
+      });
     }
   }
 }

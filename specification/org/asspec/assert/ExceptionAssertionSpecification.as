@@ -2,37 +2,24 @@ package org.asspec.assert
 {
   import org.asspec.Assert;
 
-  public class ExceptionAssertionSpecification extends TestSpecification
+  public class ExceptionAssertionSpecification extends AssertionSpecification
   {
     override protected function execute() : void
     {
-      requirement("test passes assertion that bomb function throws error",
-        function () : void
-        { shouldPass(bombThrowsError); });
+      requirement("asserting that throwing function throws should pass", function () : void {
+        shouldPass(function () : void { Assert.throwsError(throwingFunction); }); });
 
-      requirement("test breaks by assertion that empty function throws error",
-        function () : void
-        { shouldFail(emptyThrowsError); });
+      requirement("asserting that empty function throws should fail", function () : void {
+        shouldFail(function () : void { Assert.throwsError(emptyFunction); }); });
 
-      requirement("test passes assertion that empty function returns normally",
-        function () : void
-        { shouldPass(emptyReturnsNormally); });
+      requirement("asserting that that empty function returns should pass", function () : void {
+        shouldPass(function () : void { Assert.returnsNormally(emptyFunction); }); });
 
-      requirement("test breaks by assertion that bomb function returns normally",
-        function () : void
-        { shouldFail(bombReturnsNormally); });
+      requirement("asserting that throwing function returns should fail", function () : void {
+        shouldFail(function () : void { Assert.returnsNormally(throwingFunction); }); });
     }
 
-    private static function bombThrowsError() : void
-    { Assert.throwsError(bomb); }
-    private static function emptyThrowsError() : void
-    { Assert.throwsError(empty); }
-    private static function emptyReturnsNormally() : void
-    { Assert.returnsNormally(empty); }
-    private static function bombReturnsNormally() : void
-    { Assert.returnsNormally(bomb); }
-
-    private static function empty() : void {}
-    private static function bomb() : void { throw new Error; }
+    private static function emptyFunction() : void {}
+    private static function throwingFunction() : void { throw new Error; }
   }
 }

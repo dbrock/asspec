@@ -1,9 +1,10 @@
 package org.asspec.util
 {
-  public interface Sequence
+  public interface Sequence extends EqualityComparable
   {
     // Inspection
     function get empty() : Boolean;
+    function get length() : uint;
 
     // Destruction
     function get first() : *;
@@ -28,6 +29,7 @@ package org.asspec.util
 
     // Special-purpose catamorphisms
     function any(predicate : Function) : Boolean;
+    function all(predicate : Function) : Boolean;
     function join(delimiter : String) : String;
 
     // Type checking
@@ -36,5 +38,6 @@ package org.asspec.util
 
     // Conversion
     function toArray() : Array;
+    function toString() : String;
   }
 }

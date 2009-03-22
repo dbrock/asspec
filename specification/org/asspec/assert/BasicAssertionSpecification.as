@@ -3,30 +3,18 @@ package org.asspec.assert
   import org.asspec.Assert;
   import org.asspec.AssertionError;
 
-  public class BasicAssertionSpecification extends TestSpecification
+  public class BasicAssertionSpecification extends AssertionSpecification
   {
     override protected function execute() : void
     {
-      requirement("test should break when calling Assert.fail",
-        function () : void
-        { shouldFail(Assert.fail); });
+      requirement("calling Assert.fail should fail", function () : void {
+        shouldFail(Assert.fail); });
 
-      requirement("calling Assert.fail should throw AssertionError",
-        function () : void
-        { shouldThrow(Assert.fail, AssertionError); });
+      requirement("asserting true should pass", function () : void {
+        shouldPass(function () : void { Assert.that(true); }); });
 
-      requirement("test should pass when asserting true",
-        function () : void
-        { shouldPass(assertTrue); });
-
-      requirement("test should break when asserting false",
-        function () : void
-        { shouldFail(assertFalse); });
+      requirement("asserting false should fail", function () : void {
+        shouldFail(function () : void { Assert.that(false); }); });
     }
-
-    private static function assertTrue() : void
-    { Assert.that(true); }
-    private static function assertFalse() : void
-    { Assert.that(false); }
   }
 }

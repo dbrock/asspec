@@ -10,25 +10,20 @@ package org.asspec.simple
   {
     override protected function execute() : void
     {
-      requirement("should pass on normal return",
-        function () : void
-        { assertLog("[a passed]", Good); });
+      requirement("a test that returns normally should pass", function () : void {
+        assertLog("[a passed]", Good); });
 
-      requirement("should fail on exception",
-        function () : void
-        { assertLog("[a failed]", Bad); });
+      requirement("a test that throws an exception should fail", function () : void {
+        assertLog("[a failed]", Bad); });
 
-      requirement("should be alphabetically ordered",
-        function () : void
-        { assertLog("[a passed][b failed][c passed][d failed][e passed]", ABCDE); });
+      requirement("tests should be alphabetically ordered", function () : void {
+        assertLog("[a passed][b failed][c passed][d failed][e passed]", ABCDE); });
 
-      requirement("should not run junk",
-        function () : void
-        { assertLog("[a passed]", Junk); });
+      requirement("privates and statics should not be run as tests", function () : void {
+        assertLog("[a passed]", Junk); });
 
-      requirement("should create fresh instance for each test",
-        function () : void
-        { assertLog("[a passed][b passed]", Mutable); });
+      requirement("each test should get a fresh class instance", function () : void {
+        assertLog("[a passed][b passed]", Mutable); });
     }
 
     private static function assertLog(expected : String, specClass : Class) : void

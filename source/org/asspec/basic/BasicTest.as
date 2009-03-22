@@ -1,9 +1,9 @@
 package org.asspec.basic
 {
-  import org.asspec.Test;
+  import org.asspec.NamedTest;
   import org.asspec.TestListener;
 
-  public class BasicTest implements Test
+  public class BasicTest implements NamedTest
   {
     private var _name : String;
 
@@ -12,6 +12,9 @@ package org.asspec.basic
 
     public function get name() : String
     { return _name; }
+
+    public function toString() : String
+    { return name; }
 
     public function run(listener : TestListener) : void
     {

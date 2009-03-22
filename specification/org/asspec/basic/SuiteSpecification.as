@@ -17,8 +17,8 @@ package org.asspec.basic
 
 import org.asspec.Test;
 import org.asspec.TestLogTest;
-import org.asspec.basic.NamedTest;
 import org.asspec.basic.Suite;
+import org.asspec.basic.PristineTest;
 
 class Empty_suite_should_do_nothing extends TestLogTest
 {
@@ -48,25 +48,25 @@ class ExampleSuite extends Suite
 {
   override protected function populate() : void
   {
-    add(new PassingTest("A"));
-    add(new FailingTest("B"));
+    add(new PassingTest);
+    add(new FailingTest);
   }
 }
 
-class PassingTest extends NamedTest
+class PassingTest extends PristineTest
 {
-  public function PassingTest(name : String)
-  { super(name); }
-
   override protected function execute() : void
   { listener.testPassed(this); }
+
+  public function toString() : String
+  { return "A"; }
 }
 
-class FailingTest extends NamedTest
+class FailingTest extends PristineTest
 {
-  public function FailingTest(name : String)
-  { super(name); }
-
   override protected function execute() : void
   { listener.testFailed(this, null); }
+
+  public function toString() : String
+  { return "B"; }
 }

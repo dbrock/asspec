@@ -67,7 +67,7 @@ package org.asspec.ui
           for each (var failure : TestFailure in result.failures)
             {
               trace("");
-              trace("Failure: " + failure.test.name);
+              trace("Failure: " + failure.test);
 
               if (failure.error is AssertionError)
                 trace("  (" + failure.error.message + ")");

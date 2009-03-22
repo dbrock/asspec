@@ -1,10 +1,10 @@
 package {
-  import org.asspec.CompleteSpecificationSuite;
+  import org.asspec.CompleteSuite;
   import org.asspec.ui.SimpleRunner;
 
   public class specification extends SimpleRunner
   {
     public function specification()
-    { super(new CompleteSpecificationSuite); }
+    { super(new CompleteSuite); }
   }
 }

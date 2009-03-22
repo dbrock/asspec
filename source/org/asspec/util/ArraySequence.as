@@ -14,10 +14,33 @@ package org.asspec.util
     { this.content = content || []; }
 
     // ----------------------------------------------------
+    // Comparison
+    // ----------------------------------------------------
+
+    public function equals(other : Object) : Boolean
+    { return other is Sequence
+        && Sequence(other).length == length
+        && elementsEqual(Sequence(other)); }
+
+    private function elementsEqual(other : Sequence) : Boolean
+    {
+      var i : uint = 0;
+
+      for each (var element : Object in other)
+        if (element !== content[i++])
+          return false;
+
+      return true;
+    }
+
+    // ----------------------------------------------------
     // Inspection
     // ----------------------------------------------------
     public function get empty() : Boolean
-    { return content.length == 0; }
+    { return length == 0; }
+
+    public function get length() : uint
+    { return content.length; }
 
     // ----------------------------------------------------
     // Destruction
@@ -129,6 +152,15 @@ package org.asspec.util
       return false;
     }
 
+    public function all(predicate : Function) : Boolean
+    {
+      for each (var element : Object in content)
+        if (!predicate(element))
+          return false;
+
+      return true;
+    }
+
     // ----------------------------------------------------
     // Type checking
     // ----------------------------------------------------
@@ -171,6 +203,9 @@ package org.asspec.util
     public function toArray() : Array
     { return content.concat(); }
 
+    public function toString() : String
+    { return "[" + join(", ") + "]"; }
+
     // ----------------------------------------------------
     // Mutation
     // ----------------------------------------------------
@@ -181,12 +216,7 @@ package org.asspec.util
     // Enumeration
     // ----------------------------------------------------
     override flash_proxy function nextNameIndex(index : int) : int
-    {
-      if (index == content.length)
-        return 0;
-      else
-        return index + 1;
-    }
+    { return index == content.length ? 0 : index + 1; }
 
     override flash_proxy function nextValue(index : int) : *
     { return content[index - 1]; }

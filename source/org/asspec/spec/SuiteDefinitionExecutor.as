@@ -1,6 +1,7 @@
 package org.asspec.spec
 {
   import org.asspec.Assert;
+  import org.asspec.NamedTest;
   import org.asspec.Test;
   import org.asspec.basic.Suite;
   import org.asspec.util.It;
@@ -21,7 +22,7 @@ package org.asspec.spec
     public function executeRequirement
       (name : String, implementation : Function) : void
     {
-      const test : Test = new Requirement(name, specification);
+      const test : NamedTest = new Requirement(name, specification);
       ensureNameUnused(test.name);
       suite.add(test);
     }
@@ -38,7 +39,7 @@ package org.asspec.spec
     private function get testNames() : Sequence
     { return suite.tests.map(testName); }
 
-    private static function testName(test : Test) : String
+    private static function testName(test : NamedTest) : String
     { return test.name; }
   }
 }
