@@ -4,10 +4,10 @@ package org.asspec.basic
   {
     override protected function populate() : void
     {
-      addTest(new Empty_test_should_pass);
-      addTest(new Throwing_test_should_return_normally);
-      addTest(new Throwing_test_should_fail);
-      addTest(new Throwing_test_should_give_error_to_listener);
+      add(Empty_test_should_pass);
+      add(Throwing_test_should_return_normally);
+      add(Throwing_test_should_fail);
+      add(Throwing_test_should_give_error_to_listener);
     }
   }
 }

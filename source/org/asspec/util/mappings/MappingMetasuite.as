@@ -5,6 +5,6 @@ package org.asspec.util.mappings
   public class MappingMetasuite extends AbstractSuite
   {
     override protected function populate() : void
-    { addSpecification(ArrayMappingContainerMetaspecification); }
+    { add(ArrayMappingContainerMetaspecification); }
   }
 }

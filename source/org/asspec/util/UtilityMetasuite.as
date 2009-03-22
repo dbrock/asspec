@@ -9,10 +9,10 @@ package org.asspec.util
   {
     override protected function populate() : void
     {
-      addSpecification(CurryMetaspecification);
-      addSpecification(InspectionMetaspecification);
-      addSuite(SequenceMetasuite);
-      addSuite(MappingMetasuite);
+      add(CurryMetaspecification);
+      add(InspectionMetaspecification);
+      add(SequenceMetasuite);
+      add(MappingMetasuite);
     }
   }
 }

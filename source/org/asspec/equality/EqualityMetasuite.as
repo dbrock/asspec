@@ -5,6 +5,6 @@ package org.asspec.equality
   public class EqualityMetasuite extends AbstractSuite
   {
     override protected function populate() : void
-    { addSpecification(EqualityMetaspecification); }
+    { add(EqualityMetaspecification); }
   }
 }

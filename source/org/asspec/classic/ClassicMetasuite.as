@@ -5,6 +5,6 @@ package org.asspec.classic
   public class ClassicMetasuite extends AbstractSuite
   {
     override protected function populate() : void
-    { addSpecification(ClassSuiteMetaspecification); }
+    { add(ClassSuiteMetaspecification); }
   }
 }

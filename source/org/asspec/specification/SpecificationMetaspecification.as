@@ -6,12 +6,12 @@ package org.asspec.specification
   {
     override protected function populate() : void
     {
-      addTest(new Should_run_requirements);
-      addTest(new Should_run_setup_before_each_requirement);
-      addTest(new Should_run_context_around_each_requirement);
-      addTest(new Should_create_fresh_instance_for_each_requirement);
-      addTest(new Should_detect_name_conflicts);
-      addTest(new Should_explain_name_conflicts);
+      add(Should_run_requirements);
+      add(Should_run_setup_before_each_requirement);
+      add(Should_run_context_around_each_requirement);
+      add(Should_create_fresh_instance_for_each_requirement);
+      add(Should_detect_name_conflicts);
+      add(Should_explain_name_conflicts);
     }
   }
 }

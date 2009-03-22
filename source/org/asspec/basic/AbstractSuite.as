@@ -5,6 +5,7 @@ package org.asspec.basic
   import org.asspec.TestListener;
   import org.asspec.classic.ClassSuite;
   import org.asspec.specification.SpecificationSuiteFactory;
+  import org.asspec.specification.Specification;
   import org.asspec.util.sequences.Sequence;
   import org.asspec.util.sequences.TypedArrayContainer;
   import org.asspec.util.sequences.TypedSequenceContainer;
@@ -15,17 +16,31 @@ package org.asspec.basic
     private var testContainer : TypedSequenceContainer
       = new TypedArrayContainer(Test);
 
+    internal var factory : TestFactory = new StandardTestFactory;
+
     public function addTest(test : Test) : void
     { testContainer.add(test); }
 
     protected function addSpecification(class_ : Class) : void
-    { addTest(SpecificationSuiteFactory.getSuiteForClass(class_)); }
+    { addTest(factory.getTestFromSpecificationClass(class_)); }
 
     protected function addClassical(class_ : Class) : void
-    { addTest(ClassSuite.forClass(class_)); }
+    { addTest(factory.getTestFromClassicTestClass(class_)); }
 
     protected function addSuite(class_ : Class) : void
-    { addTest(new class_); }
+    { addTest(factory.getTestFromTestClass(class_)); }
+
+    public function add(class_ : Class) : void
+    {
+      const instance : Object = new class_;
+
+      if (instance is Specification)
+        addSpecification(class_);
+      else if (instance is Test)
+        addSuite(class_);
+      else
+        addClassical(class_);
+    }
 
     public function get tests() : Sequence
     {

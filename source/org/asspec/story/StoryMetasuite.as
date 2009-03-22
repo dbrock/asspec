@@ -5,8 +5,6 @@ package org.asspec.story
   public class StoryMetasuite extends AbstractSuite
   {
     override protected function populate() : void
-    {
-      addSpecification(StanzaCompilerMetaspecification);
-    }
+    { add(StanzaCompilerMetaspecification); }
   }
 }

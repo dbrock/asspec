@@ -6,10 +6,10 @@ package org.asspec.assertion
   {
     override protected function populate() : void
     {
-      addSpecification(BasicAssertionMetaspecification);
-      addSpecification(EqualityAssertionMetaspecification);
-      addSpecification(ExceptionAssertionMetaspecification);
-      addSpecification(AssertionSubjectMetaspecification);
+      add(BasicAssertionMetaspecification);
+      add(EqualityAssertionMetaspecification);
+      add(ExceptionAssertionMetaspecification);
+      add(AssertionSubjectMetaspecification);
     }
   }
 }

@@ -11,11 +11,13 @@ package org.asspec.basic
     {
       new Empty_suite_should_do_nothing().run(listener);
       new Should_run_tests_in_order().run(listener);
+      new Should_DWIM_when_adding_classes().run(listener);
     }
   }
 }
 
 import org.asspec.Test;
+import org.asspec.TestListener;
 import org.asspec.basic.AbstractSuite;
 import org.asspec.basic.ManualTest;
 import org.asspec.basic.SimpleTestLogMetatest;
@@ -23,7 +25,7 @@ import org.asspec.basic.SimpleTestLogMetatest;
 class Empty_suite_should_do_nothing extends SimpleTestLogMetatest
 {
   override public function get name() : String
-  { return "empty suite should do nothing (SuiteSpecification)"; }
+  { return "empty suite should do nothing (AbstractSuiteMetaspecification)"; }
 
   override protected function createTest() : void
   { test = new AbstractSuite; }
@@ -35,7 +37,7 @@ class Empty_suite_should_do_nothing extends SimpleTestLogMetatest
 class Should_run_tests_in_order extends SimpleTestLogMetatest
 {
   override public function get name() : String
-  { return "suite should run tests in order (SuiteSpecification)"; }
+  { return "suite should run tests in order (AbstractSuiteMetaspecification)"; }
 
   override protected function createTest() : void
   { test = new ExampleSuite; }

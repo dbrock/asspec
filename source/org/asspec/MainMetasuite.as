@@ -14,14 +14,14 @@ package org.asspec
   {
     override protected function populate() : void
     {
-      addSuite(BasicMetasuite);
-      addSuite(SpecificationMetasuite);
-      addSuite(AssertionMetasuite);
-      addSuite(EqualityMetasuite);
-      addSuite(UtilityMetasuite);
-      addSuite(LanguageMetasuite);
-      addSuite(ClassicMetasuite);
-      addSuite(StoryMetasuite);
+      add(BasicMetasuite);
+      add(SpecificationMetasuite);
+      add(AssertionMetasuite);
+      add(EqualityMetasuite);
+      add(UtilityMetasuite);
+      add(LanguageMetasuite);
+      add(ClassicMetasuite);
+      add(StoryMetasuite);
     }
   }
 }

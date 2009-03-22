@@ -5,6 +5,6 @@ package org.asspec.lang
   public class LanguageMetasuite extends AbstractSuite
   {
     override protected function populate() : void
-    { addSpecification(NativeClassMetaspecification); }
+    { add(NativeClassMetaspecification); }
   }
 }
