@@ -16,9 +16,9 @@ package org.asspec.classic
     { return new ClassSuite(RealNativeClass.forClass(realClass)); }
 
     override protected function populate() : void
-    { suiteClass.forEachMethod(addTest); }
+    { suiteClass.forEachMethod(addTestForMethod); }
 
-    private function addTest(method : UnboundMethod) : void
-    { add(new MethodTest(method)); }
+    private function addTestForMethod(method : UnboundMethod) : void
+    { addTest(new MethodTest(method)); }
   }
 }

@@ -15,17 +15,17 @@ package org.asspec.basic
     private var testContainer : TypedSequenceContainer
       = new TypedArrayContainer(Test);
 
-    public function add(test : Test) : void
+    public function addTest(test : Test) : void
     { testContainer.add(test); }
 
     protected function addSpecification(class_ : Class) : void
-    { add(SpecificationSuiteFactory.getSuiteForClass(class_)); }
+    { addTest(SpecificationSuiteFactory.getSuiteForClass(class_)); }
 
     protected function addClassical(class_ : Class) : void
-    { add(ClassSuite.forClass(class_)); }
+    { addTest(ClassSuite.forClass(class_)); }
 
     protected function addSuite(class_ : Class) : void
-    { add(new class_); }
+    { addTest(new class_); }
 
     public function get tests() : Sequence
     {

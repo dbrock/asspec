@@ -23,7 +23,7 @@ package org.asspec.story.scenario.test
     { scenarios.forEach(addTestForScenario); }
 
     private function addTestForScenario(scenario : Scenario) : void
-    { add(new ScenarioTest(newInterpreter, scenario)); }
+    { addTest(new ScenarioTest(newInterpreter, scenario)); }
 
     private function get newInterpreter() : Interpreter
     { return interpreterFactory.getInterpreter(); }

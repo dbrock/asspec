@@ -5,8 +5,6 @@ package org.asspec.basic
   public class BasicMetasuite extends AbstractSuite
   {
     override protected function populate() : void
-    {
-      add(new BasicTestMetaspecification);
-    }
+    { addTest(new BasicTestMetaspecification); }
   }
 }

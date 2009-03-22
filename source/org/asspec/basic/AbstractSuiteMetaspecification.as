@@ -48,8 +48,8 @@ class ExampleSuite extends AbstractSuite
 {
   override protected function populate() : void
   {
-    add(new PassingTest);
-    add(new FailingTest);
+    addTest(new PassingTest);
+    addTest(new FailingTest);
   }
 }
 

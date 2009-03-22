@@ -1,5 +1,5 @@
 package org.asspec
 {
   public interface Suite extends Test
-  { function add(test : Test) : void; }
+  { function addTest(test : Test) : void; }
 }

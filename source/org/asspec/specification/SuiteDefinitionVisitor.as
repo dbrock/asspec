@@ -26,7 +26,7 @@ package org.asspec.specification
       // The test name will be different from the requirement name.
       ensureNameUnused(test.name);
 
-      suite.add(test);
+      suite.addTest(test);
     }
 
     private function getNewTest(name : String) : RequirementTest
