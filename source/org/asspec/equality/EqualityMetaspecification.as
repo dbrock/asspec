@@ -6,25 +6,30 @@ package org.asspec.equality
   {
     override protected function execute() : void
     {
-      requirement("null should equal null", function () : void {
-        specify(equal(null, null)).should.hold; });
-      requirement("true should equal true", function () : void {
-        specify(equal(true, true)).should.hold; });
-      requirement("true should not equal false", function () : void {
-        specify(equal(true, false)).should.not.hold; });
-      requirement("string should equal itself", function () : void {
-        specify(equal("foo", "foo")).should.hold; });
-      requirement("string should not equal other string", function () : void {
-        specify(equal("foo", "bar")).should.not.hold; });
-      requirement("value should equal equal value", function () : void {
-        specify(equal(new Value(0), new Value(0))).should.hold; });
-      requirement("value should not equal different value", function () : void {
-        specify(equal(new Value(0), new Value(1))).should.not.hold; });
-      requirement("entity should equal itself", function () : void {
-        const entity : Entity = new Entity;
-        specify(equal(entity, entity)).should.hold; });
-      requirement("entity should not equal other entity", function () : void {
-        specify(equal(new Entity, new Entity)).should.not.hold; });
+      require_equal(null, null);
+      require_equal(true, true);
+      require_unequal(true, false);
+      require_equal("foo", "foo");
+      require_unequal("foo", "bar");
+      require_equal(new Value(0), new Value(0));
+      require_unequal(new Value(0), new Value(1));
+
+      const entity1 : Entity = new Entity;
+      const entity2 : Entity = new Entity;
+      require_equal(entity1, entity1);
+      require_unequal(entity1, entity2);
+    }
+
+    private function require_equal(a : Object, b : Object) : void
+    {
+      requirement(a + " should equal " + b, function () : void {
+        specify(equal(a, b)).should.hold; });
+    }
+
+    private function require_unequal(a : Object, b : Object) : void
+    {
+      requirement(a + " should not equal " + b, function () : void {
+        specify(equal(a, b)).should.not.hold; });
     }
 
     private function equal(a : Object, b : Object) : Boolean
@@ -40,6 +45,9 @@ class Value implements EqualityComparable
 
   public function Value(value : int)
   { this.value = value; }
+
+  public function toString() : String
+  { return "Value(" + value + ")"; }
 
   public function equals(other : EqualityComparable) : Boolean
   { return other is Value && Value(other).value == value; }
