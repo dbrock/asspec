@@ -3,7 +3,6 @@ package org.asspec.lang
   import org.asspec.classic.assertNotNull;
   import org.asspec.classic.assertTrue;
   import org.asspec.specification.AbstractSpecification;
-  import org.asspec.specify;
 
   public class NativeClassMetaspecification extends AbstractSpecification
   {

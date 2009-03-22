@@ -4,7 +4,6 @@ package org.asspec.classic
   import org.asspec.basic.TestLogger;
   import org.asspec.lang.RealNativeClass;
   import org.asspec.specification.AbstractSpecification;
-  import org.asspec.specify;
 
   public class ClassSuiteMetaspecification extends AbstractSpecification
   {

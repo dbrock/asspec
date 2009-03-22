@@ -1,5 +1,6 @@
 package org.asspec.specification
 {
+  import org.asspec.AssertionError;
   import org.asspec.assertion.AssertionSubject;
   import org.asspec.util.Reflection;
   import org.asspec.util.UnimplementedMethodError;
@@ -35,5 +36,11 @@ package org.asspec.specification
     private function visitRequirement
       (name : String, implementation : Function) : void
     { visitor.visitRequirement(Requirement.of(name, implementation)); }
+
+    protected function specify(subject : Object) : AssertionSubject
+    { return AssertionSubject.of(subject); }
+
+    protected function fail(message : String = null) : void
+    { throw new AssertionError(message); }
   }
 }

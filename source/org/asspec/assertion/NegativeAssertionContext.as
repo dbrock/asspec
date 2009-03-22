@@ -1,8 +1,8 @@
 package org.asspec.assertion
 {
+  import org.asspec.specify;
   import org.asspec.AssertionError;
   import org.asspec.equality.Equality;
-  import org.asspec.specify;
   import org.asspec.util.inspection.Inspection;
 
   public class NegativeAssertionContext implements AssertionContext

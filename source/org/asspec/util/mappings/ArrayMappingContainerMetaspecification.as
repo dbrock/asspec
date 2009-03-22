@@ -1,7 +1,6 @@
 package org.asspec.util.mappings
 {
   import org.asspec.specification.AbstractSpecification;
-  import org.asspec.specify;
   import org.asspec.util.sequences.ArraySequenceContainer;
   import org.asspec.util.sequences.SequenceContainer;
 

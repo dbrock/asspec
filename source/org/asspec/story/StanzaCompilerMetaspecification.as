@@ -3,7 +3,6 @@ package org.asspec.story
   import org.asspec.Test;
   import org.asspec.basic.NullTestListener;
   import org.asspec.specification.AbstractSpecification;
-  import org.asspec.specify;
   import org.asspec.story.narrative.compilation.StanzaCompiler;
   import org.asspec.story.scenario.test.ScenarioSuite;
 

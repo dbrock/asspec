@@ -1,7 +1,5 @@
 package org.asspec.assertion
 {
-  import org.asspec.specify;
-
   public class AssertionSubjectMetaspecification
     extends AbstractAssertionMetaspecification
   {

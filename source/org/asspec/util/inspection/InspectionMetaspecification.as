@@ -1,7 +1,6 @@
 package org.asspec.util.inspection
 {
   import org.asspec.specification.AbstractSpecification;
-  import org.asspec.specify;
 
   public class InspectionMetaspecification extends AbstractSpecification
   {

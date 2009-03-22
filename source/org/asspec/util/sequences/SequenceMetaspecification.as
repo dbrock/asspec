@@ -1,8 +1,6 @@
 package org.asspec.util.sequences
 {
-  import org.asspec.fail;
   import org.asspec.specification.AbstractSpecification;
-  import org.asspec.specify;
 
   public class SequenceMetaspecification extends AbstractSpecification
   {
