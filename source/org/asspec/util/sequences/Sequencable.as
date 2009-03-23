@@ -19,6 +19,7 @@ package org.asspec.util.sequences
 
     // Construction
     function cons(element : Object) : Sequence;
+    function snoc(element : Object) : Sequence;
 
     // Transformation
     function map(transform : Function) : Sequence;

@@ -48,6 +48,9 @@ package org.asspec.util.sequences
     public function cons(element : Object) : Sequence
     { return content.cons(element); }
 
+    public function snoc(element : Object) : Sequence
+    { return content.snoc(element); }
+
     // Transformation
     public function map(transform : Function) : Sequence
     { return content.map(transform); }

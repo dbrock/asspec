@@ -134,6 +134,14 @@ package org.asspec.util.sequences
         seq123.cons(0);
         specify(seq123).should.equal(seq(1, 2, 3)); });
 
+      requirement("snoc with empty sequence should be singleton", function () : void {
+        specify(seq().snoc("foo")).should.equal(seq("foo")); });
+      requirement("snoc with singleton should be pair", function () : void {
+        specify(seq("foo").snoc("bar")).should.equal(seq("foo", "bar")); });
+      requirement("snoc should not modify original sequence", function () : void {
+        seq123.snoc(0);
+        specify(seq123).should.equal(seq(1, 2, 3)); });
+
       requirement("map on empty sequence should be empty sequence", function () : void {
         specify(seq().map(identity)).should.equal(seq()); });
       requirement("map on empty sequence should not invoke mapper", function () : void {

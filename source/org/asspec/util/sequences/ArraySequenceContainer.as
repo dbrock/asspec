@@ -127,6 +127,15 @@ package org.asspec.util.sequences
       return new Sequence(content);
     }
 
+    public function snoc(element : Object) : Sequence
+    {
+      const content : Array = getArrayCopy();
+
+      content.push(element);
+
+      return new Sequence(content);
+    }
+
     // ----------------------------------------------------
     // Transformation
     // ----------------------------------------------------
