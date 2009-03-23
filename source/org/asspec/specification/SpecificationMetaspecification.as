@@ -12,6 +12,8 @@ package org.asspec.specification
       add(Should_create_fresh_instance_for_each_requirement);
       add(Should_detect_name_conflicts);
       add(Should_explain_name_conflicts);
+      add(Should_run_hierarchical_requirements);
+      add(Should_allow_duplicate_names_in_different_contexts);
     }
   }
 }
@@ -196,8 +198,8 @@ class Should_explain_name_conflicts extends NamedManualTest
 
   override protected function execute() : void
   {
-    const test : Test
-      = SpecificationSuiteFactory.getSuiteForClass(NameConflictSpecification);
+    const test : Test = SpecificationSuiteFactory.getSuiteForClass
+      (NameConflictSpecification);
 
     try
       { test.run(new NullTestListener); }
@@ -211,5 +213,86 @@ class Should_explain_name_conflicts extends NamedManualTest
             new Error("error message does not mention »foo« " +
                       "(the conflicting name): " + error.message));
       }
+  }
+}
+
+class Should_run_hierarchical_requirements
+  extends SpecificationLogMetatest
+{
+  override public function get name() : String
+  {
+    return "should run hierarchical requirements "
+      + "(SpecificationMetaspecification)";
+  }
+
+  override protected function get specificationClass() : Class
+  { return HierarchicalSpecification; }
+
+  override protected function get expectedLog() : String
+  { return "{[()]}{[A]}{[(B)]}{[C]}"; }
+}
+
+class HierarchicalSpecification extends LoggingSpecification
+{
+  override protected function execute() : void
+  {
+    note("{");
+
+    describe("when foo", function () : void {
+      note("[");
+      it("should do A", function () : void { note("A"); });
+
+      describe("when bar", function () : void {
+        note("(");
+        it("should do B", function () : void { note("B"); });
+        note(")");
+      });
+
+      it("should do C", function () : void { note("C"); });
+      note("]");
+    });
+
+    note("}");
+  }
+}
+
+class Should_allow_duplicate_names_in_different_contexts
+  extends NamedManualTest
+{
+  override public function get name() : String
+  {
+    return "should allow duplicate names in different contexts"
+      + "(SpecificationMetaspecification)";
+  }
+
+  override protected function execute() : void
+  {
+    const test : Test = SpecificationSuiteFactory.getSuiteForClass
+      (DuplicateNamesSpecification);
+
+    try
+      { test.run(new NullTestListener); }
+    catch (error : Error)
+      {
+        listener.testFailed(this, null);
+
+        return;
+      }
+
+    listener.testPassed(this);
+  }
+}
+
+class DuplicateNamesSpecification extends LoggingSpecification
+{
+  override protected function execute() : void
+  {
+    requirement("X", function () : void {});
+    describe("X", function () : void {
+      requirement("X", function () : void {});
+      describe("X", function () : void {
+        requirement("X", function () : void {});
+      });
+    });
   }
 }

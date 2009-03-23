@@ -12,6 +12,8 @@ package org.asspec.specification
     private var suite : AbstractSuite;
     private var factory : SpecificationProvider;
 
+    private const contextNames : Stack = new ArrayStack;
+
     public function SuiteDefinitionVisitor
       (suite : AbstractSuite, factory : SpecificationProvider)
     {
@@ -30,7 +32,10 @@ package org.asspec.specification
     }
 
     private function getNewTest(name : String) : RequirementTest
-    { return new RequirementTest(name, factory.getSpecificationCopy()); }
+    {
+      return new RequirementTest
+        (contextNames.elements, name, factory.getSpecificationCopy());
+    }
 
     private function ensureNameUnused(name : String) : void
     {
@@ -46,5 +51,12 @@ package org.asspec.specification
 
     private static function testName(test : NamedTest) : String
     { return test.name; }
+
+    public function visitContext(context : Context) : void
+    {
+      contextNames.push(context.name);
+      (context.implementation)();
+      contextNames.pop();
+    }
   }
 }

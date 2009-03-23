@@ -33,9 +33,17 @@ package org.asspec.specification
       (name : String, implementation : Function) : void
     { visitRequirement(name, implementation); }
 
+    protected function describe
+      (name : String, implementation : Function) : void
+    { visitContext(name, implementation); }
+
     private function visitRequirement
       (name : String, implementation : Function) : void
     { visitor.visitRequirement(Requirement.of(name, implementation)); }
+
+    private function visitContext
+      (name : String, implementation : Function) : void
+    { visitor.visitContext(Context.of(name, implementation)); }
 
     protected function specify(subject : Object) : AssertionSubject
     { return AssertionSubject.of(subject); }
