@@ -1,0 +1,3 @@
+ * Use `internal' visibility for all internal classes.
+ * Rename Sequencable.{get,set} to {getAt,setAt}.
+ * Add square bracket indexing support to Sequencable.
