@@ -219,6 +219,8 @@ package org.asspec.util.sequences
       requirement("joining object pair should give joined object string", function () : void {
         specify(seq({ a: 1 }, { b: 2 }).join("; "))
           .should.equal("{ a: 1 }; { b: 2 }"); });
+      requirement("joining strings should not inspect the strings", function () : void {
+        specify(seq("foo", "bar").join(", ")).should.equal("foo, bar"); });
 
       requirement("‘any’ on empty sequence should give false", function () : void {
         specify(seq().any(fail)).should.equal(false); });

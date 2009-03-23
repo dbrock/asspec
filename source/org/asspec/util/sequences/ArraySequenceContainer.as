@@ -208,7 +208,14 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
 
     public function join(delimiter : String) : String
-    { return map(Inspection.inspect).getArrayCopy().join(delimiter); }
+    { return map(inspectUnlessString).getArrayCopy().join(delimiter); }
+
+    private static function inspectUnlessString(object : Object) : String
+    {
+      return object is String
+        ? object as String
+        : Inspection.inspect(object);
+    }
 
     public function any(predicate : Function) : Boolean
     {
