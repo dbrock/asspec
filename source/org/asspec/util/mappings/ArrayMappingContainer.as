@@ -27,6 +27,9 @@ package org.asspec.util.mappings
     public function remove(key : Object) : void
     { getSlotFor(key).remove(); }
 
+    public function clear() : void
+    { pairContainer.clear(); }
+
     private function getSlotFor(key : Object) : SequenceContainerSlot
     {
       for each (var slot : SequenceContainerSlot in pairContainer.slots)

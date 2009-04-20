@@ -15,10 +15,10 @@ package org.asspec.util.sequences
   public class ArraySequenceContainer extends AbstractForeachable
     implements SequenceContainer
   {
-    private var content : Array;
+    private var array : Array;
 
-    public function ArraySequenceContainer(content : Array = null)
-    { this.content = content || []; }
+    public function ArraySequenceContainer(array : Array = null)
+    { this.array = array || []; }
 
     // ----------------------------------------------------
     // Comparison
@@ -36,7 +36,7 @@ package org.asspec.util.sequences
       var i : uint = 0;
 
       for each (var element : Object in other)
-        if (!Equality.equals(element, content[i++]))
+        if (!Equality.equals(element, array[i++]))
           return false;
 
       return true;
@@ -50,7 +50,7 @@ package org.asspec.util.sequences
     { return length == 0; }
 
     public function get length() : uint
-    { return content.length; }
+    { return array.length; }
 
     public function hasIndex(index : int) : Boolean
     {
@@ -87,7 +87,7 @@ package org.asspec.util.sequences
       if (empty)
         throw new ArgumentError;
       else
-        return new Sequence(content.slice(1));
+        return new Sequence(array.slice(1));
     }
 
     public function get last() : *
@@ -105,7 +105,7 @@ package org.asspec.util.sequences
     {
       validateIndex(index);
 
-      return content[index];
+      return array[index];
     }
 
     private function validateIndex(index : int) : void
@@ -120,20 +120,20 @@ package org.asspec.util.sequences
 
     public function cons(element : Object) : Sequence
     {
-      const content : Array = getArrayCopy();
+      const array : Array = getArrayCopy();
 
-      content.unshift(element);
+      array.unshift(element);
 
-      return new Sequence(content);
+      return new Sequence(array);
     }
 
     public function snoc(element : Object) : Sequence
     {
-      const content : Array = getArrayCopy();
+      const array : Array = getArrayCopy();
 
-      content.push(element);
+      array.push(element);
 
-      return new Sequence(content);
+      return new Sequence(array);
     }
 
     // ----------------------------------------------------
@@ -144,7 +144,7 @@ package org.asspec.util.sequences
     {
       const result : Array = [];
 
-      for each (var element : Object in content)
+      for each (var element : Object in array)
         result.push(transform(element));
 
       return new Sequence(result);
@@ -156,7 +156,7 @@ package org.asspec.util.sequences
 
     public function forEach(callback : Function) : void
     {
-      for each (var element : Object in content)
+      for each (var element : Object in array)
         callback(element);
     }
 
@@ -168,7 +168,7 @@ package org.asspec.util.sequences
     {
       const result : Array = [];
 
-      for each (var element : Object in content)
+      for each (var element : Object in array)
         if (predicate(element))
           result.push(element);
 
@@ -179,7 +179,7 @@ package org.asspec.util.sequences
     {
       const result : Array = [];
 
-      for each (var element : Object in content)
+      for each (var element : Object in array)
         if (predicate(element))
           result.push(element);
         else
@@ -192,11 +192,11 @@ package org.asspec.util.sequences
     {
       var i : int;
 
-      for (i = 0; i < content.length; ++i)
-        if (!predicate(content[i]))
+      for (i = 0; i < array.length; ++i)
+        if (!predicate(array[i]))
           break;
 
-      return new Sequence(content.slice(i));
+      return new Sequence(array.slice(i));
     }
 
     public function takeUntil(predicate : Function) : Sequence
@@ -228,7 +228,7 @@ package org.asspec.util.sequences
 
     public function any(predicate : Function) : Boolean
     {
-      for each (var element : Object in content)
+      for each (var element : Object in array)
         if (predicate(element))
           return true;
 
@@ -237,7 +237,7 @@ package org.asspec.util.sequences
 
     public function all(predicate : Function) : Boolean
     {
-      for each (var element : Object in content)
+      for each (var element : Object in array)
         if (!predicate(element))
           return false;
 
@@ -289,17 +289,20 @@ package org.asspec.util.sequences
     { return new Sequence(getArrayCopy()); }
 
     public function getArrayCopy() : Array
-    { return content.concat(); }
+    { return array.concat(); }
 
     public function toString() : String
-    { return Inspection.inspect(content); }
+    { return Inspection.inspect(array); }
 
     // ----------------------------------------------------
     // Mutation
     // ----------------------------------------------------
 
+    public function set content(value : Sequencable) : void
+    { array = value.getArrayCopy(); }
+
     public function add(element : Object) : void
-    { content.push(element); }
+    { array.push(element); }
 
     public function set(index : int, value : Object) : void
     {
@@ -312,7 +315,7 @@ package org.asspec.util.sequences
     private function $set(index : int, value : Object) : void
     {
       validateIndex(index);
-      content[index] = value;
+      array[index] = value;
     }
 
     public function removeAt(index : int) : void
@@ -326,8 +329,14 @@ package org.asspec.util.sequences
     private function $removeAt(index : int) : void
     {
       validateIndex(index);
-      content.splice(index, 1);
+      array.splice(index, 1);
     }
+
+    public function remove(element : Object) : void
+    { removeAt(getIndexOf(element)); }
+
+    public function clear() : void
+    { array = []; }
 
     public function getSlotAt(index : int) : SequenceContainerSlot
     { return new ArraySequenceContainerSlot(this, index); }
@@ -346,6 +355,6 @@ package org.asspec.util.sequences
     { return length; }
 
     override foreach_support function getElementAt(index : uint) : Object
-    { return content[index]; }
+    { return array[index]; }
   }
 }

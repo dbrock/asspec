@@ -4,5 +4,6 @@ package org.asspec.util.mappings
   {
     function set(key : Object, value : Object) : void;
     function remove(key : Object) : void;
+    function clear() : void;
   }
 }
