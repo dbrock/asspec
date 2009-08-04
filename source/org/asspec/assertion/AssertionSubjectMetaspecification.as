@@ -46,6 +46,11 @@ package org.asspec.assertion
       requirement("specifying that 1 should equal neither of (1, 2) should fail", function () : void {
         shouldFail(function () : void { specify(1).should.not.equal_either_of(1, 2); }); });
 
+      requirement("specifying that 0 should be between 0 and 0 should fail", function () : void {
+        shouldFail(function () : void { specify(0).should.be_between(0, 0); }); });
+      requirement("specifying that 0 should be between -1 and +1 should pass", function () : void {
+        shouldPass(function () : void { specify(0).should.be_between(-1, +1); }); });
+
       requirement("specifying that throwing function should throw should pass", function () : void {
         shouldPass(function () : void { specify(throwingFunction).should.throw_error; }); });
       requirement("specifying that returning function should throw should fail", function () : void {

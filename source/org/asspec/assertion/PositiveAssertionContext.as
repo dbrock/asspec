@@ -1,8 +1,8 @@
 package org.asspec.assertion
 {
-  import org.asspec.specify;
   import org.asspec.AssertionError;
   import org.asspec.equality.EqualitySubject;
+  import org.asspec.specify;
   import org.asspec.util.Reflection;
   import org.asspec.util.inspection.Inspection;
 
@@ -76,6 +76,18 @@ package org.asspec.assertion
 
     public function look_like(expected : String) : void
     { specify(Inspection.inspect(actual)).should.equal(expected); }
+
+    // ------------------------------------------------------------
+
+    public function be_between(lower : Number, upper : Number) : void
+    {
+      if (!(actual is Number))
+        fail("expected number but was " + inspect(actual) + " "
+             + "(" + Reflection.getLocalClassName(actual) + ")");
+      else if (actual <= lower || actual >= upper)
+        fail("expected number between " + lower + " and " + upper + " "
+             + "but was " + actual);
+    }
 
     // ------------------------------------------------------------
 
