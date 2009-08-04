@@ -43,6 +43,9 @@ package org.asspec.specification
       (context.implementation)();
     }
 
+    public function visitTailContext(name : String) : void
+    { ++currentContextLevel; }
+
     private function shouldEnterContext(context : Context) : Boolean
     { return needMoreContext && context.name == nextContextName; }
 

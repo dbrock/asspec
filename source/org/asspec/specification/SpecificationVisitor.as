@@ -4,5 +4,6 @@ package org.asspec.specification
   {
     function visitRequirement(requirement : Requirement) : void;
     function visitContext(context : Context) : void;
+    function visitTailContext(name : String) : void;
   }
 }

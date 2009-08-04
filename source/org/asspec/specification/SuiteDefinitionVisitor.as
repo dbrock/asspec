@@ -13,12 +13,15 @@ package org.asspec.specification
     private var factory : SpecificationProvider;
 
     private const contextNames : Stack = new ArrayStack;
+    private const numTailContexts : Stack = new ArrayStack;
 
     public function SuiteDefinitionVisitor
       (suite : AbstractSuite, factory : SpecificationProvider)
     {
       this.suite = suite;
       this.factory = factory;
+
+      numTailContexts.push(0);
     }
 
     public function visitRequirement(requirement : Requirement) : void
@@ -52,11 +55,55 @@ package org.asspec.specification
     private static function testName(test : NamedTest) : String
     { return test.name; }
 
+    // ----------------------------------------------------
+
     public function visitContext(context : Context) : void
     {
-      contextNames.push(context.name);
+      pushContext(context.name);
       (context.implementation)();
-      contextNames.pop();
+      popContext();
     }
+
+    private function pushContext(name : String) : void
+    {
+      contextNames.push(name);
+      numTailContexts.push(0);
+    }
+
+    private function popContext() : void
+    {
+      contextNames.pop();
+      popTailContexts();
+      numTailContexts.pop();
+    }
+
+    private function popTailContexts() : void
+    {
+      while (currentNumTailContexts > 0)
+        popTailContext();
+    }
+
+    // ----------------------------------------------------
+
+    public function visitTailContext(name : String) : void
+    { pushTailContext(name); }
+
+    private function pushTailContext(name : String) : void
+    {
+      contextNames.push(name);
+      ++currentNumTailContexts;
+    }
+
+    private function popTailContext() : void
+    {
+      contextNames.pop();
+      --currentNumTailContexts;
+    }
+
+    private function get currentNumTailContexts() : uint
+    { return numTailContexts.top; }
+
+    private function set currentNumTailContexts(value : uint) : void
+    { numTailContexts.top = value; }
   }
 }

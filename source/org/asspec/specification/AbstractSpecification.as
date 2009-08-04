@@ -52,8 +52,13 @@ package org.asspec.specification
     }
 
     protected function describe
-      (name : String, implementation : Function) : void
-    { visitContext(name, implementation); }
+      (name : String, implementation : Function = null) : void
+    {
+      if (implementation == null)
+        visitTailContext(name);
+      else
+        visitContext(name, implementation);
+    }
 
     private function visitRequirement
       (name : String, implementation : Function) : void
@@ -62,6 +67,9 @@ package org.asspec.specification
     private function visitContext
       (name : String, implementation : Function) : void
     { visitor.visitContext(Context.of(name, implementation)); }
+
+    private function visitTailContext(name : String) : void
+    { visitor.visitTailContext(name); }
 
     protected function specify(subject : Object) : AssertionSubject
     { return AssertionSubject.of(subject); }

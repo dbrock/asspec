@@ -15,6 +15,7 @@ package org.asspec.specification
       add(Should_explain_name_conflicts);
       add(Should_run_hierarchical_requirements);
       add(Should_allow_duplicate_names_in_different_contexts);
+      add(Should_handle_abbreviated_tail_contexts);
     }
   }
 }
@@ -278,6 +279,43 @@ class HierarchicalSpecification extends LoggingSpecification
     });
 
     note("}");
+  }
+}
+
+class Should_handle_abbreviated_tail_contexts extends SimpleTestLogMetatest
+{
+  override public function get name() : String
+  { return "should handle abbreviated tail contexts (SpecificationMetaspecification)"; }
+
+  override protected function createTest() : void
+  { test = SpecificationSuiteFactory.getSuiteForClass(TailContextSpecification); }
+
+  override protected function get expectedLog() : String
+  { return "[A 1 (TailContextSpecification) failed]"
+      + "[B 2 (TailContextSpecification) failed]"
+      + "[B C 3 (TailContextSpecification) failed]"
+      + "[B C D 4 (TailContextSpecification) failed]"
+      + "[B 5 (TailContextSpecification) failed]"; }
+}
+
+class TailContextSpecification extends AbstractSpecification
+{
+  override protected function execute() : void
+  {
+    describe("A", function () : void {
+      requirement("1");
+    });
+
+    describe("B");
+    requirement("2");
+
+    describe("C", function () : void {
+      requirement("3");
+      describe("D");
+      requirement("4");
+    });
+
+    requirement("5");
   }
 }
 

@@ -6,6 +6,8 @@ package org.asspec.specification
   {
     function push(element : Object) : void;
     function pop() : void;
+    function get top() : *;
+    function set top(value : Object) : void;
     function get elements() : Sequence;
   }
 }

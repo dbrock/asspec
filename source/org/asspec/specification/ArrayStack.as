@@ -15,6 +15,12 @@ package org.asspec.specification
     public function pop() : void
     { container.removeAt(container.length - 1); }
 
+    public function get top() : *
+    { return container.last; }
+
+    public function set top(value : Object) : void
+    { container.set(container.length - 1, value); }
+
     public function get elements() : Sequence
     { return container.sequence; }
   }
