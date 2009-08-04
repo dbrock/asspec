@@ -15,7 +15,12 @@ package org.asspec.util.sequences
     { return realized && container.hasIndex(index); }
 
     public function get value() : *
-    { return container.get(index); }
+    {
+      if (realized)
+        return container.get(index);
+      else
+        throw new ArgumentError;
+    }
 
     public function set value(value : *) : void
     {

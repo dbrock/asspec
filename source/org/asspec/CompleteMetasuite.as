@@ -4,7 +4,7 @@ package org.asspec
 
   public class CompleteMetasuite implements SizedTest
   {
-    public function get size() : uint { return 332; }
+    public function get size() : uint { return 333; }
 
     public function run(listener : TestListener) : void
     {

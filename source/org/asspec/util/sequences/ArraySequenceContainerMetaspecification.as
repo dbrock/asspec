@@ -387,6 +387,9 @@ package org.asspec.util.sequences
 
       requirement("additional slot should not have value", function () : void {
         specify(seq123.getAdditionalSlot().hasValue).should.not.hold; });
+      requirement("reading additional slot without value should not be allowed", function () : void {
+        specify(function () : void { seq123.getAdditionalSlot().value; })
+          .should.throw_error_of_type(ArgumentError); });
       requirement("additional slot with value should have value", function () : void {
         const slot : SequenceContainerSlot = seq123.getAdditionalSlot();
         slot.value = 4;
