@@ -7,6 +7,7 @@ package org.asspec.specification
     override protected function populate() : void
     {
       add(Should_run_requirements);
+      add(Should_fail_on_pending_requirements);
       add(Should_run_setup_before_each_requirement);
       add(Should_run_context_around_each_requirement);
       add(Should_create_fresh_instance_for_each_requirement);
@@ -46,9 +47,9 @@ class SimpleSpecification extends AbstractSpecification
 {
   override protected function execute() : void
   {
-    requirement("A", function () : void { });
+    requirement("A", function () : void {});
     requirement("B", function () : void { throw new Error; });
-    requirement("C", function () : void { });
+    requirement("C", function () : void {});
   }
 }
 
@@ -83,6 +84,30 @@ class LoggingSpecification extends AbstractSpecification
 
   protected function note(message : String) : void
   { log += message; }
+}
+
+class Should_fail_on_pending_requirements extends SimpleTestLogMetatest
+{
+  override public function get name() : String
+  { return "should fail on pending requirements (SpecificationMetaspecification)"; }
+
+  override protected function createTest() : void
+  { test = SpecificationSuiteFactory.getSuiteForClass(PendingSpecification); }
+
+  override protected function get expectedLog() : String
+  { return "[A (PendingSpecification) passed]"
+      + "[B (PendingSpecification) failed]"
+      + "[C (PendingSpecification) passed]"; }
+}
+
+class PendingSpecification extends AbstractSpecification
+{
+  override protected function execute() : void
+  {
+    requirement("A", function () : void {});
+    requirement("B");
+    requirement("C", function () : void {});
+  }
 }
 
 class Should_run_setup_before_each_requirement

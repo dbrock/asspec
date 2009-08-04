@@ -25,13 +25,31 @@ package org.asspec.specification
 
     // ----------------------------------------------------
 
+    protected function pending(description : String = null) : void
+    {
+      if (description == null)
+        throw new AssertionError("Pending");
+      else
+        throw new AssertionError("Pending: " + description);
+    }
+
     protected function requirement
-      (name : String, implementation : Function) : void
-    { visitRequirement(name, implementation); }
+      (name : String, implementation : Function = null) : void
+    {
+      const actualImplementation : Function
+        = implementation == null ? pending : implementation;
+
+      visitRequirement(name, actualImplementation);
+    }
 
     protected function it
-      (name : String, implementation : Function) : void
-    { visitRequirement(name, implementation); }
+      (name : String, implementation : Function = null) : void
+    {
+      const actualImplementation : Function
+        = implementation == null ? pending : implementation;
+
+      visitRequirement(name, actualImplementation);
+    }
 
     protected function describe
       (name : String, implementation : Function) : void
