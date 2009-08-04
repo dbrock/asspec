@@ -354,7 +354,7 @@ package org.asspec.util.sequences
     override foreach_support function get length() : uint
     { return length; }
 
-    override foreach_support function getElementAt(index : uint) : Object
-    { return array[index]; }
+    override foreach_support function getElementAt(index : int) : Object
+    { return get(index); }
   }
 }

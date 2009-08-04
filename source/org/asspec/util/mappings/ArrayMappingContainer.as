@@ -15,6 +15,12 @@ package org.asspec.util.mappings
     internal const pairContainer : SequenceContainer
       = new ArraySequenceContainer;
 
+    public function get empty() : Boolean
+    { return pairContainer.empty; }
+
+    public function get size() : uint
+    { return pairContainer.length; }
+
     public function has(key : Object) : Boolean
     { return getSlotFor(key).hasValue; }
 

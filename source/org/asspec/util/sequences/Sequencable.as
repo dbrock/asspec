@@ -1,8 +1,9 @@
 package org.asspec.util.sequences
 {
   import org.asspec.util.EqualityComparable;
+  import org.asspec.util.foreach.Foreachable;
 
-  public interface Sequencable extends EqualityComparable
+  public interface Sequencable extends EqualityComparable, Foreachable
   {
     // Inspection
     function get empty() : Boolean;

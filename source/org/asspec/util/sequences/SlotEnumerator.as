@@ -15,7 +15,7 @@ package org.asspec.util.sequences
     override foreach_support function get length() : uint
     { return container.length; }
 
-    override foreach_support function getElementAt(index : uint) : Object
+    override foreach_support function getElementAt(index : int) : Object
     { return container.getSlotAt(index); }
   }
 }

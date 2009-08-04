@@ -19,7 +19,7 @@ package org.asspec.util.mappings
     override foreach_support function get length() : uint
     { return container.pairContainer.length; }
 
-    override foreach_support function getElementAt(index : uint) : Object
+    override foreach_support function getElementAt(index : int) : Object
     { return getValue(Pair(container.pairContainer.get(index))); }
   }
 }

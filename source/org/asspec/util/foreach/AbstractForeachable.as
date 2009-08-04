@@ -12,7 +12,7 @@ package org.asspec.util.foreach
     foreach_support function get length() : uint
     { throw new UnimplementedMethodError; }
 
-    foreach_support function getElementAt(index : uint) : Object
+    foreach_support function getElementAt(index : int) : Object
     { throw new UnimplementedMethodError; }
 
     override flash_proxy function nextNameIndex(index : int) : int
@@ -20,5 +20,8 @@ package org.asspec.util.foreach
 
     override flash_proxy function nextValue(index : int) : *
     { return foreach_support::getElementAt(index - 1); }
+
+    override flash_proxy function getProperty(name : *) : *
+    { return foreach_support::getElementAt(parseInt(name)); }
   }
 }

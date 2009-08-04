@@ -1,11 +1,13 @@
 package org.asspec.util.sequences
 {
-  import flash.utils.Proxy;
-  import flash.utils.flash_proxy;
-
   import org.asspec.util.EqualityComparable;
+  import org.asspec.util.foreach.AbstractForeachable;
+  import org.asspec.util.foreach.foreach_support;
 
-  public class Sequence extends Proxy implements Sequencable
+  use namespace foreach_support;
+
+  public class Sequence extends AbstractForeachable
+    implements Sequencable
   {
     private var content : ArraySequenceContainer;
 
@@ -20,7 +22,7 @@ package org.asspec.util.sequences
     { return content.empty; }
 
     public function get length() : uint
-    { return content.length; }
+    { return content.public::length; }
 
     public function hasIndex(index : int) : Boolean
     { return content.hasIndex(index); }
@@ -111,10 +113,10 @@ package org.asspec.util.sequences
     // ----------------------------------------------------
     // Enumeration
     // ----------------------------------------------------
-    override flash_proxy function nextNameIndex(index : int) : int
-    { return content.flash_proxy::nextNameIndex(index); }
+    override foreach_support function get length() : uint
+    { return length; }
 
-    override flash_proxy function nextValue(index : int) : *
-    { return content.flash_proxy::nextValue(index); }
+    override foreach_support function getElementAt(index : int) : Object
+    { return get(index); }
   }
 }
