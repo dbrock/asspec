@@ -67,9 +67,6 @@ package org.asspec.assertion
           shouldContain(error.message, expected); });
       })();
 
-      function shouldContain(actual : String, expected : String) : void
-      { assert(Text.of(actual).contains(expected), "was »" + actual + "«"); }
-
       function shouldBeEqual(actual : Object, expected : Object) : void
       {
         shouldPass(function () : void { assertEquals(actual, expected); });

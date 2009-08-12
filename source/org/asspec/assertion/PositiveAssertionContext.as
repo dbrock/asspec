@@ -77,6 +77,13 @@ package org.asspec.assertion
     public function look_like(expected : String) : void
     { specify(Inspection.inspect(actual)).should.equal(expected); }
 
+    public function contain(expected : String) : void
+    {
+      if ((actual as String).indexOf(expected) == -1)
+        fail("expected " + inspect(actual)
+             + " to contain " + inspect(expected));
+    }
+
     // ------------------------------------------------------------
 
     public function be_between(lower : Number, upper : Number) : void

@@ -1,5 +1,7 @@
 package org.asspec.assertion
 {
+  import org.asspec.AssertionError;
+
   public class AssertionSubjectMetaspecification
     extends AbstractAssertionMetaspecification
   {
@@ -77,6 +79,24 @@ package org.asspec.assertion
         shouldPass(function () : void { specify([1]).should.not.look_like("[]"); }); });
       requirement("specifying that [1] should not look like [1] should fail", function () : void {
         shouldFail(function () : void { specify([1]).should.not.look_like("[1]"); }); });
+
+      requirement("specifying that 'abc' contains 'x' should fail", function () : void {
+        shouldFail(function () : void { specify("abc").should.contain("x"); }); });
+      requirement("specifying that 'abc' contains 'b' should pass", function () : void {
+        shouldPass(function () : void { specify("abc").should.contain("b"); }); });
+
+      (function () : void {
+        const actual : String = "abc";
+        const expected : String = "x";
+
+        const error : AssertionError = getError(function () : void
+          { specify(actual).should.contain(expected); });
+
+        requirement("containment error message should include actual value", function () : void {
+          shouldContain(error.message, actual); });
+        requirement("containment error message should include expected value", function () : void {
+          shouldContain(error.message, expected); });
+      })();
     }
 
     private static function returningFunction() : void {}

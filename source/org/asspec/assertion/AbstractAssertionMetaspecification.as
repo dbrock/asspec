@@ -3,6 +3,7 @@ package org.asspec.assertion
   import org.asspec.AssertionError;
   import org.asspec.specification.AbstractSpecification;
   import org.asspec.util.Reflection;
+  import org.asspec.util.Text;
 
   public class AbstractAssertionMetaspecification extends AbstractSpecification
   {
@@ -34,6 +35,10 @@ package org.asspec.assertion
 
       assert(error == null, "expected no error but got »" + name + "«");
     }
+
+    protected static function shouldContain
+      (actual : String, expected : String) : void
+    { assert(Text.of(actual).contains(expected), "was »" + actual + "«"); }
 
     protected static function getError(thunk : Function) : *
     {
