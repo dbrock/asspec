@@ -25,12 +25,13 @@ package org.asspec.specification
 
     // ----------------------------------------------------
 
-    protected function pending(description : String = null) : void
+    protected function context
+      (name : String, implementation : Function = null) : void
     {
-      if (description == null)
-        throw new AssertionError("Pending");
+      if (implementation == null)
+        visitTailContext(name);
       else
-        throw new AssertionError("Pending: " + description);
+        visitContext(name, implementation);
     }
 
     protected function requirement
@@ -42,22 +43,12 @@ package org.asspec.specification
       visitRequirement(name, actualImplementation);
     }
 
-    protected function it
-      (name : String, implementation : Function = null) : void
+    protected function pending(description : String = null) : void
     {
-      const actualImplementation : Function
-        = implementation == null ? pending : implementation;
-
-      visitRequirement(name, actualImplementation);
-    }
-
-    protected function describe
-      (name : String, implementation : Function = null) : void
-    {
-      if (implementation == null)
-        visitTailContext(name);
+      if (description == null)
+        throw new AssertionError("Pending");
       else
-        visitContext(name, implementation);
+        throw new AssertionError("Pending: " + description);
     }
 
     private function visitRequirement
@@ -70,6 +61,22 @@ package org.asspec.specification
 
     private function visitTailContext(name : String) : void
     { visitor.visitTailContext(name); }
+
+    // ----------------------------------------------------
+
+    protected function it
+      (name : String, implementation : Function = null) : void
+    { requirement(name, implementation); }
+
+    protected function describe
+      (name : String, implementation : Function = null) : void
+    { context(name, implementation); }
+
+    protected function when
+      (name : String, implementation : Function = null) : void
+    { context("(when " + name + ")", implementation); }
+
+    // ----------------------------------------------------
 
     protected function specify(subject : Object) : AssertionSubject
     { return AssertionSubject.of(subject); }
