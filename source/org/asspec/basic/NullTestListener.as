@@ -5,10 +5,10 @@ package org.asspec.basic
 
   public class NullTestListener implements TestListener
   {
-    public function testPassed(test : Test) : void
+    public function handleTestPassed(test : Test) : void
     {}
 
-    public function testFailed(test : Test, error : Error) : void
+    public function handleTestFailed(test : Test, error : Error) : void
     {}
   }
 }

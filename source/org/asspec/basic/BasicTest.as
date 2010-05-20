@@ -25,10 +25,10 @@ package org.asspec.basic
       try
         {
           execute();
-          listener.testPassed(this);
+          listener.handleTestPassed(this);
         }
       catch (error : Error)
-        { listener.testFailed(this, error); }
+        { listener.handleTestFailed(this, error); }
     }
   }
 }

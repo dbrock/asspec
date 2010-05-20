@@ -21,9 +21,9 @@ package org.asspec.basic
     private function verifyLog() : void
     {
       if (actualLog == expectedLog)
-        listener.testPassed(this);
+        listener.handleTestPassed(this);
       else
-        listener.testFailed(this, assertionError);
+        listener.handleTestFailed(this, assertionError);
     }
 
     private function get assertionError() : Error

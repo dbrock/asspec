@@ -198,12 +198,12 @@ class Should_detect_name_conflicts extends NamedManualTest
       { test.run(new NullTestListener); }
     catch (error : Error)
       {
-        listener.testPassed(this);
+        listener.handleTestPassed(this);
 
         return;
       }
 
-    listener.testFailed(this, new Error);
+    listener.handleTestFailed(this, new Error);
   }
 }
 
@@ -233,9 +233,9 @@ class Should_explain_name_conflicts extends NamedManualTest
       {
         if (error.message != null
             && Text.of(error.message).contains("foo"))
-          listener.testPassed(this);
+          listener.handleTestPassed(this);
         else
-          listener.testFailed(this,
+          listener.handleTestFailed(this,
             new Error("error message does not mention »foo« " +
                       "(the conflicting name): " + error.message));
       }
@@ -337,12 +337,12 @@ class Should_allow_duplicate_names_in_different_contexts
       { test.run(new NullTestListener); }
     catch (error : Error)
       {
-        listener.testFailed(this, null);
+        listener.handleTestFailed(this, null);
 
         return;
       }
 
-    listener.testPassed(this);
+    listener.handleTestPassed(this);
   }
 }
 

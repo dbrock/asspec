@@ -21,13 +21,13 @@ package org.asspec.basic
       suite.add(class_);
 
       if (factory.log == expectedType)
-        listener.testPassed(this);
+        listener.handleTestPassed(this);
       else
         {
           const message : String
             = "expected " + expectedType + " but was " + factory.log;
 
-          listener.testFailed(this, new Error(message));
+          listener.handleTestFailed(this, new Error(message));
         }
     }
   }

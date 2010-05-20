@@ -29,15 +29,15 @@ class Empty_test_should_pass implements Test, TestListener
     new EmptyTest().run(this);
 
     if (succeeded)
-      listener.testPassed(this);
+      listener.handleTestPassed(this);
     else
-      listener.testFailed(this, null);
+      listener.handleTestFailed(this, null);
   }
 
-  public function testPassed(test : Test) : void
+  public function handleTestPassed(test : Test) : void
   { succeeded = true; }
 
-  public function testFailed(test : Test, error : Error) : void
+  public function handleTestFailed(test : Test, error : Error) : void
   {}
 }
 
@@ -61,10 +61,10 @@ class Throwing_test_should_return_normally implements Test
       {
         new ThrowingTest(new Error).run(new NullTestListener);
 
-        listener.testPassed(this);
+        listener.handleTestPassed(this);
       }
     catch (error : Error)
-      { listener.testFailed(this, null); }
+      { listener.handleTestFailed(this, null); }
   }
 }
 
@@ -94,15 +94,15 @@ class Throwing_test_should_fail implements Test, TestListener
     new ThrowingTest(new Error).run(this);
 
     if (failed)
-      listener.testPassed(this);
+      listener.handleTestPassed(this);
     else
-      listener.testFailed(this, null);
+      listener.handleTestFailed(this, null);
   }
 
-  public function testPassed(test : Test) : void
+  public function handleTestPassed(test : Test) : void
   { }
 
-  public function testFailed(test : Test, error : Error) : void
+  public function handleTestFailed(test : Test, error : Error) : void
   { failed = true; }
 }
 
@@ -124,14 +124,14 @@ class Throwing_test_should_give_error_to_listener
     new ThrowingTest(expectedError).run(this);
 
     if (actualError == expectedError)
-      listener.testPassed(this);
+      listener.handleTestPassed(this);
     else
-      listener.testFailed(this, null);
+      listener.handleTestFailed(this, null);
   }
 
-  public function testPassed(test : Test) : void
+  public function handleTestPassed(test : Test) : void
   { }
 
-  public function testFailed(test : Test, error : Error) : void
+  public function handleTestFailed(test : Test, error : Error) : void
   { actualError = error; }
 }

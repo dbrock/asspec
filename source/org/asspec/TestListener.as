@@ -2,7 +2,7 @@ package org.asspec
 {
   public interface TestListener
   {
-    function testPassed(test : Test) : void;
-    function testFailed(test : Test, error : Error) : void;
+    function handleTestPassed(test : Test) : void;
+    function handleTestFailed(test : Test, error : Error) : void;
   }
 }

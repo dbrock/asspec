@@ -7,10 +7,10 @@ package org.asspec.basic
   {
     public var log : String = "";
 
-    public function testPassed(test : Test) : void
+    public function handleTestPassed(test : Test) : void
     { log += "[" + test + " passed]"; }
 
-    public function testFailed(test : Test, error : Error) : void
+    public function handleTestFailed(test : Test, error : Error) : void
     { log += "[" + test + " failed]"; }
 
     // ----------------------------------------------------

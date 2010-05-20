@@ -58,7 +58,7 @@ class ExampleSuite extends AbstractSuite
 class PassingTest extends ManualTest
 {
   override protected function execute() : void
-  { listener.testPassed(this); }
+  { listener.handleTestPassed(this); }
 
   public function toString() : String
   { return "A"; }
@@ -67,7 +67,7 @@ class PassingTest extends ManualTest
 class FailingTest extends ManualTest
 {
   override protected function execute() : void
-  { listener.testFailed(this, null); }
+  { listener.handleTestFailed(this, null); }
 
   public function toString() : String
   { return "B"; }
