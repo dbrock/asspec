@@ -10,22 +10,28 @@ package org.asspec.classic
     override protected function execute() : void
     {
       requirement("a test that returns normally should pass", function () : void {
-        specify(logFor(Good)).should.equal("[a (Good) passed]"); });
+        specify(logFor(Good)).should.equal("[a (Good) started][a (Good) passed]"); });
 
       requirement("a test that throws an exception should fail", function () : void {
-        specify(logFor(Bad)).should.equal("[a (Bad) failed]"); });
+        specify(logFor(Bad)).should.equal("[a (Bad) started][a (Bad) failed]"); });
 
       requirement("tests should be alphabetically ordered", function () : void {
-        const expected : String = "[a (ABCDE) passed][b (ABCDE) failed]"
-          + "[c (ABCDE) passed][d (ABCDE) failed][e (ABCDE) passed]";
+        const expected : String =
+          "[a (ABCDE) started][a (ABCDE) passed]" +
+          "[b (ABCDE) started][b (ABCDE) failed]" +
+          "[c (ABCDE) started][c (ABCDE) passed]" +
+          "[d (ABCDE) started][d (ABCDE) failed]" +
+          "[e (ABCDE) started][e (ABCDE) passed]";
         specify(logFor(ABCDE)).should.equal(expected); });
 
       requirement("privates and statics should not be run as tests", function () : void {
-        specify(logFor(Junk)).should.equal("[a (Junk) passed]"); });
+        specify(logFor(Junk)).should.equal("[a (Junk) started][a (Junk) passed]"); });
 
       requirement("each test should get a fresh class instance", function () : void {
-        specify(logFor(Mutable))
-          .should.equal("[a (Mutable) passed][b (Mutable) passed]"); });
+        const expected : String = 
+          "[a (Mutable) started][a (Mutable) passed]" +
+          "[b (Mutable) started][b (Mutable) passed]";
+        specify(logFor(Mutable)).should.equal(expected); });
     }
 
     private static function logFor(specClass : Class) : String

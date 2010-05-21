@@ -39,8 +39,11 @@ class Should_run_requirements extends SimpleTestLogMetatest
   { test = SpecificationSuiteFactory.getSuiteForClass(SimpleSpecification); }
 
   override protected function get expectedLog() : String
-  { return "[A (SimpleSpecification) passed]"
+  { return "[A (SimpleSpecification) started]"
+      + "[A (SimpleSpecification) passed]"
+      + "[B (SimpleSpecification) started]"
       + "[B (SimpleSpecification) failed]"
+      + "[C (SimpleSpecification) started]"
       + "[C (SimpleSpecification) passed]"; }
 }
 
@@ -96,8 +99,11 @@ class Should_fail_on_pending_requirements extends SimpleTestLogMetatest
   { test = SpecificationSuiteFactory.getSuiteForClass(PendingSpecification); }
 
   override protected function get expectedLog() : String
-  { return "[A (PendingSpecification) passed]"
+  { return"[A (PendingSpecification) started]"
+      + "[A (PendingSpecification) passed]"
+      + "[B (PendingSpecification) started]"
       + "[B (PendingSpecification) failed]"
+      + "[C (PendingSpecification) started]"
       + "[C (PendingSpecification) passed]"; }
 }
 
@@ -291,10 +297,15 @@ class Should_handle_abbreviated_tail_contexts extends SimpleTestLogMetatest
   { test = SpecificationSuiteFactory.getSuiteForClass(TailContextSpecification); }
 
   override protected function get expectedLog() : String
-  { return "[A 1 (TailContextSpecification) failed]"
+  { return "[A 1 (TailContextSpecification) started]"
+      + "[A 1 (TailContextSpecification) failed]"
+      + "[B 2 (TailContextSpecification) started]"
       + "[B 2 (TailContextSpecification) failed]"
+      + "[B C 3 (TailContextSpecification) started]"
       + "[B C 3 (TailContextSpecification) failed]"
+      + "[B C D 4 (TailContextSpecification) started]"
       + "[B C D 4 (TailContextSpecification) failed]"
+      + "[B 5 (TailContextSpecification) started]"
       + "[B 5 (TailContextSpecification) failed]"; }
 }
 

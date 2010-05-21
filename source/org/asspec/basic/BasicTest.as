@@ -22,6 +22,8 @@ package org.asspec.basic
 
     public function run(listener : TestListener) : void
     {
+      listener.handleTestStarted(this);
+
       try
         {
           execute();

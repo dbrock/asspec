@@ -7,6 +7,9 @@ package org.asspec.basic
   {
     public var log : String = "";
 
+    public function handleTestStarted(test : Test) : void
+    { log += "[" + test + " started]"; }
+
     public function handleTestPassed(test : Test) : void
     { log += "[" + test + " passed]"; }
 

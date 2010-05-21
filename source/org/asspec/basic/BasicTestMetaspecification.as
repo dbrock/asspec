@@ -4,6 +4,7 @@ package org.asspec.basic
   {
     override protected function populate() : void
     {
+      add(Empty_test_should_start);
       add(Empty_test_should_pass);
       add(Throwing_test_should_return_normally);
       add(Throwing_test_should_fail);
@@ -13,11 +14,47 @@ package org.asspec.basic
 }
 
 import org.asspec.Test;
+import org.asspec.NamedTest;
 import org.asspec.TestListener;
 import org.asspec.basic.BasicTest;
 import org.asspec.basic.NullTestListener;
 
-class Empty_test_should_pass implements Test, TestListener
+class Empty_test_should_start implements NamedTest, TestListener
+{
+  private var started : Boolean = false;
+
+  public function get name() : String
+  { return "empty test should start (BasicTestMetaspecification)"; }
+
+  public function run(listener : TestListener) : void
+  {
+    listener.handleTestStarted(this);
+
+    new EmptyTest().run(this);
+
+    if (started)
+      listener.handleTestPassed(this);
+    else
+      listener.handleTestFailed(this, null);
+  }
+
+  public function handleTestStarted(test : Test) : void
+  { started = true; }
+
+  public function handleTestPassed(test : Test) : void
+  {}
+
+  public function handleTestFailed(test : Test, error : Error) : void
+  {}
+}
+
+class EmptyTest extends BasicTest
+{
+  override protected function execute() : void
+  {}
+}
+
+class Empty_test_should_pass implements NamedTest, TestListener
 {
   private var succeeded : Boolean = false;
 
@@ -34,6 +71,9 @@ class Empty_test_should_pass implements Test, TestListener
       listener.handleTestFailed(this, null);
   }
 
+  public function handleTestStarted(test : Test) : void
+  {}
+
   public function handleTestPassed(test : Test) : void
   { succeeded = true; }
 
@@ -41,13 +81,7 @@ class Empty_test_should_pass implements Test, TestListener
   {}
 }
 
-class EmptyTest extends BasicTest
-{
-  override protected function execute() : void
-  {}
-}
-
-class Throwing_test_should_return_normally implements Test
+class Throwing_test_should_return_normally implements NamedTest
 {
   public function get name() : String
   {
@@ -82,7 +116,7 @@ class ThrowingTest extends BasicTest
 class ExampleError extends Error
 {}
 
-class Throwing_test_should_fail implements Test, TestListener
+class Throwing_test_should_fail implements NamedTest, TestListener
 {
   private var failed : Boolean = false;
 
@@ -99,15 +133,18 @@ class Throwing_test_should_fail implements Test, TestListener
       listener.handleTestFailed(this, null);
   }
 
+  public function handleTestStarted(test : Test) : void
+  {}
+
   public function handleTestPassed(test : Test) : void
-  { }
+  {}
 
   public function handleTestFailed(test : Test, error : Error) : void
   { failed = true; }
 }
 
 class Throwing_test_should_give_error_to_listener
-  implements Test, TestListener
+  implements NamedTest, TestListener
 {
   private var actualError : Error;
 
@@ -129,8 +166,11 @@ class Throwing_test_should_give_error_to_listener
       listener.handleTestFailed(this, null);
   }
 
+  public function handleTestStarted(test : Test) : void
+  {}
+
   public function handleTestPassed(test : Test) : void
-  { }
+  {}
 
   public function handleTestFailed(test : Test, error : Error) : void
   { actualError = error; }

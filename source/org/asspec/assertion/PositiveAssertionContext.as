@@ -49,8 +49,7 @@ package org.asspec.assertion
     public function equal(expected : Object) : void
     {
       if (!actualSubject.equals(expected))
-        fail("expected " + inspect(expected) + " "
-             + "but was " + inspect(actual));
+        throw new EqualityAssertionError(expected, actual);
     }
 
     public function equal_either_of(... expected : Array) : void
