@@ -17,13 +17,16 @@ package org.asspec.basic
     public var successes : Array = [];
     public var failures : Array = [];
 
-    public function testPassed(test : Test) : void
+    public function handleTestStarted(test : Test) : void
+    {}
+
+    public function handleTestPassed(test : Test) : void
     {
       successes.push(test);
       pattern.push(true);
     }
 
-    public function testFailed(test : Test, error : Error) : void
+    public function handleTestFailed(test : Test, error : Error) : void
     {
       failures.push(new TestFailure(test, error));
       pattern.push(false);
